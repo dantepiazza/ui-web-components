@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidebar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/sidebar.js" defer></script>
+  <script src="../dist/sidebar-header.js" defer></script>
+  <script src="../dist/sidebar-footer.js" defer></script>
+  <script src="../dist/sidebar-section.js" defer></script>
+  <script src="../dist/sidebar-group.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Navigation</p>
+    <h1>Sidebar</h1>
+    <p class="doc-lede">Sidebar de navegación vertical: un <code>ui-sidebar-header</code> opcional (logo, workspace switcher, lo que sea), un árbol de navegación con hasta 3 niveles, y un <code>ui-sidebar-footer</code> opcional. Es <a href="../menu/menu.html">Menu</a> con header/footer y anidamiento — Menu sigue existiendo aparte para listas planas (ej. dentro de un <a href="../popover/popover.html">Popover</a>).</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="padding:0;overflow:hidden;border-radius:0.75rem">
+      <ui-sidebar style="height:26rem">
+        <ui-sidebar-header>
+          <div style="display:flex;align-items:center;gap:10px;color:#fff">
+            <div style="width:32px;height:32px;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;color:#18181b;font-weight:700;font-size:13px">A</div>
+            <div>
+              <div style="font-size:13px;font-weight:600">Acme Inc</div>
+              <div style="font-size:11px;opacity:.6">Workspace</div>
+            </div>
+          </div>
+        </ui-sidebar-header>
+        <ui-sidebar-section>Infraestructura</ui-sidebar-section>
+        <a href="#" class="active"><uiwc-icon name="home" size="sm"></uiwc-icon> Consola</a>
+        <a href="#"><uiwc-icon name="warning" size="sm"></uiwc-icon> Jobs fallidos</a>
+        <ui-sidebar-group label="Configuración" icon="settings">
+          <a href="#">General</a>
+          <a href="#">Seguridad</a>
+          <ui-sidebar-group label="Avanzado">
+            <a href="#">Variables de entorno</a>
+            <a href="#">Webhooks</a>
+          </ui-sidebar-group>
+        </ui-sidebar-group>
+        <hr>
+        <ui-sidebar-section>Cuenta</ui-sidebar-section>
+        <a href="#"><uiwc-icon name="log-out" size="sm"></uiwc-icon> Salir</a>
+        <ui-sidebar-footer style="color:#71717a;font-size:11px">v1.4.2</ui-sidebar-footer>
+      </ui-sidebar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-sidebar</span>&gt;
+  &lt;<span class="tag">ui-sidebar-header</span>&gt;...logo, workspace switcher...&lt;/<span class="tag">ui-sidebar-header</span>&gt;
+
+  &lt;<span class="tag">ui-sidebar-section</span>&gt;Infraestructura&lt;/<span class="tag">ui-sidebar-section</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span> <span class="attr">class</span>=<span class="str">"active"</span>&gt;Consola&lt;/<span class="tag">a</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Jobs fallidos&lt;/<span class="tag">a</span>&gt;
+
+  &lt;<span class="tag">ui-sidebar-group</span> <span class="attr">label</span>=<span class="str">"Configuración"</span> <span class="attr">icon</span>=<span class="str">"settings"</span>&gt;
+    &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;General&lt;/<span class="tag">a</span>&gt;
+    &lt;<span class="tag">ui-sidebar-group</span> <span class="attr">label</span>=<span class="str">"Avanzado"</span>&gt;
+      &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Webhooks&lt;/<span class="tag">a</span>&gt;
+    &lt;/<span class="tag">ui-sidebar-group</span>&gt;
+  &lt;/<span class="tag">ui-sidebar-group</span>&gt;
+
+  &lt;<span class="tag">ui-sidebar-footer</span>&gt;v1.4.2&lt;/<span class="tag">ui-sidebar-footer</span>&gt;
+&lt;/<span class="tag">ui-sidebar</span>&gt;</pre>
+
+    <h2>Móvil</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Debajo de <code>768px</code> el sidebar queda off-canvas y entra como overlay con backdrop. Se abre/cierra con el atributo <code>open</code>, los métodos <code>.show()</code>/<code>.hide()</code>/<code>.toggle()</code>, el global <code>window.__uiwc.sidebarToggle()</code> (lo que llama el botón de hamburguesa de <code>&lt;ui-topbar&gt;</code>), o cualquier elemento con <code>ui-sidebar-toggle</code>.</p>
+    <ul class="doc-checklist">
+      <li><strong>Gesto:</strong> arrastrar desde el borde izquierdo de la pantalla hacia adentro lo abre; arrastrar hacia la izquierda (sobre el panel o el backdrop) lo cierra. El panel sigue el dedo y hace snap al soltar.</li>
+      <li>El gesto es solo touch y solo debajo de <code>768px</code> — en desktop el sidebar está siempre visible.</li>
+    </ul>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props de contenido — todo sale de la estructura de los hijos (ver Slots). El posicionamiento de página (fixed, ancho, offset para un rail al costado) queda del lado de quien consume — el componente solo define su propio layout interno, no el shell de la página.</p>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code></td><td>boolean</td><td class="desc">Solo debajo de <code>768px</code>: muestra el overlay. Ignorado en desktop.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-sidebar-header</code></td><td class="desc">Primer hijo directo de ese tag — contenido libre, con borde inferior. Opcional.</td></tr>
+        <tr><td><code>ui-sidebar-footer</code></td><td class="desc">Hijo directo de ese tag — contenido libre, con borde superior, pegado abajo. Opcional.</td></tr>
+        <tr><td><code>ui-sidebar-section</code></td><td class="desc">Label de grupo (mayúsculas, chico) entre links.</td></tr>
+        <tr><td>(resto)</td><td class="desc"><code>&lt;a&gt;</code> (con <code>class="active"</code> opcional), <code>&lt;hr&gt;</code>, y <code>&lt;ui-sidebar-group&gt;</code> para submenús.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos — son <code>&lt;a&gt;</code> reales.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;a&gt;</code> nativos, navegables por <code>Tab</code>.</li>
+      <li>Cada <code>ui-sidebar-group</code> es un <code>&lt;button&gt;</code> real con <code>aria-expanded</code>/<code>aria-controls</code> sobre su panel.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Filter Bar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/filter-bar.js" defer></script>
+  <script src="../dist/input-search.js" defer></script>
+  <script src="../dist/switch.js" defer></script>
+  <script src="../dist/select.js" defer></script>
+  <script src="../dist/multiselect.js" defer></script>
+  <script src="../dist/option.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Filter Bar</h1>
+    <p class="doc-lede">Fila de filtros armada 100% con componentes que ya existen en la librería — <a href="../input-search/input-search.html">Input Search</a>, <a href="../switch/switch.html">Switch</a>, <a href="../select/select.html">Select</a>/<a href="../multiselect/multiselect.html">MultiSelect</a> (en modo <code>display="count"</code>) y <a href="../button/button.html">Button</a>. No tiene una API de estilos propia — se pinta con <code>tailwind.config</code> como el resto de la librería, nada de un objeto <code>classes</code> en runtime.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-filter-bar id="bar" style="width:100%"></ui-filter-bar>
+    </div>
+    <pre class="doc-code"><span class="comment">// fields es una propiedad JS (datos estructurados), no un atributo</span>
+&lt;<span class="tag">ui-filter-bar</span> <span class="attr">id</span>=<span class="str">"bar"</span>&gt;&lt;/<span class="tag">ui-filter-bar</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  document.getElementById('bar').fields = [
+    { name: 'q', type: 'search', label: 'Buscar', placeholder: 'Buscar producto...' },
+    { name: 'ready', type: 'switch', label: 'Listos para usar' },
+    { name: 'uso', type: 'select', label: 'Tipo de uso', options: ['Exterior', 'Interior'] },
+    { name: 'superficie', type: 'select-multiple', label: 'Superficie',
+      options: ['Maderas', 'Metales', 'Paredes'] },
+  ];
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Tipos de campo</h2>
+    <table class="doc-table">
+      <thead><tr><th>type</th><th class="desc">Se renderiza como</th></tr></thead>
+      <tbody>
+        <tr><td><code>search</code></td><td class="desc"><code>ui-input-search</code>, con debounce (<code>field.debounce</code>, default 250ms).</td></tr>
+        <tr><td><code>switch</code></td><td class="desc"><code>ui-switch</code>.</td></tr>
+        <tr><td><code>select</code></td><td class="desc"><code>ui-select</code> en modo <code>display="count"</code> (badge 0/1, no el valor elegido).</td></tr>
+        <tr><td><code>select-multiple</code> / <code>checkbox</code></td><td class="desc"><code>ui-multiselect</code> en modo <code>display="count"</code>.</td></tr>
+      </tbody>
+    </table>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Cada campo: <code>{ name, type, label, options?, placeholder?, debounce?, default? }</code>. <code>options</code> acepta strings (<code>['Exterior','Interior']</code>) u objetos <code>{ value, label }</code>.</p>
+
+    <h2>Props (atributos) / API</h2>
+    <table class="doc-table">
+      <thead><tr><th>Miembro</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>.fields</code></td><td>propiedad JS (array)</td><td class="desc">Define los campos. Asignarla reconstruye la barra.</td></tr>
+        <tr><td><code>submit</code></td><td>"auto" | "button" (atributo)</td><td class="desc"><code>"auto"</code> (default): aplica en cada cambio. <code>"button"</code>: agrega un botón "Aplicar", solo aplica al hacer click.</td></tr>
+        <tr><td><code>apply-label</code></td><td>string (atributo)</td><td class="desc">Texto del botón "Aplicar" en modo <code>submit="button"</code>.</td></tr>
+        <tr><td><code>.values</code></td><td>getter</td><td class="desc">Valores actuales, por <code>name</code>.</td></tr>
+        <tr><td><code>.apply()</code> / <code>.clear()</code></td><td>métodos</td><td class="desc">Control imperativo.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-filter-change</code></td><td><code>{ values, changed, applied }</code></td><td class="desc">En cada edición (antes de aplicar, si <code>submit="button"</code>).</td></tr>
+        <tr><td><code>ui-filter-apply</code></td><td><code>{ values, changed }</code></td><td class="desc">Al aplicar — es el evento que normalmente disparás la búsqueda/fetch.</td></tr>
+        <tr><td><code>ui-filter-clear</code></td><td><code>{ values }</code></td><td class="desc">Al limpiar todos los filtros (seguido de un <code>ui-filter-apply</code>).</td></tr>
+      </tbody>
+    </table>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No hay modo "query params"/URL — la barra no sabe nada de tu backend, igual que <a href="../autocomplete/autocomplete.html">AutoComplete</a> no sabe de tu endpoint. Armá la URL vos mismo en el handler de <code>ui-filter-apply</code> si la necesitás.</p>
+
+    <h2>Responsive</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Debajo de <code>md:</code> los campos se esconden detrás de un botón "Filtros" (con badge de cantidad activa) que los abre como una hoja inferior con backdrop — probalo achicando la ventana. Son los mismos elementos de campo todo el tiempo (no se reconstruyen al abrir/cerrar), así que no perdés el foco ni lo que estabas escribiendo.</p>
+
+    <h2>Valores aplicados</h2>
+    <pre id="out" class="doc-code">{}</pre>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Cada campo hereda la accesibilidad de su componente real (label asociado, <code>aria-expanded</code>, foco por teclado) — no hay reimplementación propia.</li>
+      <li>El botón "Limpiar filtros" es un <code>ui-button</code> real, navegable por teclado.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    var bar = document.getElementById('bar');
+    var out = document.getElementById('out');
+    bar.fields = [
+      { name: 'q', type: 'search', label: 'Buscar', placeholder: 'Buscar producto...' },
+      { name: 'ready', type: 'switch', label: 'Listos para usar' },
+      { name: 'uso', type: 'select', label: 'Tipo de uso', options: ['Exterior', 'Interior', 'Interior / Exterior'] },
+      { name: 'superficie', type: 'select-multiple', label: 'Superficie', options: ['Maderas', 'Metales', 'Paredes', 'Pisos'] },
+    ];
+    bar.addEventListener('ui-filter-apply', function (e) {
+      out.textContent = JSON.stringify(e.detail.values, null, 2);
+    });
+    out.textContent = JSON.stringify(bar.values, null, 2);
+  </script>
+</body>
+</html>

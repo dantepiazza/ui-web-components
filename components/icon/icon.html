@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Icon · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Foundation</p>
+    <h1>Icon</h1>
+    <p class="doc-lede">Renderiza un ícono SVG en línea a partir de un set incorporado, con tamaño y color controlados por CSS (<code>currentColor</code>).</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-icon name="check"></ui-icon>
+      <ui-icon name="x"></ui-icon>
+      <ui-icon name="info"></ui-icon>
+      <ui-icon name="star"></ui-icon>
+      <ui-icon name="heart"></ui-icon>
+      <ui-icon name="chevron-down"></ui-icon>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"check"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;</pre>
+
+    <h3>Tamaños</h3>
+    <div class="doc-demo">
+      <ui-icon name="star" size="sm"></ui-icon>
+      <ui-icon name="star" size="md"></ui-icon>
+      <ui-icon name="star" size="lg"></ui-icon>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"star"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;
+&lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"star"</span> <span class="attr">size</span>=<span class="str">"lg"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;</pre>
+
+    <h3>Color heredado</h3>
+    <div class="doc-demo">
+      <span class="text-rose-600"><ui-icon name="heart"></ui-icon></span>
+      <span class="text-emerald-600"><ui-icon name="check"></ui-icon></span>
+      <span class="text-amber-500"><ui-icon name="star"></ui-icon></span>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">span</span> <span class="attr">class</span>=<span class="str">"text-rose-600"</span>&gt;
+  &lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"heart"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;
+&lt;/<span class="tag">span</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>string</td><td><code>"info"</code></td><td class="desc">Nombre del ícono del set incorporado (ver listado al final). Si no coincide con ninguno, se asume que son clases de una fuente de íconos externa y se renderiza un <code>&lt;i&gt;</code> con esas clases — ver "Fuentes de íconos externas" debajo.</td></tr>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Tamaño del ícono. Con el set incorporado: 16px / 20px / 24px de SVG. Con una fuente externa: <code>text-base</code> / <code>text-lg</code> / <code>text-xl</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Fuentes de íconos externas</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Si <code>name</code> no coincide con ningún ícono del set incorporado, se trata como una o más clases CSS de una fuente de íconos que ya tengas cargada en la página (PrimeIcons, Font Awesome, Material Icons, etc.) y se renderiza un <code>&lt;i&gt;</code> con esas clases en vez de un SVG inline. No hace falta que la librería conozca esa fuente — solo cargá su CSS en tu proyecto.</p>
+    <pre class="doc-code">&lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"pi pi-moon"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;
+&lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"fab fa-instagram"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;</pre>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos. Si <code>name</code> no existe en el set, loguea un warning en consola y no renderiza nada.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"check"</span> <span class="attr">size</span>=<span class="str">"lg"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;
+
+<span class="comment">// schemas: [CUSTOM_ELEMENTS_SCHEMA] en el módulo consumidor</span></pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>{{-- resources/views/components/... --}}
+&lt;<span class="tag">button</span> <span class="attr">class</span>=<span class="str">"btn-primary"</span>&gt;
+  &lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"check"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt; Guardar
+&lt;/<span class="tag">button</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Se renderiza con <code>aria-hidden="true"</code> — es decorativo por defecto.</li>
+      <li>Si el ícono transmite significado (ej. único contenido de un botón), envolvé el control con <code>aria-label</code> en el elemento interactivo, no en el ícono.</li>
+      <li>Hereda color vía <code>currentColor</code>, así que el contraste depende del contenedor — validalo caso a caso.</li>
+    </ul>
+
+    <h2>Listado completo de íconos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Todo el set incorporado (60 íconos). Usá el nombre tal cual aparece debajo de cada uno en <code>name="..."</code>.</p>
+    <div class="doc-icon-grid">
+      <div class="doc-icon-item"><ui-icon name="check"></ui-icon><code>check</code></div>
+      <div class="doc-icon-item"><ui-icon name="x"></ui-icon><code>x</code></div>
+      <div class="doc-icon-item"><ui-icon name="chevron-down"></ui-icon><code>chevron-down</code></div>
+      <div class="doc-icon-item"><ui-icon name="chevron-up"></ui-icon><code>chevron-up</code></div>
+      <div class="doc-icon-item"><ui-icon name="chevron-left"></ui-icon><code>chevron-left</code></div>
+      <div class="doc-icon-item"><ui-icon name="chevron-right"></ui-icon><code>chevron-right</code></div>
+      <div class="doc-icon-item"><ui-icon name="info"></ui-icon><code>info</code></div>
+      <div class="doc-icon-item"><ui-icon name="star"></ui-icon><code>star</code></div>
+      <div class="doc-icon-item"><ui-icon name="heart"></ui-icon><code>heart</code></div>
+      <div class="doc-icon-item"><ui-icon name="spinner"></ui-icon><code>spinner</code></div>
+      <div class="doc-icon-item"><ui-icon name="copy"></ui-icon><code>copy</code></div>
+      <div class="doc-icon-item"><ui-icon name="search"></ui-icon><code>search</code></div>
+      <div class="doc-icon-item"><ui-icon name="eye"></ui-icon><code>eye</code></div>
+      <div class="doc-icon-item"><ui-icon name="eye-off"></ui-icon><code>eye-off</code></div>
+      <div class="doc-icon-item"><ui-icon name="upload"></ui-icon><code>upload</code></div>
+      <div class="doc-icon-item"><ui-icon name="download"></ui-icon><code>download</code></div>
+      <div class="doc-icon-item"><ui-icon name="home"></ui-icon><code>home</code></div>
+      <div class="doc-icon-item"><ui-icon name="user"></ui-icon><code>user</code></div>
+      <div class="doc-icon-item"><ui-icon name="users"></ui-icon><code>users</code></div>
+      <div class="doc-icon-item"><ui-icon name="settings"></ui-icon><code>settings</code></div>
+      <div class="doc-icon-item"><ui-icon name="trash"></ui-icon><code>trash</code></div>
+      <div class="doc-icon-item"><ui-icon name="edit"></ui-icon><code>edit</code></div>
+      <div class="doc-icon-item"><ui-icon name="plus"></ui-icon><code>plus</code></div>
+      <div class="doc-icon-item"><ui-icon name="minus"></ui-icon><code>minus</code></div>
+      <div class="doc-icon-item"><ui-icon name="menu"></ui-icon><code>menu</code></div>
+      <div class="doc-icon-item"><ui-icon name="bell"></ui-icon><code>bell</code></div>
+      <div class="doc-icon-item"><ui-icon name="calendar"></ui-icon><code>calendar</code></div>
+      <div class="doc-icon-item"><ui-icon name="clock"></ui-icon><code>clock</code></div>
+      <div class="doc-icon-item"><ui-icon name="mail"></ui-icon><code>mail</code></div>
+      <div class="doc-icon-item"><ui-icon name="phone"></ui-icon><code>phone</code></div>
+      <div class="doc-icon-item"><ui-icon name="lock"></ui-icon><code>lock</code></div>
+      <div class="doc-icon-item"><ui-icon name="unlock"></ui-icon><code>unlock</code></div>
+      <div class="doc-icon-item"><ui-icon name="filter"></ui-icon><code>filter</code></div>
+      <div class="doc-icon-item"><ui-icon name="arrow-up"></ui-icon><code>arrow-up</code></div>
+      <div class="doc-icon-item"><ui-icon name="arrow-down"></ui-icon><code>arrow-down</code></div>
+      <div class="doc-icon-item"><ui-icon name="arrow-left"></ui-icon><code>arrow-left</code></div>
+      <div class="doc-icon-item"><ui-icon name="arrow-right"></ui-icon><code>arrow-right</code></div>
+      <div class="doc-icon-item"><ui-icon name="external-link"></ui-icon><code>external-link</code></div>
+      <div class="doc-icon-item"><ui-icon name="refresh"></ui-icon><code>refresh</code></div>
+      <div class="doc-icon-item"><ui-icon name="warning"></ui-icon><code>warning</code></div>
+      <div class="doc-icon-item"><ui-icon name="folder"></ui-icon><code>folder</code></div>
+      <div class="doc-icon-item"><ui-icon name="file"></ui-icon><code>file</code></div>
+      <div class="doc-icon-item"><ui-icon name="image"></ui-icon><code>image</code></div>
+      <div class="doc-icon-item"><ui-icon name="link"></ui-icon><code>link</code></div>
+      <div class="doc-icon-item"><ui-icon name="more-horizontal"></ui-icon><code>more-horizontal</code></div>
+      <div class="doc-icon-item"><ui-icon name="more-vertical"></ui-icon><code>more-vertical</code></div>
+      <div class="doc-icon-item"><ui-icon name="map-pin"></ui-icon><code>map-pin</code></div>
+      <div class="doc-icon-item"><ui-icon name="briefcase"></ui-icon><code>briefcase</code></div>
+      <div class="doc-icon-item"><ui-icon name="tag"></ui-icon><code>tag</code></div>
+      <div class="doc-icon-item"><ui-icon name="bookmark"></ui-icon><code>bookmark</code></div>
+      <div class="doc-icon-item"><ui-icon name="globe"></ui-icon><code>globe</code></div>
+      <div class="doc-icon-item"><ui-icon name="grid"></ui-icon><code>grid</code></div>
+      <div class="doc-icon-item"><ui-icon name="list"></ui-icon><code>list</code></div>
+      <div class="doc-icon-item"><ui-icon name="credit-card"></ui-icon><code>credit-card</code></div>
+      <div class="doc-icon-item"><ui-icon name="log-out"></ui-icon><code>log-out</code></div>
+      <div class="doc-icon-item"><ui-icon name="log-in"></ui-icon><code>log-in</code></div>
+      <div class="doc-icon-item"><ui-icon name="share"></ui-icon><code>share</code></div>
+      <div class="doc-icon-item"><ui-icon name="bold"></ui-icon><code>bold</code></div>
+      <div class="doc-icon-item"><ui-icon name="italic"></ui-icon><code>italic</code></div>
+      <div class="doc-icon-item"><ui-icon name="underline"></ui-icon><code>underline</code></div>
+    </div>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

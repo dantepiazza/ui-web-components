@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/menu.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Navigation</p>
+    <h1>Menu</h1>
+    <p class="doc-lede">Lista vertical de navegación — secciones, links y divisores. Distinto de <a href="../navbar/navbar.html">Navbar</a> (barra horizontal): esta es la forma de sidebar/dropdown-list. Migrado del catálogo interno de <code>panel-assets</code> (<code>.menu</code>), cubre el hueco de "Menu genérico" detectado en la comparación 1 a 1.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-menu style="width:14rem">
+        <div class="menu-section">Acciones</div>
+        <a href="#" class="active">Editar</a>
+        <a href="#">Duplicar</a>
+        <a href="#">Eliminar</a>
+        <hr>
+        <a href="#">Salir</a>
+      </ui-menu>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-menu</span>&gt;
+  &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"menu-section"</span>&gt;Acciones&lt;/<span class="tag">div</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span> <span class="attr">class</span>=<span class="str">"active"</span>&gt;Editar&lt;/<span class="tag">a</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Duplicar&lt;/<span class="tag">a</span>&gt;
+  &lt;<span class="tag">hr</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Salir&lt;/<span class="tag">a</span>&gt;
+&lt;/<span class="tag">ui-menu</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props — todo el estilo sale de convenciones de clase sobre hijos directos (ver Slots).</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>(default)</td><td class="desc"><code>&lt;a&gt;</code> (con <code>class="active"</code> opcional para el ítem actual), <code>&lt;hr&gt;</code> como divisor, y <code>&lt;div class="menu-section"&gt;</code> como encabezado de grupo.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos — son <code>&lt;a&gt;</code> reales, escuchá <code>click</code> directamente si necesitás interceptar la navegación.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;a&gt;</code> nativos: navegables por <code>Tab</code>, activables con <code>Enter</code>, funcionan sin JS.</li>
+      <li>El ítem activo se marca solo visualmente (<code>class="active"</code>) — si representa la página actual, sumá también <code>aria-current="page"</code> en tu markup.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recetas · UI Web Components</title>
+  <link rel="stylesheet" href="./css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./js/uiwc-tailwind.js"></script>
+  <!-- Orden importa acá: un componente "contenedor" (topbar, popover, profile-card,
+       menu, dialog) que va a capturar hijos livianos como children de HTML tiene que
+       registrarse (customElements.define) ANTES que esos hijos — si el hijo se define
+       primero, alcanza a renderizarse una vez (entre el checkpoint de microtasks que
+       corre al terminar cada <script defer>) antes de que el padre capture su
+       innerHTML, y el padre termina capturando el HTML YA renderizado del hijo en vez
+       del markup original — se ve como contenido duplicado. Por eso icon/button (los
+       hijos más comunes) van al final de la lista, no al principio. -->
+  <script src="../components/dist/popover.js" defer></script>
+  <script src="../components/dist/profile-card.js" defer></script>
+  <script src="../components/dist/menu.js" defer></script>
+  <script src="../components/dist/dialog.js" defer></script>
+  <script src="../components/dist/tag.js" defer></script>
+  <script src="../components/dist/sidebar.js" defer></script>
+  <script src="../components/dist/sidebar-header.js" defer></script>
+  <script src="../components/dist/sidebar-section.js" defer></script>
+  <script src="../components/dist/sidebar-group.js" defer></script>
+  <script src="../components/dist/main.js" defer></script>
+  <script src="../components/dist/topbar.js" defer></script>
+  <script src="../components/dist/filter-bar.js" defer></script>
+  <script src="../components/dist/input-search.js" defer></script>
+  <script src="../components/dist/switch.js" defer></script>
+  <script src="../components/dist/select.js" defer></script>
+  <script src="../components/dist/multiselect.js" defer></script>
+  <script src="../components/dist/option.js" defer></script>
+  <script src="../components/dist/icon.js" defer></script>
+  <script src="../components/dist/button.js" defer></script>
+  <script src="../components/dist/avatar.js" defer></script>
+  <script src="../components/dist/table.js" defer></script>
+  <script src="../components/dist/empty-state.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Recetas</p>
+    <h1>Puntos de partida</h1>
+    <p class="doc-lede">Composiciones frecuentes armadas 100% con componentes de la librería — nada nuevo que aprender, solo la forma de combinar lo que ya existe para resolver algo real. Copiá, pegá, ajustá.</p>
+
+    <h2 id="app-shell">Shell de app (Sidebar + Topbar + Main)</h2>
+    <p class="doc-lede">El layout típico de un panel interno: sidebar fija a la izquierda, header arriba, contenido scrolleable. Es <em>flexbox puro</em> — nada de posiciones fijas ni variables CSS mágicas, <code>ui-main</code> simplemente ocupa el espacio que sobra.</p>
+    <div class="doc-demo" style="padding:0;overflow:hidden;border-radius:0.75rem">
+      <div style="display:flex;height:24rem;overflow:hidden;position:relative">
+        <ui-sidebar style="position:static">
+          <ui-sidebar-header>
+            <div style="display:flex;align-items:center;gap:10px;color:#fff">
+              <div style="width:32px;height:32px;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;color:#18181b;font-weight:700;font-size:13px">A</div>
+              <div><div style="font-size:13px;font-weight:600">Acme Inc</div><div style="font-size:11px;opacity:.6">Workspace</div></div>
+            </div>
+          </ui-sidebar-header>
+          <ui-sidebar-section>Infraestructura</ui-sidebar-section>
+          <a href="#" class="active"><uiwc-icon name="home" size="sm"></uiwc-icon> Consola</a>
+          <a href="#"><uiwc-icon name="warning" size="sm"></uiwc-icon> Jobs fallidos</a>
+        </ui-sidebar>
+        <ui-main>
+          <ui-topbar heading="Postulantes" subheading="36 vacantes activas">
+            <ui-button size="sm" variant="secondary" icon="filter">Filtros</ui-button>
+            <ui-button size="sm" icon="plus">Nuevo</ui-button>
+          </ui-topbar>
+          <div style="padding:1.5rem;font-size:.8rem;color:#71717a">Contenido de la página acá.</div>
+        </ui-main>
+      </div>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"flex h-screen overflow-hidden"</span>&gt;
+  &lt;<span class="tag">ui-sidebar</span>&gt;
+    &lt;<span class="tag">ui-sidebar-header</span>&gt;...logo...&lt;/<span class="tag">ui-sidebar-header</span>&gt;
+    &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span> <span class="attr">class</span>=<span class="str">"active"</span>&gt;Consola&lt;/<span class="tag">a</span>&gt;
+  &lt;/<span class="tag">ui-sidebar</span>&gt;
+
+  &lt;<span class="tag">ui-main</span>&gt;
+    &lt;<span class="tag">ui-topbar</span> <span class="attr">heading</span>=<span class="str">"Postulantes"</span> <span class="attr">subheading</span>=<span class="str">"36 vacantes activas"</span>&gt;
+      &lt;<span class="tag">ui-button</span> <span class="attr">size</span>=<span class="str">"sm"</span> <span class="attr">icon</span>=<span class="str">"plus"</span>&gt;Nuevo&lt;/<span class="tag">ui-button</span>&gt;
+    &lt;/<span class="tag">ui-topbar</span>&gt;
+    &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"p-6"</span>&gt;...contenido...&lt;/<span class="tag">div</span>&gt;
+  &lt;/<span class="tag">ui-main</span>&gt;
+&lt;/<span class="tag">div</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Debajo de <code>md:</code>, <code>ui-sidebar</code> se va fuera de pantalla sola — el botón de hamburguesa de <code>ui-topbar</code> ya llama a <code>window.__uiwc.sidebarToggle()</code> por vos.</p>
+
+    <h2 id="user-menu">Menú de usuario (Popover + Profile Card + Menu)</h2>
+    <p class="doc-lede">El dropdown que se abre al hacer click en el avatar: quién sos arriba, acciones abajo. No es un componente aparte — es la combinación de tres que ya existen.</p>
+    <div class="doc-demo">
+      <ui-popover>
+        <ui-button variant="ghost" size="sm">
+          <uiwc-avatar name="Dante Herrera" size="sm"></uiwc-avatar>
+        </ui-button>
+        <template data-popover-content>
+          <div style="width:15rem">
+            <ui-profile-card avatar-text="DH" title="Dante Herrera" subtitle="dante@clousis.dev" no-border style="padding:0 0 .5rem"></ui-profile-card>
+            <hr style="margin:.25rem 0;border-color:#e4e4e7">
+            <ui-menu style="border:0;padding:0">
+              <a href="#">Mi perfil</a>
+              <a href="#">Configuración</a>
+              <hr>
+              <a href="#">Cerrar sesión</a>
+            </ui-menu>
+          </div>
+        </template>
+      </ui-popover>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-popover</span>&gt;
+  &lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;
+    &lt;<span class="tag">ui-avatar</span> <span class="attr">name</span>=<span class="str">"Dante Herrera"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;
+  &lt;/<span class="tag">ui-button</span>&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-popover-content</span>&gt;
+    &lt;<span class="tag">ui-profile-card</span> <span class="attr">avatar-text</span>=<span class="str">"DH"</span> <span class="attr">title</span>=<span class="str">"Dante Herrera"</span> <span class="attr">subtitle</span>=<span class="str">"dante@clousis.dev"</span>&gt;&lt;/<span class="tag">ui-profile-card</span>&gt;
+    &lt;<span class="tag">ui-menu</span>&gt;
+      &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Mi perfil&lt;/<span class="tag">a</span>&gt;
+      &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Cerrar sesión&lt;/<span class="tag">a</span>&gt;
+    &lt;/<span class="tag">ui-menu</span>&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-popover</span>&gt;</pre>
+
+    <h2 id="confirm-delete">Confirmar antes de borrar</h2>
+    <p class="doc-lede">El patrón más común de todos, sin escribir un <code>&lt;template&gt;</code> a mano — <code>UiDialog.confirm()</code> (o <code>window.__uiwc.confirm()</code> si no importaste la clase) hace todo.</p>
+    <div class="doc-demo">
+      <ui-button size="sm" variant="danger" id="recipe-delete-trigger" icon="trash">Eliminar postulante</ui-button>
+      <span id="recipe-delete-result" style="font-size:.8rem;color:#71717a"></span>
+    </div>
+    <pre class="doc-code">button.addEventListener('click', async () => {
+  const ok = await window.__uiwc.confirm('¿Eliminar a Juan Pérez? No se puede deshacer.', {
+    title: 'Eliminar postulante',
+    confirmLabel: 'Eliminar',
+    variant: 'danger',
+  });
+  if (ok) await fetch('/postulantes/1', { method: 'DELETE' });
+});</pre>
+
+    <h2 id="filter-table">Filtros + tabla vacía</h2>
+    <p class="doc-lede">Filter Bar disparando la búsqueda, con un Empty State como estado inicial/sin resultados en vez de una tabla vacía a secas.</p>
+    <div class="doc-demo" style="flex-direction:column;align-items:stretch;gap:1rem">
+      <ui-filter-bar id="recipe-filter-bar"></ui-filter-bar>
+      <ui-empty-state icon="search" title="Sin resultados" desc="Probá con otros filtros." style="width:100%"></ui-empty-state>
+    </div>
+    <pre class="doc-code">bar.addEventListener('ui-filter-apply', async (e) => {
+  const res = await fetch('/postulantes?' + new URLSearchParams(e.detail.values));
+  <span class="comment">// pintar tabla o mostrar ui-empty-state si viene vacío</span>
+});</pre>
+
+    <h2>¿Falta una receta?</h2>
+    <p class="doc-lede" style="margin-bottom:0">Si armás una combinación que reusás seguido, es candidata a documentarse acá — o a convertirse en componente propio si aparece 3+ veces en proyectos distintos.</p>
+  </main>
+  <script src="./js/docs.js"></script>
+  <script>
+    document.getElementById('recipe-delete-trigger').addEventListener('click', async () => {
+      const ok = await window.__uiwc.confirm('¿Eliminar a Juan Pérez? Esta acción no se puede deshacer.', {
+        title: 'Eliminar postulante',
+        confirmLabel: 'Eliminar',
+        variant: 'danger',
+      });
+      document.getElementById('recipe-delete-result').textContent = ok ? 'Eliminado.' : 'Cancelado.';
+    });
+    document.getElementById('recipe-filter-bar').fields = [
+      { name: 'q', type: 'search', label: 'Buscar', placeholder: 'Buscar postulante...' },
+      { name: 'estado', type: 'select', label: 'Estado', options: ['Activo', 'Pendiente', 'Rechazado'] },
+    ];
+  </script>
+</body>
+</html>

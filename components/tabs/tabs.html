@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabs · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/tabs.js" defer></script>
+  <script src="../dist/tab-panel.js" defer></script>
+  <script src="../dist/input.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Tabs</h1>
+    <p class="doc-lede"><code>ui-tabs</code> arma la lista de pestañas a partir del <code>label</code> de cada <code>ui-tab-panel</code> hijo. No captura ni reprocesa los paneles — pueden tener formularios u otro contenido interactivo sin perder estado al cambiar de tab.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked">
+      <ui-tabs style="width:100%">
+        <ui-tab-panel label="Perfil" active>
+          <ui-input label="Nombre" placeholder="Tu nombre" style="width:16rem"></ui-input>
+        </ui-tab-panel>
+        <ui-tab-panel label="Seguridad">
+          <ui-input label="Nueva contraseña" type="password" style="width:16rem"></ui-input>
+        </ui-tab-panel>
+        <ui-tab-panel label="Facturación">
+          Sin métodos de pago configurados.
+        </ui-tab-panel>
+      </ui-tabs>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-tabs</span>&gt;
+  &lt;<span class="tag">ui-tab-panel</span> <span class="attr">label</span>=<span class="str">"Perfil"</span> <span class="attr">active</span>&gt;
+    ...
+  &lt;/<span class="tag">ui-tab-panel</span>&gt;
+  &lt;<span class="tag">ui-tab-panel</span> <span class="attr">label</span>=<span class="str">"Seguridad"</span>&gt;
+    ...
+  &lt;/<span class="tag">ui-tab-panel</span>&gt;
+&lt;/<span class="tag">ui-tabs</span>&gt;</pre>
+
+    <h2>Props — <code>ui-tab-panel</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto de la pestaña.</td></tr>
+        <tr><td><code>active</code></td><td>boolean (atributo)</td><td><code>false</code></td><td class="desc">Cuál panel arranca visible. <code>ui-tabs</code> lo gestiona después.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-tabs</code></td><td>(default)</td><td class="desc">Elementos <code>ui-tab-panel</code>.</td></tr>
+        <tr><td><code>ui-tab-panel</code></td><td>(default)</td><td class="desc">Contenido de esa pestaña.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-tabs-change</code></td><td><code>{ label }</code></td><td class="desc">En <code>ui-tabs</code>, al cambiar de pestaña.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-tabs</span> (ui-tabs-change)=<span class="str">"onTabChange($event.detail.label)"</span>&gt;
+  &lt;<span class="tag">ui-tab-panel</span> <span class="attr">label</span>=<span class="str">"Perfil"</span> <span class="attr">active</span>&gt;...&lt;/<span class="tag">ui-tab-panel</span>&gt;
+&lt;/<span class="tag">ui-tabs</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-tabs</span> <span class="attr">x-on:ui-tabs-change</span>=<span class="str">"$wire.activeTab = $event.detail.label"</span>&gt;
+  &lt;<span class="tag">ui-tab-panel</span> <span class="attr">label</span>=<span class="str">"Perfil"</span> <span class="attr">active</span>&gt;...&lt;/<span class="tag">ui-tab-panel</span>&gt;
+&lt;/<span class="tag">ui-tabs</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Header con <code>role="tablist"</code>/<code>role="tab"</code> y <code>aria-selected</code>; cada panel con <code>role="tabpanel"</code>.</li>
+      <li>Flechas izquierda/derecha navegan y activan las pestañas (patrón ARIA Tabs estándar), no solo <code>Tab</code>.</li>
+      <li>Solo la pestaña activa es parte del orden de tabulación (<code>tabindex="0"</code> vs <code>"-1"</code> en las demás).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

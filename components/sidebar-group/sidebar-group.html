@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidebar Group · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/sidebar-group.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Navigation</p>
+    <h1>Sidebar Group</h1>
+    <p class="doc-lede">Nodo expandible dentro de <a href="../sidebar/sidebar.html">Sidebar</a> (o standalone): un botón + una lista de links colapsable. Anidá más <code>ui-sidebar-group</code> adentro para otro nivel — la indentación se acumula sola porque cada nivel solo le da padding a sus propios hijos. Probado hasta 3 niveles.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="background:#18181b;padding:12px;border-radius:0.5rem;width:16rem">
+      <ui-sidebar-group label="Configuración" icon="settings" open>
+        <a href="#">General</a>
+        <a href="#">Seguridad</a>
+        <ui-sidebar-group label="Avanzado">
+          <a href="#">Webhooks</a>
+        </ui-sidebar-group>
+      </ui-sidebar-group>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-sidebar-group</span> <span class="attr">label</span>=<span class="str">"Configuración"</span> <span class="attr">icon</span>=<span class="str">"settings"</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;General&lt;/<span class="tag">a</span>&gt;
+  &lt;<span class="tag">ui-sidebar-group</span> <span class="attr">label</span>=<span class="str">"Avanzado"</span>&gt;
+    &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;Webhooks&lt;/<span class="tag">a</span>&gt;
+  &lt;/<span class="tag">ui-sidebar-group</span>&gt;
+&lt;/<span class="tag">ui-sidebar-group</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto del botón trigger.</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Ícono del set de <a href="../icon/icon.html">Icon</a>, antes del label.</td></tr>
+        <tr><td><code>open</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Estado inicial expandido/colapsado.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc"><code>&lt;a&gt;</code>, <code>&lt;hr&gt;</code>, u otro <code>ui-sidebar-group</code> anidado.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos propios — leé el atributo <code>open</code> si necesitás reaccionar al toggle.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El trigger es un <code>&lt;button&gt;</code> real con <code>aria-expanded</code> y <code>aria-controls</code> apuntando al panel.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

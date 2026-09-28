@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/kanban.js" defer></script>
+  <script src="../dist/kanban-column.js" defer></script>
+  <script src="../dist/kanban-card.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Kanban</h1>
+    <p class="doc-lede">Tablero con columnas y tarjetas arrastrables, sobre la API nativa HTML5 Drag and Drop — sin librería externa.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%;overflow-x:auto">
+      <ui-kanban>
+        <ui-kanban-column label="Por hacer">
+          <ui-kanban-card>Diseñar la página de precios</ui-kanban-card>
+          <ui-kanban-card>Escribir tests del checkout</ui-kanban-card>
+        </ui-kanban-column>
+        <ui-kanban-column label="En progreso">
+          <ui-kanban-card>Migrar a Tailwind v4</ui-kanban-card>
+        </ui-kanban-column>
+        <ui-kanban-column label="Hecho">
+          <ui-kanban-card>Setup del repo</ui-kanban-card>
+        </ui-kanban-column>
+      </ui-kanban>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-kanban</span>&gt;
+  &lt;<span class="tag">ui-kanban-column</span> <span class="attr">label</span>=<span class="str">"Por hacer"</span>&gt;
+    &lt;<span class="tag">ui-kanban-card</span>&gt;Diseñar la página de precios&lt;/<span class="tag">ui-kanban-card</span>&gt;
+  &lt;/<span class="tag">ui-kanban-column</span>&gt;
+  &lt;<span class="tag">ui-kanban-column</span> <span class="attr">label</span>=<span class="str">"Hecho"</span>&gt;&lt;/<span class="tag">ui-kanban-column</span>&gt;
+&lt;/<span class="tag">ui-kanban</span>&gt;</pre>
+
+    <h2>Props — <code>ui-kanban-column</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>label</code></td><td>string</td><td class="desc">Título de la columna.</td></tr></tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-kanban</code></td><td>(default)</td><td class="desc">Elementos <code>ui-kanban-column</code>.</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td>(default)</td><td class="desc">Elementos <code>ui-kanban-card</code>.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td>(default)</td><td class="desc">Contenido de la tarjeta.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-kanban-move</code></td><td><code>{ cardId }</code></td><td class="desc">En la columna destino, cuando se suelta una tarjeta en ella.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-kanban</span>&gt;
+  &lt;<span class="tag">ui-kanban-column</span> *ngFor=<span class="str">"let col of columns"</span> [<span class="attr">label</span>]=<span class="str">"col.name"</span>
+    (ui-kanban-move)=<span class="str">"onMove(col.id, $event.detail.cardId)"</span>&gt;
+    &lt;<span class="tag">ui-kanban-card</span> *ngFor=<span class="str">"let c of col.cards"</span> [<span class="attr">id</span>]=<span class="str">"c.id"</span>&gt;{{ c.title }}&lt;/<span class="tag">ui-kanban-card</span>&gt;
+  &lt;/<span class="tag">ui-kanban-column</span>&gt;
+&lt;/<span class="tag">ui-kanban</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-kanban</span>&gt;
+  @foreach ($columns as $col)
+    &lt;<span class="tag">ui-kanban-column</span> <span class="attr">label</span>=<span class="str">"{{ $col->name }}"</span> <span class="attr">x-on:ui-kanban-move</span>=<span class="str">"$wire.move('{{ $col->id }}', $event.detail.cardId)"</span>&gt;
+      @foreach ($col->cards as $c)
+        &lt;<span class="tag">ui-kanban-card</span> <span class="attr">id</span>=<span class="str">"{{ $c->id }}"</span>&gt;{{ $c->title }}&lt;/<span class="tag">ui-kanban-card</span>&gt;
+      @endforeach
+    &lt;/<span class="tag">ui-kanban-column</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-kanban</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El drag and drop nativo (HTML5) es solo con mouse por defecto — no accesible por teclado ni touch en todos los navegadores.</li>
+      <li>Pendiente v2: una alternativa por teclado (ej. menú "Mover a..." en cada tarjeta) para no depender exclusivamente del arrastre.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

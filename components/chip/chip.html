@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chip · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/chip.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Chip</h1>
+    <p class="doc-lede">Como <a href="../tag/tag.html">Tag</a>, pero con un ícono líder opcional — útil para representar una selección con contexto visual (ej. un filtro activo).</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-chip>Básico</ui-chip>
+      <ui-chip variant="primary" icon="star">Destacado</ui-chip>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-chip</span>&gt;Básico&lt;/<span class="tag">ui-chip</span>&gt;
+&lt;<span class="tag">ui-chip</span> <span class="attr">variant</span>=<span class="str">"primary"</span> <span class="attr">icon</span>=<span class="str">"star"</span>&gt;Destacado&lt;/<span class="tag">ui-chip</span>&gt;</pre>
+
+    <h3>Con avatar</h3>
+    <div class="doc-demo">
+      <ui-chip avatar="DP">Dante Piazza</ui-chip>
+      <ui-chip avatar="MJ" removable variant="primary">María José</ui-chip>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-chip</span> <span class="attr">avatar</span>=<span class="str">"DP"</span>&gt;Dante Piazza&lt;/<span class="tag">ui-chip</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><code>avatar</code> e <code>icon</code> son mutuamente excluyentes — si están los dos, gana <code>avatar</code>.</p>
+
+    <h3>Removible</h3>
+    <div class="doc-demo" id="removable-demo">
+      <ui-chip removable variant="primary" icon="check">En stock</ui-chip>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-chip</span> <span class="attr">removable</span> <span class="attr">icon</span>=<span class="str">"check"</span>&gt;En stock&lt;/<span class="tag">ui-chip</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td>"neutral" | "primary" | "success" | "warning" | "danger" | "info" | "purple" | "pink" | "indigo" | "cyan"</td><td><code>"neutral"</code></td><td class="desc">Color semántico.</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de un ícono del set de <a href="../icon/icon.html">Icon</a>, mostrado antes del texto.</td></tr>
+        <tr><td><code>avatar</code></td><td>string</td><td><code>""</code></td><td class="desc">Iniciales mostradas en un círculo antes del texto, en vez del ícono.</td></tr>
+        <tr><td><code>removable</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Muestra un botón "×" que emite <code>ui-chip-remove</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Texto del chip.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-chip-remove</code></td><td>—</td><td class="desc">Al hacer click en el botón de quitar. Bubbles + composed.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-chip</span> <span class="attr">icon</span>=<span class="str">"check"</span> <span class="attr">removable</span> (ui-chip-remove)=<span class="str">"onRemove(item)"</span>&gt;
+  {{ item.label }}
+&lt;/<span class="tag">ui-chip</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-chip</span> <span class="attr">icon</span>=<span class="str">"check"</span> <span class="attr">removable</span>
+  <span class="attr">x-on:ui-chip-remove</span>=<span class="str">"$wire.removeFilter('{{ $item }}')"</span>&gt;
+  {{ $item }}
+&lt;/<span class="tag">ui-chip</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El ícono es decorativo (<code>aria-hidden</code> heredado de <code>ui-icon</code>) — el significado lo lleva el texto.</li>
+      <li>El botón de quitar tiene <code>aria-label="Quitar"</code> y es navegable por teclado.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('removable-demo').addEventListener('ui-chip-remove', (e) => e.target.remove());
+  </script>
+</body>
+</html>

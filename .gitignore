@@ -1,0 +1,10 @@
+*.log
+/.agents
+/.codex
+/.claude
+/.cursor
+/.vscode
+/.zed
+/node_modules
+/public/build
+

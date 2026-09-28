@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Button Group · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/button-group.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/spinner.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Actions</p>
+    <h1>Button Group</h1>
+    <p class="doc-lede">Agrupa varios <a href="../button/button.html">Button</a> en una sola fila visual. v1: solo espaciado — no fusiona bordes entre botones adyacentes todavía.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-button-group>
+        <ui-button size="sm" variant="secondary">Día</ui-button>
+        <ui-button size="sm" variant="secondary">Semana</ui-button>
+        <ui-button size="sm" variant="secondary">Mes</ui-button>
+      </ui-button-group>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button-group</span>&gt;
+  &lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"secondary"</span>&gt;Día&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"secondary"</span>&gt;Semana&lt;/<span class="tag">ui-button</span>&gt;
+&lt;/<span class="tag">ui-button-group</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props propias.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Elementos <code>ui-button</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos propios — escuchá <code>click</code> en cada <code>ui-button</code> hijo.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-button-group</span>&gt;
+  &lt;<span class="tag">ui-button</span> *ngFor=<span class="str">"let r of ranges"</span> (click)=<span class="str">"select(r)"</span>&gt;{{ r }}&lt;/<span class="tag">ui-button</span>&gt;
+&lt;/<span class="tag">ui-button-group</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-button-group</span>&gt;
+  @foreach ($ranges as $r)
+    &lt;<span class="tag">ui-button</span> <span class="attr">wire:click</span>=<span class="str">"select('{{ $r }}')"</span>&gt;{{ $r }}&lt;/<span class="tag">ui-button</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-button-group</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Expone <code>role="group"</code> — anuncia el conjunto como relacionado.</li>
+      <li>Si representa una selección única (como el ejemplo Día/Semana/Mes), considerá <code>aria-pressed</code> en el botón activo (a implementar por el consumidor hasta que exista una variante <code>ui-toggle-group</code> dedicada).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/text.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Typography</p>
+    <h1>Text</h1>
+    <p class="doc-lede">Renderiza el tag semántico que le pidas (<code>h1</code>-<code>h4</code>, <code>p</code>, <code>span</code>, <code>label</code>) con una escala de tamaño y peso independiente de esa etiqueta — así el nivel de heading (semántica/SEO) y el tamaño visual (diseño) no quedan acoplados.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:0.5rem">
+      <ui-text as="h2" size="2xl" weight="bold">Título de sección</ui-text>
+      <ui-text as="p">Párrafo de cuerpo con tamaño y peso por defecto.</ui-text>
+      <ui-text as="p" muted>Texto secundario, atenuado.</ui-text>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-text</span> <span class="attr">as</span>=<span class="str">"h2"</span> <span class="attr">size</span>=<span class="str">"2xl"</span> <span class="attr">weight</span>=<span class="str">"bold"</span>&gt;Título de sección&lt;/<span class="tag">ui-text</span>&gt;
+&lt;<span class="tag">ui-text</span> <span class="attr">as</span>=<span class="str">"p"</span> <span class="attr">muted</span>&gt;Texto secundario, atenuado.&lt;/<span class="tag">ui-text</span>&gt;</pre>
+
+    <h3>Heading grande con tamaño chico (semántica ≠ diseño)</h3>
+    <div class="doc-demo">
+      <ui-text as="h3" size="sm" weight="semibold">Encabezado h3, visualmente discreto</ui-text>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-text</span> <span class="attr">as</span>=<span class="str">"h3"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;Encabezado h3, visualmente discreto&lt;/<span class="tag">ui-text</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>as</code></td><td>"h1" | "h2" | "h3" | "h4" | "p" | "span" | "label"</td><td><code>"p"</code></td><td class="desc">Tag HTML real que se renderiza.</td></tr>
+        <tr><td><code>size</code></td><td>"xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl"</td><td><code>"md"</code></td><td class="desc">Escala tipográfica, independiente de <code>as</code>.</td></tr>
+        <tr><td><code>weight</code></td><td>"normal" | "medium" | "semibold" | "bold"</td><td><code>"normal"</code></td><td class="desc">Peso de fuente.</td></tr>
+        <tr><td><code>muted</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Color secundario (<code>zinc-500</code>) en vez del color de texto principal.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Contenido de texto.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-text</span> <span class="attr">as</span>=<span class="str">"h1"</span> <span class="attr">size</span>=<span class="str">"3xl"</span> <span class="attr">weight</span>=<span class="str">"bold"</span>&gt;{{ page.title }}&lt;/<span class="tag">ui-text</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-text</span> <span class="attr">as</span>=<span class="str">"h1"</span> <span class="attr">size</span>=<span class="str">"3xl"</span> <span class="attr">weight</span>=<span class="str">"bold"</span>&gt;{{ $page->title }}&lt;/<span class="tag">ui-text</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Mantené la jerarquía de <code>as</code> en orden (no saltear de <code>h1</code> a <code>h4</code>) aunque el tamaño visual sea independiente — la estructura del documento la define el tag, no el tamaño.</li>
+      <li>Contraste AA verificado para el color principal y el atenuado (<code>muted</code>) sobre fondo blanco.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topbar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/topbar.js" defer></script>
+  <script src="../dist/sidebar.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Topbar</h1>
+    <p class="doc-lede">El header fijo de arriba de toda la interfaz — título de página, subtítulo, acciones a la derecha, y el botón de hamburguesa en mobile que abre <a href="../sidebar/sidebar.html">Sidebar</a>. Se diferencia de <a href="../toolbar/toolbar.html">Toolbar</a> en el rol: Toolbar es una fila flex genérica que podés poner en cualquier parte del contenido (arriba de una tabla, dentro de un panel); Topbar es específicamente la franja superior de toda la app — uno por página, siempre arriba.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="padding:0;overflow:hidden;border-radius:0.75rem">
+      <ui-topbar heading="Postulantes" subheading="36 vacantes activas">
+        <ui-button size="sm" variant="secondary">Exportar</ui-button>
+        <ui-button size="sm" icon="plus">Nuevo</ui-button>
+      </ui-topbar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-topbar</span> <span class="attr">heading</span>=<span class="str">"Postulantes"</span> <span class="attr">subheading</span>=<span class="str">"36 vacantes activas"</span>&gt;
+  &lt;<span class="tag">ui-button</span> <span class="attr">size</span>=<span class="str">"sm"</span> <span class="attr">icon</span>=<span class="str">"plus"</span>&gt;Nuevo&lt;/<span class="tag">ui-button</span>&gt;
+&lt;/<span class="tag">ui-topbar</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El botón de hamburguesa (visible solo debajo de <code>md:</code>) llama a <code>window.__uiwc.sidebarToggle()</code> — si hay un <a href="../sidebar/sidebar.html">Sidebar</a> en la página, lo abre/cierra. Ver la receta completa en <a href="../../docs/recipes.html#app-shell">Recetas → Shell de app</a>.</p>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>heading</code></td><td>string</td><td><code>""</code></td><td class="desc">Título de la página.</td></tr>
+        <tr><td><code>subheading</code></td><td>string</td><td><code>""</code></td><td class="desc">Línea de contexto debajo del título.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Acciones a la derecha — botones, lo que sea.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Es un <code>&lt;header&gt;</code> real.</li>
+      <li>El botón de hamburguesa tiene <code>aria-label="Abrir menú"</code>.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

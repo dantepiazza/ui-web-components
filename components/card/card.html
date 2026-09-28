@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Card · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/card.js" defer></script>
+  <script src="../dist/card-header.js" defer></script>
+  <script src="../dist/card-body.js" defer></script>
+  <script src="../dist/card-footer.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Card</h1>
+    <p class="doc-lede">Contenedor de contenido con borde y padding consistentes. Estructurala con <code>ui-card-header</code>/<code>ui-card-body</code>/<code>ui-card-footer</code> para un layout con divisores, o poné contenido directo sin ninguno de los tres — las dos formas andan.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-card style="width:100%">
+        <h3 style="margin:0 0 0.5rem;font-size:1rem;font-weight:600">Título de la card</h3>
+        <p style="margin:0;color:#71717a;font-size:0.875rem">Contenido de ejemplo dentro de la card.</p>
+      </ui-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-card</span>&gt;
+  &lt;<span class="tag">h3</span>&gt;Título de la card&lt;/<span class="tag">h3</span>&gt;
+  &lt;<span class="tag">p</span>&gt;Contenido de ejemplo.&lt;/<span class="tag">p</span>&gt;
+&lt;/<span class="tag">ui-card</span>&gt;</pre>
+
+    <h3>Con header, body y footer</h3>
+    <p class="doc-lede">Cada sub-parte trae su propio padding (independiente del <code>padding</code> del <code>ui-card</code>) — combinala con <code>padding="none"</code> en el <code>ui-card</code> para que los divisores lleguen borde a borde.</p>
+    <div class="doc-demo">
+      <ui-card padding="none" style="width:100%">
+        <ui-card-header style="display:flex;align-items:center;justify-content:space-between">
+          <h3 style="margin:0;font-size:1rem;font-weight:600">Confirmar acción</h3>
+        </ui-card-header>
+        <ui-card-body>
+          <p style="margin:0;color:#71717a;font-size:0.875rem">Esta acción no se puede deshacer.</p>
+        </ui-card-body>
+        <ui-card-footer style="display:flex;justify-content:flex-end;gap:0.5rem"></ui-card-footer>
+      </ui-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-card</span> <span class="attr">padding</span>=<span class="str">"none"</span>&gt;
+  &lt;<span class="tag">ui-card-header</span>&gt;&lt;h3&gt;Título&lt;/h3&gt;&lt;/<span class="tag">ui-card-header</span>&gt;
+  &lt;<span class="tag">ui-card-body</span>&gt;&lt;p&gt;Contenido.&lt;/p&gt;&lt;/<span class="tag">ui-card-body</span>&gt;
+  &lt;<span class="tag">ui-card-footer</span>&gt;...&lt;/<span class="tag">ui-card-footer</span>&gt;
+&lt;/<span class="tag">ui-card</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><code>ui-card-header</code> y <code>ui-card-footer</code> traen su propia línea divisoria + padding (<code>px-5 py-4</code>); <code>ui-card-body</code> tiene solo padding (<code>p-5</code>), sin línea. Si no usás <code>padding="none"</code> en el <code>ui-card</code>, el padding se suma (doble) — por eso la combinación recomendada es esa.</p>
+
+    <h3>Sin borde, padding chico</h3>
+    <div class="doc-demo">
+      <ui-card no-border padding="sm" style="background:#f4f4f5">Card sin borde</ui-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-card</span> <span class="attr">no-border</span> <span class="attr">padding</span>=<span class="str">"sm"</span>&gt;...&lt;/<span class="tag">ui-card</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>padding</code></td><td>"none" | "sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Padding interno.</td></tr>
+        <tr><td><code>no-border</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Quita el borde de 1px.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales (separadas por espacio) sin necesitar una prop dedicada — ver ejemplo abajo. Convención de toda la librería, no exclusiva de Card.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Sacar una clase puntual (<code>remove-class</code>)</h3>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><code>no-border</code>/<code>padding="none"</code> cubren los casos comunes, pero no todos — un <code>&lt;ui-table&gt;</code> adentro de un card, por ejemplo, dobla el borde (el del card + el de la tabla). En vez de agregar una prop nueva por cada combinación así, <code>remove-class</code> te deja sacar lo puntual: <code>&lt;ui-table remove-class="border rounded"&gt;</code> saca esas dos clases que <code>ui-table</code> calcula, sin tocar el resto.</p>
+    <pre class="doc-code">&lt;<span class="tag">ui-card</span>&gt;
+  &lt;<span class="tag">ui-table</span> <span class="attr">remove-class</span>=<span class="str">"border rounded"</span>&gt;
+    &lt;table&gt;...&lt;/table&gt;
+  &lt;/<span class="tag">ui-table</span>&gt;
+&lt;/<span class="tag">ui-card</span>&gt;</pre>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-card-header</code></td><td class="desc">Opcional. Línea divisoria inferior automática.</td></tr>
+        <tr><td><code>ui-card-body</code></td><td class="desc">Opcional — contenido plano sin este wrapper funciona igual.</td></tr>
+        <tr><td><code>ui-card-footer</code></td><td class="desc">Opcional. Línea divisoria superior automática.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-card</span>&gt;
+  &lt;h3&gt;{{ item.title }}&lt;/h3&gt;
+&lt;/<span class="tag">ui-card</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-card</span>&gt;
+  &lt;h3&gt;{{ $item->title }}&lt;/h3&gt;
+&lt;/<span class="tag">ui-card</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>No impone estructura semántica — usá encabezados (<code>h2</code>-<code>h4</code>) reales dentro según el nivel que corresponda en la página.</li>
+      <li>Contenedor puramente visual, sin rol ARIA especial.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

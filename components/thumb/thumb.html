@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thumb · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/thumb.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">General</p>
+    <h1>Thumb</h1>
+    <p class="doc-lede">Caja chica de tamaño fijo con fondo de color — para lo que quieras meter adentro. A diferencia de <a href="../avatar/avatar.html">Avatar</a> (que tiene su propia lógica de <code>src</code>/fallback a iniciales para una persona), Thumb no sabe ni le importa qué hay adentro: un ícono, iniciales escritas a mano, una imagen, lo que sea. El uso más común: un ícono sobre un fondo de color, en una fila de tabla o una card.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-thumb color="brand"><ui-icon name="users" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="success"><ui-icon name="check" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="danger"><ui-icon name="warning" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="base">JP</ui-thumb>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-thumb</span> <span class="attr">color</span>=<span class="str">"brand"</span>&gt;
+  &lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"users"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt;
+&lt;/<span class="tag">ui-thumb</span>&gt;
+
+<span class="comment">&lt;!-- o texto plano, una imagen, lo que sea --&gt;</span>
+&lt;<span class="tag">ui-thumb</span> <span class="attr">color</span>=<span class="str">"base"</span>&gt;JP&lt;/<span class="tag">ui-thumb</span>&gt;</pre>
+
+    <h3>Colores</h3>
+    <div class="doc-demo">
+      <ui-thumb color="base"><ui-icon name="folder" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="brand"><ui-icon name="star" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="success"><ui-icon name="check" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="warning"><ui-icon name="warning" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="danger"><ui-icon name="x" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="info"><ui-icon name="info" size="sm"></ui-icon></ui-thumb>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-thumb</span> <span class="attr">color</span>=<span class="str">"success"</span>&gt;...&lt;/<span class="tag">ui-thumb</span>&gt;</pre>
+
+    <h3>Tamaños y forma</h3>
+    <div class="doc-demo">
+      <ui-thumb color="brand" size="sm"><ui-icon name="star" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="brand" size="md"><ui-icon name="star" size="sm"></ui-icon></ui-thumb>
+      <ui-thumb color="brand" size="lg"><ui-icon name="star" size="md"></ui-icon></ui-thumb>
+      <ui-thumb color="brand" size="lg" shape="circle"><ui-icon name="star" size="md"></ui-icon></ui-thumb>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-thumb</span> <span class="attr">size</span>=<span class="str">"lg"</span> <span class="attr">shape</span>=<span class="str">"circle"</span>&gt;...&lt;/<span class="tag">ui-thumb</span>&gt;</pre>
+
+    <h3>En una fila de tabla</h3>
+    <div class="doc-demo">
+      <div style="display:flex;align-items:center;gap:10px">
+        <ui-thumb color="brand"><ui-icon name="briefcase" size="sm"></ui-icon></ui-thumb>
+        <div>
+          <div style="font-weight:600;font-size:.875rem">Diseñador UX</div>
+          <div style="font-size:.75rem;color:#98a2c2">Remoto · Full-time</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>color</code></td><td>"base" | "brand" | "success" | "warning" | "danger" | "info"</td><td><code>"base"</code></td><td class="desc">Tono de fondo + texto, sobre los tokens semánticos de la librería.</td></tr>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Tamaño de la caja (28px / 36px / 44px).</td></tr>
+        <tr><td><code>shape</code></td><td>"square" | "circle"</td><td><code>"square"</code></td><td class="desc">"square" usa el radio estándar de la librería (no full-rounded); "circle" para un thumb redondo.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Contenido libre — ícono, texto, imagen, lo que sea. Sin captura ni reprocesado: si metés un <code>ui-icon</code> u otro componente, queda vivo tal cual.</td></tr></tbody>
+    </table>
+
+    <h2>¿Thumb o Avatar?</h2>
+    <ul class="doc-checklist">
+      <li><strong>Avatar</strong> — específico para representar una persona: maneja <code>src</code> con fallback automático a iniciales de <code>name</code>. Siempre circular por default.</li>
+      <li><strong>Thumb</strong> (acá) — caja genérica de tamaño fijo con color. No sabe qué hay adentro. Para íconos con fondo, badges numéricos, o cualquier cosa chica que necesite un contenedor cuadrado/circular tintado.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

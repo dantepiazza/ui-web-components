@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Splitbutton · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/splitbutton.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Actions</p>
+    <h1>Splitbutton</h1>
+    <p class="doc-lede">Botón principal más un caret que abre un menú de acciones secundarias.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" id="split-demo">
+      <ui-splitbutton label="Guardar">
+        <button data-value="draft">Guardar como borrador</button>
+        <button data-value="template">Guardar como plantilla</button>
+        <a href="#" data-value="duplicate">Duplicar y guardar</a>
+      </ui-splitbutton>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-splitbutton</span> <span class="attr">label</span>=<span class="str">"Guardar"</span>&gt;
+  &lt;<span class="tag">button</span> <span class="attr">data-value</span>=<span class="str">"draft"</span>&gt;Guardar como borrador&lt;/<span class="tag">button</span>&gt;
+  &lt;<span class="tag">button</span> <span class="attr">data-value</span>=<span class="str">"template"</span>&gt;Guardar como plantilla&lt;/<span class="tag">button</span>&gt;
+&lt;/<span class="tag">ui-splitbutton</span>&gt;</pre>
+
+    <p class="doc-lede">Importante: como Light DOM no preserva listeners de JS adjuntados al markup capturado, <strong>no le pongas <code>onclick</code>/<code>addEventListener</code> a los items directamente</strong> — escuchá <code>ui-splitbutton-select</code> en el componente y usá <code>event.detail.value</code> (del <code>data-value</code>).</p>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto del botón principal.</td></tr>
+        <tr><td><code>variant</code></td><td>"primary" | "secondary"</td><td><code>"primary"</code></td><td class="desc">Estilo visual.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita ambos botones.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Items del menú: <code>&lt;button data-value="..."&gt;</code> o <code>&lt;a data-value="..."&gt;</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-splitbutton-action</code></td><td>—</td><td class="desc">Click en el botón principal.</td></tr>
+        <tr><td><code>ui-splitbutton-select</code></td><td><code>{ value, label }</code></td><td class="desc">Click en un item del menú. <code>value</code> viene de <code>data-value</code> (o del texto si no hay).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-splitbutton</span> <span class="attr">label</span>=<span class="str">"Guardar"</span>
+  (ui-splitbutton-action)=<span class="str">"save()"</span>
+  (ui-splitbutton-select)=<span class="str">"onAction($event.detail.value)"</span>&gt;
+  &lt;button data-value=<span class="str">"draft"</span>&gt;Guardar como borrador&lt;/button&gt;
+&lt;/<span class="tag">ui-splitbutton</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-splitbutton</span> <span class="attr">label</span>=<span class="str">"Guardar"</span>
+  <span class="attr">x-on:ui-splitbutton-select</span>=<span class="str">"$wire.saveAs($event.detail.value)"</span>&gt;
+  &lt;button data-value=<span class="str">"draft"</span>&gt;Guardar como borrador&lt;/button&gt;
+&lt;/<span class="tag">ui-splitbutton</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El caret tiene <code>aria-haspopup="menu"</code> y <code>aria-expanded</code> reflejando el estado.</li>
+      <li>El menú se cierra con <code>Escape</code> y al hacer click fuera.</li>
+      <li>Pendiente v2: navegación con flechas dentro del menú (patrón ARIA Menu completo) — por ahora el foco se maneja con <code>Tab</code> normal.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('split-demo').addEventListener('ui-splitbutton-select', (e) => console.log('seleccionado:', e.detail));
+  </script>
+</body>
+</html>

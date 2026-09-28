@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rich Text Editor · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/rich-text-editor.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Rich Text Editor</h1>
+    <p class="doc-lede">Editor WYSIWYG mínimo: una región <code>contenteditable</code> con una toolbar simple sobre <code>document.execCommand</code>. Es una API deprecada pero todavía ampliamente soportada — es la opción más simple que funciona para v1; un editor "de verdad" (basado en modelo de contenido, tipo ProseMirror) es un proyecto más grande para una versión futura.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-rich-text-editor placeholder="Escribí acá..." style="width:100%">
+        <p>Texto inicial con <b>negrita</b>.</p>
+      </ui-rich-text-editor>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-rich-text-editor</span>&gt;
+  &lt;p&gt;Texto inicial con &lt;b&gt;negrita&lt;/b&gt;.&lt;/p&gt;
+&lt;/<span class="tag">ui-rich-text-editor</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>placeholder</code></td><td>string</td><td><code>"Escribí acá..."</code></td><td class="desc">Texto cuando el editor está vacío.</td></tr></tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">HTML inicial del editor.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos / API</h2>
+    <table class="doc-table">
+      <thead><tr><th>Miembro</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-input</code></td><td class="desc">Evento con <code>{ value }</code> (el HTML actual) en cada tecleo.</td></tr>
+        <tr><td><code>.value</code></td><td class="desc">Getter con el HTML actual.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-rich-text-editor</span> (ui-input)=<span class="str">"body = $event.detail.value"</span>&gt;
+  &lt;div [innerHTML]=<span class="str">"initialBody"</span>&gt;&lt;/div&gt;
+&lt;/<span class="tag">ui-rich-text-editor</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-rich-text-editor</span> <span class="attr">x-on:ui-input</span>=<span class="str">"$wire.body = $event.detail.value"</span>&gt;
+  {!! $initialBody !!}
+&lt;/<span class="tag">ui-rich-text-editor</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Los botones de la toolbar tienen <code>aria-label</code> y no roban el foco del editor (<code>mousedown</code> con <code>preventDefault</code>).</li>
+      <li><code>document.execCommand</code> está deprecada en la spec, aunque sigue funcionando en todos los navegadores mayores — no hay reemplazo estándar estable todavía, por eso la decisión consciente de usarla en v1.</li>
+      <li>Contenido pegado desde otras fuentes (Word, Google Docs) puede traer estilos inline no deseados — no hay sanitización en v1.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

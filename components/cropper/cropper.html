@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cropper · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/cropper.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Cropper</h1>
+    <p class="doc-lede">Elegí una imagen con el botón de subir sobre el marco, arrastrá para posicionar, zoom con la rueda o el slider, y confirmá con "Recortar". Componente candidato sumado a partir del catálogo interno de <code>panel-assets</code> (sección 7 del brief) — no forma parte de PrimeNG/Web Awesome/Flux.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" id="cropper-demo">
+      <ui-cropper aspect-ratio="1"></ui-cropper>
+    </div>
+    <p class="doc-lede" id="cropper-result-hint" style="margin-bottom:1.5rem"></p>
+    <pre class="doc-code">&lt;<span class="tag">ui-cropper</span> <span class="attr">aspect-ratio</span>=<span class="str">"1"</span>&gt;&lt;/<span class="tag">ui-cropper</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">// al hacer click en "Recortar":</span>
+  <span class="comment">cropper.addEventListener('ui-cropper-apply', (e) => {</span>
+  <span class="comment">  const dataUrl = e.detail.dataURL;</span>
+  <span class="comment">});</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>aspect-ratio</code></td><td>number</td><td><code>1</code></td><td class="desc">Relación de aspecto del marco de recorte (1 = cuadrado, 1.78 ≈ 16:9).</td></tr>
+        <tr><td><code>output-size</code></td><td>number</td><td><code>400</code></td><td class="desc">Ancho en px del canvas de salida.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos / API</h2>
+    <table class="doc-table">
+      <thead><tr><th>Miembro</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-cropper-change</code></td><td class="desc">Evento con <code>{ zoom, offsetX, offsetY }</code> en cada pan/zoom.</td></tr>
+        <tr><td><code>ui-cropper-apply</code></td><td class="desc">Evento con <code>{ dataURL }</code> al hacer click en "Recortar".</td></tr>
+        <tr><td><code>.getCroppedDataURL()</code></td><td class="desc">Renderiza el recorte actual a un canvas offscreen y devuelve un <code>data:</code> URL (PNG). Es lo que usa el botón "Recortar" internamente — llamalo directo si preferís tu propio botón.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-cropper</span> #cropper <span class="attr">aspect-ratio</span>=<span class="str">"1"</span>&gt;&lt;/<span class="tag">ui-cropper</span>&gt;
+&lt;<span class="tag">ui-button</span> (click)=<span class="str">"save(cropper.getCroppedDataURL())"</span>&gt;Confirmar&lt;/<span class="tag">ui-button</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-cropper</span> <span class="attr">x-ref</span>=<span class="str">"cropper"</span> <span class="attr">aspect-ratio</span>=<span class="str">"1"</span>&gt;&lt;/<span class="tag">ui-cropper</span>&gt;
+&lt;<span class="tag">button</span> <span class="attr">x-on:click</span>=<span class="str">"$wire.save($refs.cropper.getCroppedDataURL())"</span>&gt;Confirmar&lt;/<span class="tag">button</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El slider de zoom es un <code>&lt;input type="range"&gt;</code> real, operable por teclado incluso si el drag no lo es.</li>
+      <li>Pendiente v2: el arrastre de posicionamiento es solo mouse/touch (pointer events) — no hay alternativa por teclado para el paneo todavía.</li>
+      <li><code>touch-action: none</code> en el área de recorte evita que el drag haga scroll de la página en mobile.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('cropper-demo').querySelector('ui-cropper').addEventListener('ui-cropper-apply', (e) => {
+      const kb = Math.round((e.detail.dataURL.length * 0.75) / 1024);
+      document.getElementById('cropper-result-hint').textContent = `Recortado: ~${kb} KB (PNG), como data URL.`;
+    });
+  </script>
+</body>
+</html>

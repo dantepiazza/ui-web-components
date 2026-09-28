@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>List · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/list.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">General</p>
+    <h1>List</h1>
+    <p class="doc-lede">Como un <code>&lt;ul&gt;</code>, pero cada <code>&lt;li&gt;</code> puede llevar su propio <code>icon</code> (en vez del bullet) y <code>title</code> (un <code>&lt;strong&gt;</code> antes del texto) — ambos opcionales.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-list title="Mi título" style="max-width:24rem">
+        <li icon="pi pi-server" title="Dominio principal">midominio.com</li>
+        <li icon="pi pi-globe" title="IP del servidor">192.168.1.10</li>
+        <li>Sin ícono ni título — bullet + texto plano</li>
+      </ui-list>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-list</span> <span class="attr">title</span>=<span class="str">"Mi título"</span>&gt;
+  &lt;<span class="tag">li</span> <span class="attr">icon</span>=<span class="str">"pi pi-server"</span> <span class="attr">title</span>=<span class="str">"Dominio principal"</span>&gt;midominio.com&lt;/<span class="tag">li</span>&gt;
+  &lt;<span class="tag">li</span>&gt;Sin ícono ni título&lt;/<span class="tag">li</span>&gt;
+&lt;/<span class="tag">ui-list</span>&gt;</pre>
+
+    <h2>Variant <code>right</code></h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El texto del <code>&lt;li&gt;</code> queda alineado a la izquierda y el <code>&lt;strong&gt;</code> (el <code>title</code> del item, si lo hay) pasa a la derecha — una fila tipo "etiqueta ... valor".</p>
+    <div class="doc-demo">
+      <ui-list title="Detalles del plan" variant="right" style="max-width:24rem">
+        <li icon="pi pi-server" title="Plan">Pro</li>
+        <li icon="pi pi-database" title="Almacenamiento">50 GB</li>
+        <li icon="pi pi-calendar" title="Vence">15/10/2026</li>
+      </ui-list>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-list</span> <span class="attr">variant</span>=<span class="str">"right"</span>&gt;
+  &lt;<span class="tag">li</span> <span class="attr">icon</span>=<span class="str">"pi pi-server"</span> <span class="attr">title</span>=<span class="str">"Plan"</span>&gt;Pro&lt;/<span class="tag">li</span>&gt;
+&lt;/<span class="tag">ui-list</span>&gt;</pre>
+
+    <h2>Color</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Tiñe la línea divisoria entre filas y el ícono/bullet.</p>
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem">
+      <ui-list color="brand">
+        <li icon="pi pi-check" title="Brand">Item</li>
+        <li>Otro item</li>
+      </ui-list>
+      <ui-list color="success">
+        <li icon="pi pi-check" title="Success">Item</li>
+        <li>Otro item</li>
+      </ui-list>
+      <ui-list color="danger">
+        <li icon="pi pi-times" title="Danger">Item</li>
+        <li>Otro item</li>
+      </ui-list>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-list</span> <span class="attr">color</span>=<span class="str">"success"</span>&gt;...&lt;/<span class="tag">ui-list</span>&gt;</pre>
+
+    <h2>Tamaños</h2>
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem">
+      <ui-list size="sm"><li icon="pi pi-check">Small</li></ui-list>
+      <ui-list size="md"><li icon="pi pi-check">Medium</li></ui-list>
+      <ui-list size="lg"><li icon="pi pi-check">Large</li></ui-list>
+    </div>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>string</td><td><code>""</code></td><td class="desc">Encabezado de la lista, opcional.</td></tr>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Tamaño del texto de cada fila.</td></tr>
+        <tr><td><code>color</code></td><td>"base" | "brand" | "success" | "warning" | "danger" | "info"</td><td><code>"base"</code></td><td class="desc">Color de la línea divisoria y del ícono/bullet de cada fila.</td></tr>
+        <tr><td><code>variant</code></td><td>"left" | "right"</td><td><code>"left"</code></td><td class="desc"><code>"left"</code>: <code>&lt;strong&gt;título&lt;/strong&gt; texto</code> juntos a la izquierda. <code>"right"</code>: texto a la izquierda, <code>&lt;strong&gt;</code> a la derecha.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Atributos de cada <code>&lt;li&gt;</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td class="desc">Nombre de ícono — reemplaza el bullet. Funciona con el set incorporado o con clases de una fuente externa (ej. PrimeIcons: <code>"pi pi-server"</code>).</td></tr>
+        <tr><td><code>title</code></td><td class="desc">Texto en <code>&lt;strong&gt;</code>, opcional. Posición según <code>variant</code> del <code>ui-list</code>.</td></tr>
+        <tr><td>(contenido)</td><td class="desc">El texto del item.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;ul&gt;</code>/<code>&lt;li&gt;</code> nativos — se leen como lista para lectores de pantalla.</li>
+      <li>El bullet/ícono es decorativo; la información va siempre en el texto del item.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

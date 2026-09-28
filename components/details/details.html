@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Details · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/details.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Details</h1>
+    <p class="doc-lede">Panel colapsable simple, sobre <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> nativos — sin JS de estado propio.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-details summary="¿Qué incluye el plan Pro?" style="width:100%">
+        Usuarios ilimitados, soporte prioritario y hasta 50GB de almacenamiento.
+      </ui-details>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-details</span> <span class="attr">summary</span>=<span class="str">"¿Qué incluye el plan Pro?"</span>&gt;
+  Usuarios ilimitados, soporte prioritario...
+&lt;/<span class="tag">ui-details</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>summary</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto del header, siempre visible.</td></tr>
+        <tr><td><code>open</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Estado expandido.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Contenido colapsable.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El <code>&lt;details&gt;</code> interno es nativo — escuchá <code>toggle</code> directamente sobre <code>ui-details</code>.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-details</span> [<span class="attr">summary</span>]=<span class="str">"faq.question"</span>&gt;{{ faq.answer }}&lt;/<span class="tag">ui-details</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-details</span> <span class="attr">summary</span>=<span class="str">"{{ $faq->question }}"</span>&gt;{{ $faq->answer }}&lt;/<span class="tag">ui-details</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> nativos: navegable por teclado y anunciado como expandible sin ARIA manual.</li>
+      <li>Para varios paneles donde solo uno debe estar abierto a la vez, usá <a href="../accordion/accordion.html">Accordion</a> en su lugar.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

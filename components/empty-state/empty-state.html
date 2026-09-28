@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empty State · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/empty-state.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Feedback</p>
+    <h1>Empty State</h1>
+    <p class="doc-lede">Placeholder centrado para una lista, tabla o búsqueda sin resultados. Migrado del catálogo interno de <code>panel-assets</code> (<code>.empty-state</code>), candidato surgido de la comparación 1 a 1.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-empty-state icon="folder" title="Sin resultados" desc="No encontramos nada que coincida con tu búsqueda." style="width:100%"></ui-empty-state>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-empty-state</span> <span class="attr">icon</span>=<span class="str">"folder"</span> <span class="attr">title</span>=<span class="str">"Sin resultados"</span>
+  <span class="attr">desc</span>=<span class="str">"No encontramos nada que coincida con tu búsqueda."</span>&gt;
+&lt;/<span class="tag">ui-empty-state</span>&gt;</pre>
+
+    <h3>Con acción</h3>
+    <div class="doc-demo">
+      <ui-empty-state icon="users" title="Sin postulantes todavía" desc="Invitá al primero desde tu panel." style="width:100%">
+        <ui-button size="sm">Invitar postulante</ui-button>
+      </ui-empty-state>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-empty-state</span> <span class="attr">icon</span>=<span class="str">"users"</span> <span class="attr">title</span>=<span class="str">"Sin postulantes todavía"</span>&gt;
+  &lt;<span class="tag">ui-button</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;Invitar postulante&lt;/<span class="tag">ui-button</span>&gt;
+&lt;/<span class="tag">ui-empty-state</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td>string</td><td><code>"folder"</code></td><td class="desc">Nombre de un ícono del set de <a href="../icon/icon.html">Icon</a>.</td></tr>
+        <tr><td><code>title</code></td><td>string</td><td><code>""</code></td><td class="desc">Título corto.</td></tr>
+        <tr><td><code>desc</code></td><td>string</td><td><code>""</code></td><td class="desc">Descripción de una línea.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Acción opcional debajo del texto (ej. un <code>ui-button</code>).</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El ícono es decorativo; título y descripción son texto real.</li>
+      <li>Si incluís una acción, es un <code>&lt;button&gt;</code> nativo (vía <code>ui-button</code>) — navegable por teclado sin configuración extra.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

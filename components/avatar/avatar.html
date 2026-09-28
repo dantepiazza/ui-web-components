@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avatar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/avatar.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Avatar</h1>
+    <p class="doc-lede">Foto de perfil con fallback automático a iniciales cuando no hay <code>src</code> o la imagen falla al cargar.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-avatar name="Dante Herrera" src="https://i.pravatar.cc/80?img=12"></ui-avatar>
+      <ui-avatar name="Maria Lopez"></ui-avatar>
+      <ui-avatar name="Juan Perez" src="https://url-rota.example/no-existe.jpg"></ui-avatar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-avatar</span> <span class="attr">name</span>=<span class="str">"Dante Herrera"</span> <span class="attr">src</span>=<span class="str">"/avatars/dante.jpg"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;
+&lt;<span class="tag">ui-avatar</span> <span class="attr">name</span>=<span class="str">"Maria Lopez"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt; <span class="comment">&lt;!-- sin src: muestra "ML" --&gt;</span></pre>
+
+    <h3>Tamaños</h3>
+    <div class="doc-demo">
+      <ui-avatar name="Ana Sur" size="sm"></ui-avatar>
+      <ui-avatar name="Ana Sur" size="md"></ui-avatar>
+      <ui-avatar name="Ana Sur" size="lg"></ui-avatar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-avatar</span> <span class="attr">name</span>=<span class="str">"Ana Sur"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;</pre>
+
+    <h3>Forma cuadrada</h3>
+    <div class="doc-demo">
+      <ui-avatar name="Equipo QA" shape="square" src="https://i.pravatar.cc/80?img=5"></ui-avatar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-avatar</span> <span class="attr">name</span>=<span class="str">"Equipo QA"</span> <span class="attr">shape</span>=<span class="str">"square"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>src</code></td><td>string</td><td><code>""</code></td><td class="desc">URL de la imagen. Si falla la carga (evento <code>error</code>), cae automáticamente a iniciales.</td></tr>
+        <tr><td><code>name</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre completo. Usado para generar iniciales (hasta 2 letras) y como <code>aria-label</code>/<code>alt</code>.</td></tr>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">24px / 36px / 48px.</td></tr>
+        <tr><td><code>shape</code></td><td>"circle" | "square"</td><td><code>"circle"</code></td><td class="desc">Forma del contenedor.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots — el contenido se resuelve por <code>src</code>/<code>name</code>.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos propios.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-avatar</span> [<span class="attr">src</span>]=<span class="str">"user.photoUrl"</span> [<span class="attr">name</span>]=<span class="str">"user.fullName"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;
+
+<span class="comment">// schemas: [CUSTOM_ELEMENTS_SCHEMA] en el módulo consumidor</span></pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>{{-- resources/views/components/... --}}
+&lt;<span class="tag">ui-avatar</span> <span class="attr">src</span>=<span class="str">"{{ $user->photo_url }}"</span> <span class="attr">name</span>=<span class="str">"{{ $user->full_name }}"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Contenedor con <code>role="img"</code> y <code>aria-label</code> derivado de <code>name</code> — funciona igual con imagen o con iniciales.</li>
+      <li>La imagen interna lleva <code>alt</code> equivalente, evitando texto redundante para lectores de pantalla.</li>
+      <li>Contraste de las iniciales (indigo-700 sobre indigo-100) cumple AA en el tema por defecto.</li>
+      <li>Área mínima 44×44px recomendada al usar <code>size="lg"</code> como control clickeable (ej. abrir menú de usuario) — envolver en botón con padding si es interactivo.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

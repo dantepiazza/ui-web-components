@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Table · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/table.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Table</h1>
+    <p class="doc-lede">Envuelve un <code>&lt;table&gt;</code> real que vos escribís (con <code>thead</code>/<code>tbody</code>), aplicando estilos consistentes. v1 es una capa de estilo, no un data grid — eso llega más adelante en el roadmap.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-table style="width:100%" striped>
+        <table>
+          <thead><tr><th>Nombre</th><th>Email</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>Dante Herrera</td><td>dante@ejemplo.com</td><td>Activo</td></tr>
+            <tr><td>Maria Lopez</td><td>maria@ejemplo.com</td><td>Pendiente</td></tr>
+          </tbody>
+        </table>
+      </ui-table>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-table</span> <span class="attr">striped</span>&gt;
+  &lt;<span class="tag">table</span>&gt;
+    &lt;<span class="tag">thead</span>&gt;&lt;<span class="tag">tr</span>&gt;&lt;<span class="tag">th</span>&gt;Nombre&lt;/<span class="tag">th</span>&gt;&lt;/<span class="tag">tr</span>&gt;&lt;/<span class="tag">thead</span>&gt;
+    &lt;<span class="tag">tbody</span>&gt;&lt;<span class="tag">tr</span>&gt;&lt;<span class="tag">td</span>&gt;Dante Herrera&lt;/<span class="tag">td</span>&gt;&lt;/<span class="tag">tr</span>&gt;&lt;/<span class="tag">tbody</span>&gt;
+  &lt;/<span class="tag">table</span>&gt;
+&lt;/<span class="tag">ui-table</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>striped</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Filas alternadas.</td></tr>
+        <tr><td><code>compact</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Padding de celda reducido.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases del wrapper (<code>border</code>, <code>rounded</code>...) — típico al meter la tabla adentro de un <a href="../card/card.html">Card</a>, para no duplicar el borde. Convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Un <code>&lt;table&gt;</code> completo, escrito por vos.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-table</span>&gt;
+  &lt;table&gt;
+    &lt;tbody&gt;
+      &lt;tr *ngFor=<span class="str">"let u of users"</span>&gt;&lt;td&gt;{{ u.name }}&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/<span class="tag">ui-table</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-table</span>&gt;
+  &lt;table&gt;
+    &lt;tbody&gt;
+      @foreach ($users as $u)
+        &lt;tr&gt;&lt;td&gt;{{ $u->name }}&lt;/td&gt;&lt;/tr&gt;
+      @endforeach
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/<span class="tag">ui-table</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Al ser un <code>&lt;table&gt;</code> real con <code>&lt;th&gt;</code>, lectores de pantalla anuncian encabezados de columna correctamente.</li>
+      <li>Scroll horizontal (<code>overflow-x</code>) en el wrapper para tablas anchas en mobile, sin romper el layout de la página.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

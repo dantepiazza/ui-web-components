@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Grid · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/data-grid.js" defer></script>
+  <script src="../dist/data-grid-column.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Data Grid</h1>
+    <p class="doc-lede">Las columnas se declaran en HTML; las filas se asignan como propiedad de JS (<code>grid.rows = [...]</code>), porque los datos tabulares normalmente vienen de una API, no de markup. v1: ordenar por columna. Sin paginación/virtualización/edición de celda todavía — combinalo con <a href="../pagination/pagination.html">Pagination</a> por fuera.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-data-grid id="grid-demo" style="width:100%">
+        <ui-data-grid-column field="name" label="Nombre" sortable></ui-data-grid-column>
+        <ui-data-grid-column field="email" label="Email"></ui-data-grid-column>
+        <ui-data-grid-column field="role" label="Rol" sortable></ui-data-grid-column>
+      </ui-data-grid>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-data-grid</span> <span class="attr">id</span>=<span class="str">"grid"</span>&gt;
+  &lt;<span class="tag">ui-data-grid-column</span> <span class="attr">field</span>=<span class="str">"name"</span> <span class="attr">label</span>=<span class="str">"Nombre"</span> <span class="attr">sortable</span>&gt;&lt;/<span class="tag">ui-data-grid-column</span>&gt;
+  &lt;<span class="tag">ui-data-grid-column</span> <span class="attr">field</span>=<span class="str">"email"</span> <span class="attr">label</span>=<span class="str">"Email"</span>&gt;&lt;/<span class="tag">ui-data-grid-column</span>&gt;
+&lt;/<span class="tag">ui-data-grid</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">document.getElementById('grid').rows = [</span>
+  <span class="comment">  { name: 'Dante Herrera', email: 'dante@ej.com', role: 'Admin' },</span>
+  <span class="comment">  { name: 'Maria Lopez', email: 'maria@ej.com', role: 'Editor' },</span>
+  <span class="comment">];</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Props — <code>ui-data-grid</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>rows</code></td><td>Array&lt;object&gt; (propiedad JS)</td><td><code>[]</code></td><td class="desc">Filas, cada una un objeto con una key por <code>field</code> de columna.</td></tr></tbody>
+    </table>
+
+    <h2>Props — <code>ui-data-grid-column</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>field</code></td><td>string</td><td class="desc">Key del objeto de fila a mostrar en esta columna.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td class="desc">Texto del header. Si se omite, usa <code>field</code>.</td></tr>
+        <tr><td><code>sortable</code></td><td>boolean</td><td class="desc">Habilita ordenar al hacer click en el header.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Elementos <code>ui-data-grid-column</code> — se leen una sola vez al conectar.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos propios en v1 (el ordenamiento es interno).</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-data-grid</span> [<span class="attr">rows</span>]=<span class="str">"users"</span>&gt;
+  &lt;<span class="tag">ui-data-grid-column</span> <span class="attr">field</span>=<span class="str">"name"</span> <span class="attr">label</span>=<span class="str">"Nombre"</span> <span class="attr">sortable</span>&gt;&lt;/<span class="tag">ui-data-grid-column</span>&gt;
+&lt;/<span class="tag">ui-data-grid</span>&gt;
+<span class="comment">// property binding, no atributo — .rows es un array de JS</span></pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-data-grid</span> <span class="attr">x-ref</span>=<span class="str">"grid"</span> <span class="attr">x-init</span>=<span class="str">"$refs.grid.rows = @js($users)"</span>&gt;
+  &lt;<span class="tag">ui-data-grid-column</span> <span class="attr">field</span>=<span class="str">"name"</span> <span class="attr">label</span>=<span class="str">"Nombre"</span> <span class="attr">sortable</span>&gt;&lt;/<span class="tag">ui-data-grid-column</span>&gt;
+&lt;/<span class="tag">ui-data-grid</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;table&gt;</code> semántica real, con <code>&lt;th&gt;</code> para headers.</li>
+      <li>Headers ordenables tienen un ícono visual del sentido de orden actual, no solo color/estado interno.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('grid-demo').rows = [
+      { name: 'Dante Herrera', email: 'dante@ejemplo.com', role: 'Admin' },
+      { name: 'Maria Lopez', email: 'maria@ejemplo.com', role: 'Editor' },
+      { name: 'Juan Perez', email: 'juan@ejemplo.com', role: 'Viewer' },
+    ];
+  </script>
+</body>
+</html>

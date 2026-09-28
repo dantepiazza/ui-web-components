@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chart · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/chart.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Chart</h1>
+    <p class="doc-lede">Gráfico mínimo en SVG inline, sin librería externa de gráficos. Los datos se asignan como propiedad de JS. v1: barras y línea, sin leyendas/tooltips/animación todavía.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-chart id="chart-bar" type="bar" style="width:100%"></ui-chart>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-chart</span> <span class="attr">id</span>=<span class="str">"chart"</span> <span class="attr">type</span>=<span class="str">"bar"</span>&gt;&lt;/<span class="tag">ui-chart</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">document.getElementById('chart').data = [</span>
+  <span class="comment">  { label: 'Ene', value: 40 },</span>
+  <span class="comment">  { label: 'Feb', value: 65 },</span>
+  <span class="comment">];</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h3>Línea</h3>
+    <div class="doc-demo" style="width:100%">
+      <ui-chart id="chart-line" type="line" color="#059669" style="width:100%"></ui-chart>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-chart</span> <span class="attr">type</span>=<span class="str">"line"</span> <span class="attr">color</span>=<span class="str">"#059669"</span>&gt;&lt;/<span class="tag">ui-chart</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>type</code></td><td>"bar" | "line"</td><td><code>"bar"</code></td><td class="desc">Tipo de gráfico.</td></tr>
+        <tr><td><code>data</code></td><td>Array&lt;{label, value}&gt; (propiedad JS)</td><td><code>[]</code></td><td class="desc">Puntos a graficar.</td></tr>
+        <tr><td><code>height</code></td><td>number</td><td><code>200</code></td><td class="desc">Alto en px.</td></tr>
+        <tr><td><code>color</code></td><td>string</td><td><code>"#4f46e5"</code></td><td class="desc">Color de las barras/línea (cualquier valor CSS de color).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-chart</span> [<span class="attr">type</span>]=<span class="str">"'bar'"</span> [<span class="attr">data</span>]=<span class="str">"monthlySales"</span>&gt;&lt;/<span class="tag">ui-chart</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-chart</span> <span class="attr">x-ref</span>=<span class="str">"chart"</span> <span class="attr">x-init</span>=<span class="str">"$refs.chart.data = @js($monthlySales)"</span>&gt;&lt;/<span class="tag">ui-chart</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El <code>&lt;svg&gt;</code> lleva <code>role="img"</code> y <code>aria-label</code> descriptivo.</li>
+      <li>Pendiente v2: tabla de datos oculta (<code>sr-only</code>) como alternativa textual completa para lectores de pantalla — el SVG por sí solo no comunica los valores exactos.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('chart-bar').data = [
+      { label: 'Ene', value: 40 }, { label: 'Feb', value: 65 }, { label: 'Mar', value: 50 },
+      { label: 'Abr', value: 80 }, { label: 'May', value: 55 },
+    ];
+    document.getElementById('chart-line').data = [
+      { label: 'Ene', value: 40 }, { label: 'Feb', value: 65 }, { label: 'Mar', value: 50 },
+      { label: 'Abr', value: 80 }, { label: 'May', value: 55 },
+    ];
+  </script>
+</body>
+</html>

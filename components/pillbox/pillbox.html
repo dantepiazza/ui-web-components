@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pillbox · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/pillbox.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Pillbox</h1>
+    <p class="doc-lede">Input de texto libre multi-valor: <code>Enter</code> o <code>,</code> agrega un chip, <code>Backspace</code> con el campo vacío borra el último.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-pillbox placeholder="Agregar skill..." value="Angular,Livewire" style="width:20rem"></ui-pillbox>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-pillbox</span> <span class="attr">placeholder</span>=<span class="str">"Agregar skill..."</span>&gt;&lt;/<span class="tag">ui-pillbox</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>placeholder</code></td><td>string</td><td><code>"Agregar..."</code></td><td class="desc">Placeholder del campo, solo visible sin valores.</td></tr>
+        <tr><td><code>value</code> (atributo inicial)</td><td>string</td><td><code>""</code></td><td class="desc">Lista separada por comas para precargar valores (solo se lee al conectar, no reactivo después).</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-pillbox-change</code></td><td><code>{ values }</code></td><td class="desc">Al agregar o quitar un valor. <code>values</code> es un array de strings.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-pillbox</span> <span class="attr">placeholder</span>=<span class="str">"Agregar skill..."</span>
+  (ui-pillbox-change)=<span class="str">"skills = $event.detail.values"</span>&gt;&lt;/<span class="tag">ui-pillbox</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-pillbox</span> <span class="attr">value</span>=<span class="str">"{{ implode(',', $skills) }}"</span>
+  <span class="attr">x-on:ui-pillbox-change</span>=<span class="str">"$wire.skills = $event.detail.values"</span>&gt;&lt;/<span class="tag">ui-pillbox</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Cada botón de quitar tiene <code>aria-label="Quitar {valor}"</code>.</li>
+      <li>El campo de texto siempre queda accesible por <code>Tab</code>, independientemente de cuántos chips haya.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

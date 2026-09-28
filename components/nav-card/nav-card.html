@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nav Card · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/nav-card.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Cards</p>
+    <h1>Nav Card</h1>
+    <p class="doc-lede">Card de ícono + título + texto, clickeable — para grillas de accesos rápidos, menús de configuración, o cualquier "elegí una de estas opciones". Toda la card es el link (o un botón, si no le das <code>href</code>): envuelve un <code>&lt;a&gt;</code>/<code>&lt;button&gt;</code> real, igual que <a href="../button/button.html">Button</a>, para que el foco por teclado funcione nativo.</p>
+
+    <h2>Layouts</h2>
+    <div class="doc-demo">
+      <ui-nav-card layout="row" tone="base" icon="folder" heading="Vacantes archivadas" text="18 vacantes cerradas o pausadas" href="#" style="max-width:20rem"></ui-nav-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-nav-card</span>
+  <span class="attr">layout</span>=<span class="str">"row"</span>
+  <span class="attr">icon</span>=<span class="str">"folder"</span>
+  <span class="attr">heading</span>=<span class="str">"Vacantes archivadas"</span>
+  <span class="attr">text</span>=<span class="str">"18 vacantes cerradas o pausadas"</span>
+  <span class="attr">href</span>=<span class="str">"/vacantes/archivadas"</span>
+&gt;&lt;/<span class="tag">ui-nav-card</span>&gt;</pre>
+
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;padding:1.5rem">
+      <ui-nav-card layout="center" tone="brand" icon="users" heading="Gestionar equipo" text="Invitá personas y asigná roles" href="#"></ui-nav-card>
+      <ui-nav-card layout="center" tone="success" icon="download" heading="Exportar datos" text="CSV o Excel" href="#"></ui-nav-card>
+      <ui-nav-card layout="center" tone="info" icon="lock" heading="Seguridad" text="2FA y sesiones activas" href="#"></ui-nav-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-nav-card</span> <span class="attr">layout</span>=<span class="str">"center"</span> <span class="attr">tone</span>=<span class="str">"success"</span> <span class="attr">icon</span>=<span class="str">"download"</span> <span class="attr">heading</span>=<span class="str">"Exportar datos"</span> <span class="attr">text</span>=<span class="str">"CSV o Excel"</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;&lt;/<span class="tag">ui-nav-card</span>&gt;</pre>
+
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;padding:1.5rem">
+      <ui-nav-card layout="inline" tone="violet" icon="edit" heading="Plantillas de mensaje" text="Respuestas guardadas" cta="Ver todas" href="#"></ui-nav-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-nav-card</span> <span class="attr">layout</span>=<span class="str">"inline"</span> <span class="attr">tone</span>=<span class="str">"violet"</span> <span class="attr">cta</span>=<span class="str">"Ver todas"</span> ...&gt;&lt;/<span class="tag">ui-nav-card</span>&gt;</pre>
+
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1.5rem">
+      <ui-nav-card layout="tile" tone="base" icon="plus" heading="Nueva vacante" href="#"></ui-nav-card>
+      <ui-nav-card layout="tile" tone="info" icon="users" heading="Postulantes" href="#"></ui-nav-card>
+      <ui-nav-card layout="tile" tone="success" icon="calendar" heading="Entrevistas" href="#"></ui-nav-card>
+      <ui-nav-card layout="tile" tone="warning" icon="download" heading="Exportar" href="#"></ui-nav-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-nav-card</span> <span class="attr">layout</span>=<span class="str">"tile"</span> <span class="attr">icon</span>=<span class="str">"plus"</span> <span class="attr">heading</span>=<span class="str">"Nueva vacante"</span> <span class="attr">href</span>=<span class="str">"#"</span>&gt;&lt;/<span class="tag">ui-nav-card</span>&gt;</pre>
+
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;padding:1.5rem">
+      <ui-nav-card layout="accent" tone="info" icon="tag" heading="Etiquetas" text="Organizá por categoría" href="#"></ui-nav-card>
+      <ui-nav-card layout="accent" tone="danger" icon="warning" heading="Incidentes" text="1 alerta activa" href="#"></ui-nav-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-nav-card</span> <span class="attr">layout</span>=<span class="str">"accent"</span> <span class="attr">tone</span>=<span class="str">"danger"</span> ...&gt;&lt;/<span class="tag">ui-nav-card</span>&gt;</pre>
+
+    <h2>Sin <code>href</code> (botón + evento)</h2>
+    <div class="doc-demo">
+      <ui-nav-card id="demo-action" layout="row" tone="base" icon="star" heading="Acción sin link" text="Dispara un evento en vez de navegar" style="max-width:20rem"></ui-nav-card>
+    </div>
+    <script>
+      document.getElementById('demo-action')?.addEventListener('ui-nav-card-action', () => alert('ui-nav-card-action'));
+    </script>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>layout</code></td><td>"row" | "center" | "inline" | "tile" | "accent"</td><td><code>"row"</code></td><td class="desc">Cómo se acomodan ícono/título/texto.</td></tr>
+        <tr><td><code>tone</code></td><td>"base" | "success" | "warning" | "danger" | "info" | "violet" | "rose"</td><td><code>"base"</code></td><td class="desc">Color del ícono (y del borde en <code>"accent"</code>).</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de ícono. Sin esto, no se renderiza la caja de ícono.</td></tr>
+        <tr><td><code>heading</code></td><td>string</td><td><code>""</code></td><td class="desc">Título.</td></tr>
+        <tr><td><code>text</code></td><td>string</td><td><code>""</code></td><td class="desc">Descripción. Ignorado en <code>layout="tile"</code>.</td></tr>
+        <tr><td><code>cta</code></td><td>string</td><td><code>"Ver más"</code></td><td class="desc">Texto del link inferior — solo aplica a <code>layout="inline"</code>.</td></tr>
+        <tr><td><code>href</code></td><td>string</td><td><code>""</code></td><td class="desc">Si está, la card es un <code>&lt;a href&gt;</code>; si no, es un <code>&lt;button&gt;</code> que dispara <code>ui-nav-card-action</code>.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-nav-card-action</code></td><td class="desc">Al hacer click, solo si no hay <code>href</code> (si lo hay, navega normal).</td></tr></tbody>
+    </table>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El elemento interactivo es un <code>&lt;a&gt;</code> o <code>&lt;button&gt;</code> real — <kbd>Tab</kbd>/<kbd>Enter</kbd>/<kbd>Espacio</kbd> funcionan nativo, sin JS extra.</li>
+      <li>Poné siempre <code>heading</code> — es el texto accesible del link/botón.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

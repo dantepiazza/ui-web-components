@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fieldset · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/fieldset.js" defer></script>
+  <script src="../dist/input.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Fieldset</h1>
+    <p class="doc-lede">Agrupa controles de formulario relacionados bajo un panel con título, usando un <code>&lt;fieldset&gt;</code>/<code>&lt;legend&gt;</code> real.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-fieldset legend="Datos de contacto" style="width:100%">
+        <ui-input label="Nombre" placeholder="Tu nombre"></ui-input>
+        <ui-input label="Email" type="email" placeholder="vos@ejemplo.com"></ui-input>
+      </ui-fieldset>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-fieldset</span> <span class="attr">legend</span>=<span class="str">"Datos de contacto"</span>&gt;
+  &lt;<span class="tag">ui-input</span> <span class="attr">label</span>=<span class="str">"Nombre"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;
+  &lt;<span class="tag">ui-input</span> <span class="attr">label</span>=<span class="str">"Email"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;
+&lt;/<span class="tag">ui-fieldset</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>legend</code></td><td>string</td><td><code>""</code></td><td class="desc">Título del grupo, renderizado como <code>&lt;legend&gt;</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Controles del formulario, apilados con espaciado vertical.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-fieldset</span> <span class="attr">legend</span>=<span class="str">"Facturación"</span>&gt;
+  ...
+&lt;/<span class="tag">ui-fieldset</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-fieldset</span> <span class="attr">legend</span>=<span class="str">"Facturación"</span>&gt;
+  ...
+&lt;/<span class="tag">ui-fieldset</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;fieldset&gt;</code>/<code>&lt;legend&gt;</code> nativos: los lectores de pantalla anuncian el título del grupo al entrar a cualquier control interno.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navbar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/navbar.js" defer></script>
+  <script src="../dist/menu-item.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Navigation</p>
+    <h1>Navbar</h1>
+    <p class="doc-lede"><code>ui-navbar</code> es la barra horizontal; <code>ui-menu-item</code> son los links. Anidar <code>ui-menu-item</code> dentro de otro arma un dropdown — anidar más niveles arma un mega-menu. Para una lista vertical de navegación (sidebar, dropdown-list) usá <a href="../menu/menu.html">Menu</a> en cambio.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="padding:0;overflow:visible">
+      <ui-navbar style="width:100%;border-radius:0.75rem">
+        <span style="font-weight:600;color:#18181b">Acme Inc.</span>
+        <div style="display:flex;gap:1rem">
+          <ui-menu-item label="Inicio" href="#"></ui-menu-item>
+          <ui-menu-item label="Productos">
+            <ui-menu-item label="Componentes" href="#"></ui-menu-item>
+            <ui-menu-item label="Templates" href="#"></ui-menu-item>
+            <ui-menu-item label="Íconos" href="#"></ui-menu-item>
+          </ui-menu-item>
+          <ui-menu-item label="Precios" href="#"></ui-menu-item>
+        </div>
+      </ui-navbar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-navbar</span>&gt;
+  &lt;span&gt;Acme Inc.&lt;/span&gt;
+  &lt;div&gt;
+    &lt;<span class="tag">ui-menu-item</span> <span class="attr">label</span>=<span class="str">"Inicio"</span> <span class="attr">href</span>=<span class="str">"/"</span>&gt;&lt;/<span class="tag">ui-menu-item</span>&gt;
+    &lt;<span class="tag">ui-menu-item</span> <span class="attr">label</span>=<span class="str">"Productos"</span>&gt;
+      &lt;<span class="tag">ui-menu-item</span> <span class="attr">label</span>=<span class="str">"Componentes"</span> <span class="attr">href</span>=<span class="str">"/componentes"</span>&gt;&lt;/<span class="tag">ui-menu-item</span>&gt;
+    &lt;/<span class="tag">ui-menu-item</span>&gt;
+  &lt;/div&gt;
+&lt;/<span class="tag">ui-navbar</span>&gt;</pre>
+
+    <h2>Props — <code>ui-menu-item</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td class="desc">Texto del link.</td></tr>
+        <tr><td><code>href</code></td><td>string</td><td class="desc">Destino, si no tiene submenú (se renderiza como <code>&lt;a&gt;</code>). Con submenú siempre es un <code>&lt;button&gt;</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-navbar</code></td><td>(default)</td><td class="desc">Cualquier contenido — marca, links, botones.</td></tr>
+        <tr><td><code>ui-menu-item</code></td><td>(default)</td><td class="desc"><code>ui-menu-item</code> anidados, para submenú.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos propios — son links reales o botones que abren/cierran su submenú.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-navbar</span>&gt;
+  &lt;<span class="tag">ui-menu-item</span> *ngFor=<span class="str">"let l of links"</span> [<span class="attr">label</span>]=<span class="str">"l.label"</span> [<span class="attr">href</span>]=<span class="str">"l.href"</span>&gt;&lt;/<span class="tag">ui-menu-item</span>&gt;
+&lt;/<span class="tag">ui-navbar</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-navbar</span>&gt;
+  @foreach ($links as $l)
+    &lt;<span class="tag">ui-menu-item</span> <span class="attr">label</span>=<span class="str">"{{ $l->label }}"</span> <span class="attr">href</span>=<span class="str">"{{ $l->href }}"</span>&gt;&lt;/<span class="tag">ui-menu-item</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-navbar</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Items sin submenú son <code>&lt;a&gt;</code> reales — navegables y anunciados como links.</li>
+      <li>Items con submenú son <code>&lt;button&gt;</code> con <code>role="menu"</code> en el panel; se cierran con <code>Escape</code> y al hacer click fuera.</li>
+      <li>Pendiente v2: navegación completa por flechas dentro del submenú (patrón ARIA Menu).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

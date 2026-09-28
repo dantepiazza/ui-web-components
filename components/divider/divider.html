@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divider · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/divider.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Divider</h1>
+    <p class="doc-lede">Separa contenido visual u lógicamente, en horizontal o vertical, con una etiqueta opcional en el medio.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked">
+      <div style="width:100%">Sección A</div>
+      <ui-divider></ui-divider>
+      <div style="width:100%">Sección B</div>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">div</span>&gt;Sección A&lt;/<span class="tag">div</span>&gt;
+&lt;<span class="tag">ui-divider</span>&gt;&lt;/<span class="tag">ui-divider</span>&gt;
+&lt;<span class="tag">div</span>&gt;Sección B&lt;/<span class="tag">div</span>&gt;</pre>
+
+    <h3>Con etiqueta</h3>
+    <div class="doc-demo">
+      <ui-divider>o continuá con</ui-divider>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-divider</span>&gt;o continuá con&lt;/<span class="tag">ui-divider</span>&gt;</pre>
+
+    <h3>Vertical</h3>
+    <div class="doc-demo" style="height:3rem">
+      <span>Item</span>
+      <ui-divider orientation="vertical" style="height:1.5rem"></ui-divider>
+      <span>Item</span>
+      <ui-divider orientation="vertical" style="height:1.5rem"></ui-divider>
+      <span>Item</span>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-divider</span> <span class="attr">orientation</span>=<span class="str">"vertical"</span>&gt;&lt;/<span class="tag">ui-divider</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>orientation</code></td><td>"horizontal" | "vertical"</td><td><code>"horizontal"</code></td><td class="desc">Dirección de la línea. En vertical, el elemento hereda el alto del contenedor (<code>self-stretch</code>).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>(default)</td><td class="desc">Texto opcional centrado sobre la línea. Solo aplica en orientación horizontal.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos — es un componente puramente visual.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-divider</span> <span class="attr">orientation</span>=<span class="str">"vertical"</span>&gt;&lt;/<span class="tag">ui-divider</span>&gt;
+
+<span class="comment">// en el módulo del componente que lo usa:</span>
+<span class="comment">// schemas: [CUSTOM_ELEMENTS_SCHEMA]</span></pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>{{-- resources/views/components/... --}}
+&lt;<span class="tag">ui-divider</span>&gt;o continuá con&lt;/<span class="tag">ui-divider</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Expone <code>role="separator"</code>, con <code>aria-orientation</code> acorde.</li>
+      <li>No requiere foco ni navegación por teclado (elemento no interactivo).</li>
+      <li>Contraste de la línea (<code>zinc-200</code> sobre fondo blanco) cumple como elemento decorativo — no transmite información por color únicamente.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

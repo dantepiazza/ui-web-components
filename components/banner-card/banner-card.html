@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banner Card · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/banner-card.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Cards</p>
+    <h1>Banner Card</h1>
+    <p class="doc-lede">Franja de promoción/aviso: ícono, título + texto, y un botón. Usa la escala <code>base</code> (no un color literal), así se retematiza con tu marca. No es clickeable como card entera — solo el botón actúa, a diferencia de <a href="../nav-card/nav-card.html">Nav Card</a>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="display:block;padding:0">
+      <ui-banner-card
+        icon="zap"
+        heading="Probá el modo oscuro"
+        text="Se activa con un atributo, cero configuración"
+        button-label="Activar"
+        id="demo-banner"
+      ></ui-banner-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-banner-card</span>
+  <span class="attr">icon</span>=<span class="str">"zap"</span>
+  <span class="attr">heading</span>=<span class="str">"Probá el modo oscuro"</span>
+  <span class="attr">text</span>=<span class="str">"Se activa con un atributo, cero configuración"</span>
+  <span class="attr">button-label</span>=<span class="str">"Activar"</span>
+&gt;&lt;/<span class="tag">ui-banner-card</span>&gt;</pre>
+    <script>
+      document.getElementById('demo-banner')?.addEventListener('ui-banner-action', () => alert('Click en el botón del banner'));
+    </script>
+
+    <h3>Como link</h3>
+    <div class="doc-demo" style="display:block;padding:0">
+      <ui-banner-card
+        icon="rocket"
+        heading="Verificá tu cuenta"
+        text="Te faltan 2 pasos para publicar"
+        button-label="Continuar"
+        href="#"
+      ></ui-banner-card>
+    </div>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Con <code>href</code>, el botón es un <code>&lt;a&gt;</code> real en vez de disparar el evento.</p>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de ícono (set de <a href="../icon/icon.html">Icon</a>, o cualquier clase de fuente externa).</td></tr>
+        <tr><td><code>heading</code></td><td>string</td><td><code>""</code></td><td class="desc">Título.</td></tr>
+        <tr><td><code>text</code></td><td>string</td><td><code>""</code></td><td class="desc">Descripción, opcional.</td></tr>
+        <tr><td><code>button-label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto del botón. Sin esto, no se renderiza botón.</td></tr>
+        <tr><td><code>href</code></td><td>string</td><td><code>""</code></td><td class="desc">Si está presente, el botón es un <code>&lt;a href&gt;</code>; si no, dispara <code>ui-banner-action</code> al hacer click.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-banner-action</code></td><td class="desc">Al hacer click en el botón, solo si no hay <code>href</code>.</td></tr></tbody>
+    </table>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carousel · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/carousel.js" defer></script>
+  <script src="../dist/carousel-slide.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Carousel</h1>
+    <p class="doc-lede">Carrusel con scroll-snap nativo de CSS — el scroll táctil funciona gratis, sin reimplementar física de swipe.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-carousel style="width:100%">
+        <ui-carousel-slide style="background:#eef2ff;height:10rem;display:flex;align-items:center;justify-content:center;font-weight:600;color:#4338ca">Slide 1</ui-carousel-slide>
+        <ui-carousel-slide style="background:#ecfdf5;height:10rem;display:flex;align-items:center;justify-content:center;font-weight:600;color:#047857">Slide 2</ui-carousel-slide>
+        <ui-carousel-slide style="background:#fef2f2;height:10rem;display:flex;align-items:center;justify-content:center;font-weight:600;color:#b91c1c">Slide 3</ui-carousel-slide>
+      </ui-carousel>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-carousel</span>&gt;
+  &lt;<span class="tag">ui-carousel-slide</span>&gt;...&lt;/<span class="tag">ui-carousel-slide</span>&gt;
+  &lt;<span class="tag">ui-carousel-slide</span>&gt;...&lt;/<span class="tag">ui-carousel-slide</span>&gt;
+&lt;/<span class="tag">ui-carousel</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Elementos <code>ui-carousel-slide</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-carousel-change</code></td><td><code>{ index }</code></td><td class="desc">Al cambiar de slide (botones, dots, o scroll/swipe manual).</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-carousel</span> (ui-carousel-change)=<span class="str">"onSlide($event.detail.index)"</span>&gt;
+  &lt;<span class="tag">ui-carousel-slide</span> *ngFor=<span class="str">"let img of images"</span>&gt;
+    &lt;img [src]=<span class="str">"img.url"</span>&gt;
+  &lt;/<span class="tag">ui-carousel-slide</span>&gt;
+&lt;/<span class="tag">ui-carousel</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-carousel</span>&gt;
+  @foreach ($images as $img)
+    &lt;<span class="tag">ui-carousel-slide</span>&gt;&lt;img src=<span class="str">"{{ $img->url }}"</span>&gt;&lt;/<span class="tag">ui-carousel-slide</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-carousel</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Los botones prev/next y los dots tienen <code>aria-label</code>.</li>
+      <li>Al ser scroll nativo, funciona con gestos táctiles y con el trackpad sin JS de swipe.</li>
+      <li>Pendiente v2: autoplay opcional (pausable) y anuncio de "slide N de M" para lectores de pantalla.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

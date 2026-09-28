@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeline · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/timeline.js" defer></script>
+  <script src="../dist/timeline-item.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Timeline</h1>
+    <p class="doc-lede">Lista vertical de eventos con punto y línea conectora.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-timeline style="width:100%">
+        <ui-timeline-item title="Pedido creado" date="Hace 3 días" variant="success">El pedido #4821 fue creado correctamente.</ui-timeline-item>
+        <ui-timeline-item title="En preparación" date="Hace 2 días">El equipo está preparando el envío.</ui-timeline-item>
+        <ui-timeline-item title="Enviado" date="Hoy">Despachado con seguimiento AR123456789.</ui-timeline-item>
+      </ui-timeline>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-timeline</span>&gt;
+  &lt;<span class="tag">ui-timeline-item</span> <span class="attr">title</span>=<span class="str">"Pedido creado"</span> <span class="attr">date</span>=<span class="str">"Hace 3 días"</span> <span class="attr">variant</span>=<span class="str">"success"</span>&gt;
+    El pedido fue creado.
+  &lt;/<span class="tag">ui-timeline-item</span>&gt;
+&lt;/<span class="tag">ui-timeline</span>&gt;</pre>
+
+    <h2>Props — <code>ui-timeline-item</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>string</td><td><code>""</code></td><td class="desc">Título del evento.</td></tr>
+        <tr><td><code>date</code></td><td>string</td><td><code>""</code></td><td class="desc">Fecha/hora, junto al título.</td></tr>
+        <tr><td><code>variant</code></td><td>"default" | "success" | "danger"</td><td><code>"default"</code></td><td class="desc">Color del punto.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-timeline</code></td><td>(default)</td><td class="desc">Elementos <code>ui-timeline-item</code>.</td></tr>
+        <tr><td><code>ui-timeline-item</code></td><td>(default)</td><td class="desc">Descripción del evento.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-timeline</span>&gt;
+  &lt;<span class="tag">ui-timeline-item</span> *ngFor=<span class="str">"let e of events"</span> [<span class="attr">title</span>]=<span class="str">"e.title"</span> [<span class="attr">date</span>]=<span class="str">"e.date"</span>&gt;
+    {{ e.description }}
+  &lt;/<span class="tag">ui-timeline-item</span>&gt;
+&lt;/<span class="tag">ui-timeline</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-timeline</span>&gt;
+  @foreach ($events as $e)
+    &lt;<span class="tag">ui-timeline-item</span> <span class="attr">title</span>=<span class="str">"{{ $e->title }}"</span> <span class="attr">date</span>=<span class="str">"{{ $e->date }}"</span>&gt;{{ $e->description }}&lt;/<span class="tag">ui-timeline-item</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-timeline</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>ui-timeline</code> expone <code>role="list"</code>.</li>
+      <li>El color del punto (<code>variant</code>) siempre acompaña texto (título/fecha) — nunca es la única señal.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

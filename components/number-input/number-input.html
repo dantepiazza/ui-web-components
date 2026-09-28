@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number Input · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/number-input.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Number Input</h1>
+    <p class="doc-lede">Campo numérico con botones +/- de paso, sobre un <code>&lt;input type="number"&gt;</code> real.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-number-input label="Cantidad" value="1" min="0" max="10"></ui-number-input>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-number-input</span> <span class="attr">label</span>=<span class="str">"Cantidad"</span> <span class="attr">value</span>=<span class="str">"1"</span> <span class="attr">min</span>=<span class="str">"0"</span> <span class="attr">max</span>=<span class="str">"10"</span>&gt;&lt;/<span class="tag">ui-number-input</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Etiqueta visible.</td></tr>
+        <tr><td><code>value</code></td><td>number</td><td><code>0</code></td><td class="desc">Valor actual.</td></tr>
+        <tr><td><code>min</code> / <code>max</code></td><td>number</td><td><code>-∞</code> / <code>∞</code></td><td class="desc">Límites; deshabilitan el botón correspondiente al llegar.</td></tr>
+        <tr><td><code>step</code></td><td>number</td><td><code>1</code></td><td class="desc">Incremento/decremento por click.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-input</code></td><td><code>{ value }</code></td><td class="desc">Al cambiar el valor (botones o tecleo).</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-number-input</span> [<span class="attr">value</span>]=<span class="str">"qty"</span> [<span class="attr">max</span>]=<span class="str">"stock"</span>
+  (ui-input)=<span class="str">"qty = $event.detail.value"</span>&gt;&lt;/<span class="tag">ui-number-input</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-number-input</span> <span class="attr">value</span>=<span class="str">"{{ $qty }}"</span> <span class="attr">max</span>=<span class="str">"{{ $stock }}"</span>
+  <span class="attr">wire:model</span>=<span class="str">"qty"</span>&gt;&lt;/<span class="tag">ui-number-input</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Botones +/- con <code>aria-label</code> ("Sumar"/"Restar"), deshabilitados nativamente al llegar a los límites.</li>
+      <li><code>&lt;label for&gt;</code> asociado al input central.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

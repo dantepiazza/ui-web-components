@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkbox · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/checkbox.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Checkbox</h1>
+    <p class="doc-lede">Envuelve un <code>&lt;input type="checkbox"&gt;</code> real con su <code>&lt;label&gt;</code>, para teclado y semántica nativos.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:0.75rem">
+      <ui-checkbox>Recordarme en este dispositivo</ui-checkbox>
+      <ui-checkbox checked>Acepto los términos y condiciones</ui-checkbox>
+      <ui-checkbox disabled>Opción no disponible</ui-checkbox>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-checkbox</span>&gt;Recordarme en este dispositivo&lt;/<span class="tag">ui-checkbox</span>&gt;
+&lt;<span class="tag">ui-checkbox</span> <span class="attr">checked</span>&gt;Acepto los términos&lt;/<span class="tag">ui-checkbox</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>checked</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Estado marcado.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+        <tr><td><code>name</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre del campo en un <code>&lt;form&gt;</code>.</td></tr>
+        <tr><td><code>value</code></td><td>string</td><td><code>"on"</code></td><td class="desc">Valor enviado cuando está marcado.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Texto de la etiqueta.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El <code>&lt;input&gt;</code> interno es nativo — escuchá <code>change</code> directamente sobre <code>ui-checkbox</code>.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-checkbox</span> [<span class="attr">checked</span>]=<span class="str">"acceptedTos"</span> (change)=<span class="str">"acceptedTos = $event.target.checked"</span>&gt;
+  Acepto los términos
+&lt;/<span class="tag">ui-checkbox</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-checkbox</span> <span class="attr">name</span>=<span class="str">"tos"</span> <span class="attr">wire:model</span>=<span class="str">"acceptedTos"</span>&gt;
+  Acepto los términos
+&lt;/<span class="tag">ui-checkbox</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;label for&gt;</code> asociado al <code>&lt;input&gt;</code> por <code>id</code> — click en el texto también activa el control.</li>
+      <li>Foco visible vía <code>focus-visible:outline</code> en el input.</li>
+      <li>Área clickeable incluye toda la etiqueta, no solo el cuadrado (mejor blanco táctil).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

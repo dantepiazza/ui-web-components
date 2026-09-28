@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Button · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/spinner.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Actions</p>
+    <h1>Button</h1>
+    <p class="doc-lede">Envuelve un <code>&lt;button&gt;</code> nativo real, así el foco, la activación por teclado y el envío de formularios funcionan sin JS extra.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-button variant="primary">Primary</ui-button>
+      <ui-button variant="secondary">Secondary</ui-button>
+      <ui-button variant="outlined">Outlined</ui-button>
+      <ui-button variant="ghost">Ghost</ui-button>
+      <ui-button variant="danger">Danger</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"primary"</span>&gt;Primary&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"danger"</span>&gt;Danger&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h3>Tamaños</h3>
+    <div class="doc-demo">
+      <ui-button size="sm">Small</ui-button>
+      <ui-button size="md">Medium</ui-button>
+      <ui-button size="lg">Large</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;Small&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h3>Con ícono</h3>
+    <div class="doc-demo">
+      <ui-button icon="check">Guardar</ui-button>
+      <ui-button icon="chevron-down" icon-position="end" variant="secondary">Más opciones</ui-button>
+      <ui-button icon="search" variant="ghost" label="Buscar"></ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">icon</span>=<span class="str">"check"</span>&gt;Guardar&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">icon</span>=<span class="str">"chevron-down"</span> <span class="attr">icon-position</span>=<span class="str">"end"</span>&gt;Más opciones&lt;/<span class="tag">ui-button</span>&gt;
+<span class="comment">&lt;!-- sin texto visible: queda solo-ícono, "label" es obligatorio (nombre accesible) --&gt;</span>
+&lt;<span class="tag">ui-button</span> <span class="attr">icon</span>=<span class="str">"search"</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span class="attr">label</span>=<span class="str">"Buscar"</span>&gt;&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h3>Color (independiente de <code>variant</code>)</h3>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><code>variant</code> es la FORMA (sólido / tenue / plano / con borde) y <code>color</code> es la PALETA — son ejes independientes, así que cualquier forma combina con cualquier color. Sin <code>color</code>, cada forma mantiene su look de siempre (<code>primary</code> → brand sólido, <code>secondary</code>/<code>ghost</code> → neutro).</p>
+    <div class="doc-demo">
+      <ui-button color="success">Success</ui-button>
+      <ui-button color="warning">Warning</ui-button>
+      <ui-button color="danger">Danger</ui-button>
+      <ui-button color="info">Info</ui-button>
+    </div>
+    <div class="doc-demo">
+      <ui-button variant="outlined" color="danger">Eliminar</ui-button>
+      <ui-button variant="ghost" color="success">Aprobar</ui-button>
+      <ui-button variant="secondary" color="info">Info</ui-button>
+      <ui-button variant="secondary" color="warning" icon="warning">Pendiente</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">color</span>=<span class="str">"danger"</span>&gt;Danger&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"outlined"</span> <span class="attr">color</span>=<span class="str">"danger"</span>&gt;Eliminar&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span class="attr">color</span>=<span class="str">"success"</span>&gt;Aprobar&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h3>Estados</h3>
+    <div class="doc-demo">
+      <ui-button disabled>Disabled</ui-button>
+      <ui-button loading>Guardando</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">disabled</span>&gt;Disabled&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">loading</span>&gt;Guardando&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h3>Sobre fondo oscuro (<code>inverted</code>)</h3>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Agregá <code>inverted</code> y cualquier variante se recolorea para leerse sobre una superficie oscura. No es un giro de tono complementario: todo colapsa hacia el blanco y blancos con transparencia, así que tu tema no cambia de color — solo se adapta. Cada variante conserva su forma (primary sólido, secondary relleno suave, ghost pelado, outlined con borde).</p>
+    <div class="doc-demo" style="background:#18181b">
+      <ui-button inverted>Primary</ui-button>
+      <ui-button inverted variant="secondary">Secondary</ui-button>
+      <ui-button inverted variant="ghost">Ghost</ui-button>
+      <ui-button inverted variant="danger">Danger</ui-button>
+      <ui-button inverted variant="outlined">Outlined</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">inverted</span>&gt;Primary&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">inverted</span> <span class="attr">variant</span>=<span class="str">"ghost"</span>&gt;Ghost&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h3>Como link (<code>href</code>)</h3>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Con <code>href</code> renderiza un <code>&lt;a&gt;</code> real en vez de un <code>&lt;button&gt;</code>, con las mismas clases/variantes — <code>target</code> solo tiene efecto cuando hay <code>href</code> (agrega <code>rel="noopener noreferrer"</code> automáticamente con <code>target="_blank"</code>).</p>
+    <div class="doc-demo">
+      <ui-button href="#" variant="primary">Ir al sitio</ui-button>
+      <ui-button href="#" target="_blank" variant="secondary" icon="arrow-right" icon-position="end">Abrir en pestaña nueva</ui-button>
+      <ui-button href="#" disabled variant="outlined">Link disabled</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">href</span>=<span class="str">"/precios"</span>&gt;Ir al sitio&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-button</span> <span class="attr">href</span>=<span class="str">"https://ejemplo.com"</span> <span class="attr">target</span>=<span class="str">"_blank"</span>&gt;Abrir en pestaña nueva&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td>"primary" | "secondary" | "ghost" | "outlined"</td><td><code>"primary"</code></td><td class="desc">Forma del botón. <code>"danger"</code> sigue aceptado como alias legado de <code>variant="primary" color="danger"</code>.</td></tr>
+        <tr><td><code>color</code></td><td>"brand" | "base" | "success" | "warning" | "danger" | "info"</td><td><code>""</code></td><td class="desc">Paleta, independiente de <code>variant</code>. Sin definir, cada <code>variant</code> mantiene su color de siempre.</td></tr>
+        <tr><td><code>inverted</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Recolorea para una superficie oscura. Sin <code>color</code> colapsa hacia blanco/blanco translúcido; con un <code>color</code> semántico (success/warning/danger/info) mantiene el matiz pero en tono saturado legible sobre oscuro.</td></tr>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Tamaño del botón.</td></tr>
+        <tr><td><code>type</code></td><td>"button" | "submit" | "reset"</td><td><code>"button"</code></td><td class="desc">Tipo nativo, para uso dentro de <code>&lt;form&gt;</code>.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el botón.</td></tr>
+        <tr><td><code>loading</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Muestra un <a href="../spinner/spinner.html">Spinner</a> y deshabilita el botón.</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de un ícono del set de <a href="../icon/icon.html">Icon</a>. Sin texto visible, el botón queda solo-ícono (reemplaza al viejo <code>ui-button-icon</code>).</td></tr>
+        <tr><td><code>icon-position</code></td><td>"start" | "end"</td><td><code>"start"</code></td><td class="desc">Lado del ícono respecto al texto. Ignorado en modo solo-ícono.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre accesible (<code>aria-label</code>) — obligatorio cuando el botón queda solo-ícono.</td></tr>
+        <tr><td><code>href</code></td><td>string</td><td><code>""</code></td><td class="desc">Si está presente, renderiza un <code>&lt;a href&gt;</code> en vez de un <code>&lt;button&gt;</code> (mismas clases/variantes).</td></tr>
+        <tr><td><code>target</code></td><td>string</td><td><code>""</code></td><td class="desc">Solo aplica junto con <code>href</code>. Con <code>"_blank"</code> agrega <code>rel="noopener noreferrer"</code> automáticamente.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Texto o contenido del botón (puede incluir <code>ui-icon</code>).</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El <code>&lt;button&gt;</code> interno es nativo — escuchá <code>click</code> directamente sobre <code>ui-button</code>, se propaga normalmente.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-button</span> [<span class="attr">loading</span>]=<span class="str">"saving"</span> (click)=<span class="str">"save()"</span>&gt;
+  Guardar
+&lt;/<span class="tag">ui-button</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-button</span> <span class="attr">wire:click</span>=<span class="str">"save"</span> <span class="attr">wire:loading.attr</span>=<span class="str">"loading"</span>&gt;
+  Guardar
+&lt;/<span class="tag">ui-button</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;button&gt;</code> nativo interno: <code>Tab</code>, <code>Enter</code>/<code>Space</code> y foco funcionan sin código adicional.</li>
+      <li>Foco visible vía <code>focus-visible:outline</code> en las 4 variantes.</li>
+      <li><code>disabled</code>/<code>loading</code> deshabilitan el control real, no solo visualmente.</li>
+      <li>Área táctil mínima 44×44px en <code>size="lg"</code>; verificar en <code>size="sm"</code> para variantes táctiles.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

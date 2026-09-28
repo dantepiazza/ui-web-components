@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Upload · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/file-upload.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>File Upload</h1>
+    <p class="doc-lede">Dropzone de arrastrar-y-soltar sobre un input de archivo nativo, con lista de seleccionados y quitar individual.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-file-upload accept="image/*" multiple style="width:100%"></ui-file-upload>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-file-upload</span> <span class="attr">accept</span>=<span class="str">"image/*"</span> <span class="attr">multiple</span>&gt;&lt;/<span class="tag">ui-file-upload</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>accept</code></td><td>string</td><td><code>""</code></td><td class="desc">Filtro de tipos de archivo, formato nativo (<code>"image/*"</code>, <code>".pdf"</code>, etc).</td></tr>
+        <tr><td><code>multiple</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Permite elegir/soltar varios archivos.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>"Arrastrá archivos acá..."</code></td><td class="desc">Texto del dropzone.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-input</code></td><td><code>{ files }</code></td><td class="desc">Al agregar o quitar archivos. <code>files</code> es un array de <code>File</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-file-upload</span> <span class="attr">accept</span>=<span class="str">"image/*"</span> <span class="attr">multiple</span>
+  (ui-input)=<span class="str">"files = $event.detail.files"</span>&gt;&lt;/<span class="tag">ui-file-upload</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-file-upload</span> <span class="attr">accept</span>=<span class="str">"image/*"</span> <span class="attr">multiple</span>
+  <span class="attr">x-on:ui-input</span>=<span class="str">"$wire.uploadFiles($event.detail.files)"</span>&gt;&lt;/<span class="tag">ui-file-upload</span>&gt;
+<span class="comment">// Livewire necesita $wire.upload() con su propio manejo de FormData para subir de verdad</span></pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El dropzone es un <code>&lt;label&gt;</code> asociado al input real (<code>sr-only</code>) — clickeable y activable por teclado (foco en el label + Enter abre el diálogo del navegador).</li>
+      <li>Cada archivo en la lista tiene su botón de quitar con <code>aria-label</code> incluyendo el nombre del archivo.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

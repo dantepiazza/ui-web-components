@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pull to Refresh · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/spinner.js" defer></script>
+  <script src="../dist/pull-refresh.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Utilidades</p>
+    <h1>Pull to Refresh</h1>
+    <p class="doc-lede">Envolvé contenido scrolleable en <code>&lt;ui-pull-refresh&gt;</code>. En dispositivos táctiles, arrastrar hacia abajo desde el tope muestra un spinner y, pasado un umbral, dispara el evento <code>ui-refresh</code> (burbujea). El spinner queda girando hasta que llamás <code>.complete()</code> sobre el elemento — mismo flujo que el <code>ion-refresher</code> de Ionic.</p>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><strong>Solo touch.</strong> Con mouse no hay gesto de pull — el contenido scrollea normal.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="display:block;padding:0">
+      <ui-pull-refresh id="demo" style="height:16rem">
+        <ul style="margin:0;padding:1rem 1.25rem;list-style:none;display:grid;gap:.75rem">
+          <li>Elemento 1</li><li>Elemento 2</li><li>Elemento 3</li><li>Elemento 4</li>
+          <li>Elemento 5</li><li>Elemento 6</li><li>Elemento 7</li><li>Elemento 8</li>
+          <li>Elemento 9</li><li>Elemento 10</li><li>Elemento 11</li><li>Elemento 12</li>
+        </ul>
+      </ui-pull-refresh>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-pull-refresh</span> <span class="attr">id</span>=<span class="str">"feed"</span>&gt;
+  <span class="comment">&lt;!-- lista larga --&gt;</span>
+&lt;/<span class="tag">ui-pull-refresh</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  feed.addEventListener(<span class="str">'ui-refresh'</span>, <span class="attr">async</span> () =&gt; {
+    <span class="attr">await</span> recargarDatos();
+    feed.complete();
+  });
+&lt;/<span class="tag">script</span>&gt;</pre>
+    <script>
+      document.getElementById('demo')?.addEventListener('ui-refresh', (e) => {
+        setTimeout(() => e.target.complete(), 1400);
+      });
+    </script>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-refresh</code></td><td class="desc">Se dispara al soltar tras pasar el umbral de arrastre. Burbujea. En el handler recargá los datos y llamá <code>event.target.complete()</code> al terminar.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Métodos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Método</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>.complete()</code></td><td class="desc">Retrae el spinner y termina el estado de refresco. Obligatorio llamarlo — si no, el spinner queda para siempre.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Notas</h2>
+    <ul class="doc-checklist">
+      <li>El host se vuelve el contenedor de scroll (<code>overflow-y-auto</code>) — dale una altura acotada.</li>
+      <li>El gesto solo se arma cuando el scroll está en el tope (<code>scrollTop === 0</code>).</li>
+      <li>Sin <code>&lt;div&gt;</code> envolvente: solo se antepone un indicador chico; tu contenido queda intacto.</li>
+      <li>Da una alternativa sin gesto para refrescar (un botón), como pide WCAG 2.5.1.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modal · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/modal.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/input.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Overlays</p>
+    <h1>Modal</h1>
+    <p class="doc-lede">Panel flotante de contenido <strong>libre</strong> — vos decidís qué va adentro: un form, un video, otro componente, HTML sin límites. No es <a href="../dialog/dialog.html">Dialog</a> (esa es la caja fija de "mensaje + acciones" para confirmaciones). El modal solo sabe abrirse, cerrarse, y pasar datos de entrada/salida — el contenido y su estructura son enteramente tuyos.</p>
+
+    <h2>Uso básico (centrado)</h2>
+    <div class="doc-demo">
+      <ui-button size="sm" id="modal-trigger">Abrir modal</ui-button>
+      <ui-modal id="demo-modal">
+        <template>
+          <h3 style="margin:0 0 0.75rem;font-size:1.05rem;font-weight:600">Cualquier contenido acá</h3>
+          <p style="margin:0 0 1rem;color:#71717a;font-size:0.875rem">Un form, un video embebido, un <code>ui-tabs</code>, lo que sea — el modal no define título/cuerpo/footer, es un contenedor en blanco.</p>
+          <ui-input label="Nombre" placeholder="Escribí algo" style="margin-bottom:1rem"></ui-input>
+          <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+            <ui-button size="sm" variant="secondary" id="modal-close">Cerrar</ui-button>
+          </div>
+        </template>
+      </ui-modal>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-modal</span> <span class="attr">id</span>=<span class="str">"demo-modal"</span>&gt;
+  &lt;<span class="tag">template</span>&gt;
+    <span class="comment">&lt;!-- lo que quieras --&gt;</span>
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-modal</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">document.getElementById('modal-trigger').onclick = () =&gt;</span>
+  <span class="comment">  document.getElementById('demo-modal').show();</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Drawer (position="left" / "right")</h2>
+    <div class="doc-demo">
+      <ui-button size="sm" variant="secondary" id="drawer-trigger">Abrir drawer</ui-button>
+      <ui-modal id="demo-drawer" position="right">
+        <template>
+          <h3 style="margin:0 0 1rem;font-size:1.05rem;font-weight:600">Filtros</h3>
+          <p style="color:#71717a;font-size:0.875rem">Mismo componente, se desliza desde el borde. En mobile pasa a pantalla completa — un drawer angosto no funciona en un celular.</p>
+        </template>
+      </ui-modal>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-modal</span> <span class="attr">id</span>=<span class="str">"demo-drawer"</span> <span class="attr">position</span>=<span class="str">"right"</span>&gt;
+  &lt;<span class="tag">template</span>&gt;...&lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-modal</span>&gt;</pre>
+
+    <h2>Pasar datos (entrada y salida)</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El modal no sabe qué significa tu contenido — solo lo transporta. <code>.show(data)</code> guarda <code>data</code> en <code>modal.data</code> antes de abrir (tu contenido lo lee para precargar valores); <code>.close(result)</code> lo manda de vuelta en <code>detail.result</code> del evento <code>ui-modal-close</code>.</p>
+    <pre class="doc-code">modal.addEventListener('ui-modal-close', (e) =&gt; {
+  console.log('resultado:', e.detail.result);
+});
+
+editBtn.onclick = () =&gt; {
+  modal.show({ id: 42, name: 'Producto A' }); <span class="comment">// modal.data adentro del template</span>
+};
+
+<span class="comment">// dentro de tu contenido, al guardar:</span>
+saveBtn.onclick = () =&gt; modal.close({ saved: true, name: input.value });</pre>
+
+    <h2>Props / API</h2>
+    <table class="doc-table">
+      <thead><tr><th>Miembro</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code></td><td>boolean (atributo)</td><td class="desc">Refleja el estado abierto/cerrado.</td></tr>
+        <tr><td><code>position</code></td><td>"center" | "left" | "right" (atributo)</td><td class="desc">"center" (default): panel centrado. "left"/"right": drawer. Las tres van pantalla completa en mobile.</td></tr>
+        <tr><td><code>.show(data?)</code></td><td>método</td><td class="desc">Abre. <code>data</code> (opcional) queda en <code>modal.data</code> para que tu contenido lo lea.</td></tr>
+        <tr><td><code>.close(result?)</code></td><td>método</td><td class="desc">Cierra. <code>result</code> (opcional) viaja en <code>detail.result</code> del evento de cierre.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Elemento</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>&lt;template&gt;</code></td><td class="desc">Todo el contenido del modal, clonado una vez al conectar. Sin estructura impuesta — título, footer, layout, todo lo definís vos.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-modal-close</code></td><td class="desc">Al cerrarse (Escape, click en el backdrop, o <code>.close(result)</code>). <code>detail: { result }</code>.</td></tr></tbody>
+    </table>
+
+    <h2>¿Modal o Dialog?</h2>
+    <ul class="doc-checklist">
+      <li><strong>Dialog</strong> — mensaje, confirmación, o un form chico que SIEMPRE se ve como una caja de diálogo centrada. Nunca cambia de forma según el viewport. Trae <code>confirm()</code>/<code>prompt()</code> de regalo.</li>
+      <li><strong>Modal</strong> — panel de contenido libre (cualquier HTML), puede ser centrado o drawer izquierdo/derecho, y pasa a pantalla completa en mobile. No impone título/cuerpo/footer.</li>
+    </ul>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>showModal()</code> nativo: foco atrapado dentro del modal (también en los drawers), <code>Escape</code> cierra, el resto de la página queda <code>inert</code> automáticamente.</li>
+      <li>El foco vuelve al elemento que abrió el modal al cerrarse (comportamiento nativo del navegador).</li>
+      <li>Click en el backdrop (fuera del contenido) cierra el modal.</li>
+      <li>Como el contenido es libre, el foco inicial y el <code>aria-label</code>/título del panel quedan a tu cargo — a diferencia de Dialog, acá no hay estructura que el componente pueda anotar por vos.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('modal-trigger').addEventListener('click', () => document.getElementById('demo-modal').show());
+    document.getElementById('drawer-trigger').addEventListener('click', () => document.getElementById('demo-drawer').show());
+    document.addEventListener('click', (e) => {
+      // closest(), no e.target.id: el click real llega del <button> interno de
+      // <ui-button> (Light DOM), no del host que tiene el id.
+      if (e.target.closest('#modal-close')) document.getElementById('demo-modal').close();
+    });
+  </script>
+</body>
+</html>

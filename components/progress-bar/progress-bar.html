@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Progress Bar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/progress-bar.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Feedback</p>
+    <h1>Progress Bar</h1>
+    <p class="doc-lede">Barra de progreso con valor conocido. Para carga de duración desconocida, usá <a href="../spinner/spinner.html">Spinner</a> o el modo <code>indeterminate</code>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:0.75rem">
+      <ui-progress-bar value="30"></ui-progress-bar>
+      <ui-progress-bar value="70" variant="success"></ui-progress-bar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-progress-bar</span> <span class="attr">value</span>=<span class="str">"30"</span>&gt;&lt;/<span class="tag">ui-progress-bar</span>&gt;</pre>
+
+    <h3>Indeterminado</h3>
+    <div class="doc-demo">
+      <ui-progress-bar indeterminate></ui-progress-bar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-progress-bar</span> <span class="attr">indeterminate</span>&gt;&lt;/<span class="tag">ui-progress-bar</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>number</td><td><code>0</code></td><td class="desc">Valor actual, entre 0 y <code>max</code>.</td></tr>
+        <tr><td><code>max</code></td><td>number</td><td><code>100</code></td><td class="desc">Valor máximo.</td></tr>
+        <tr><td><code>variant</code></td><td>"primary" | "success" | "warning" | "danger"</td><td><code>"primary"</code></td><td class="desc">Color de la barra.</td></tr>
+        <tr><td><code>indeterminate</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Anima una barra corta en loop, ignorando <code>value</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-progress-bar</span> [<span class="attr">value</span>]=<span class="str">"uploadPercent"</span>&gt;&lt;/<span class="tag">ui-progress-bar</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-progress-bar</span> <span class="attr">value</span>=<span class="str">"{{ $uploadPercent }}"</span>&gt;&lt;/<span class="tag">ui-progress-bar</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Expone <code>role="progressbar"</code> con <code>aria-valuemin</code>/<code>aria-valuemax</code>/<code>aria-valuenow</code> (este último omitido en modo indeterminado, como indica el patrón ARIA).</li>
+      <li>Contraste de la barra de relleno AA sobre el track claro en las 4 variantes.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

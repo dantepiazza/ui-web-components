@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metergroup · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/metergroup.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Metergroup</h1>
+    <p class="doc-lede">Barra apilada con leyenda — reparto proporcional entre varias categorías (ej. horas por área). Migrado del catálogo interno de <code>panel-assets</code> (<code>.metergroup</code>), candidato surgido de la comparación 1 a 1.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-metergroup id="meter-demo" style="width:100%"></ui-metergroup>
+    </div>
+    <pre class="doc-code"><span class="comment">// las categorías se pasan como propiedad JS, no como atributos</span>
+&lt;<span class="tag">ui-metergroup</span> <span class="attr">id</span>=<span class="str">"meter"</span>&gt;&lt;/<span class="tag">ui-metergroup</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">document.getElementById('meter').segments = [</span>
+  <span class="comment">  { label: 'Backend', value: 45, variant: 'primary' },</span>
+  <span class="comment">  { label: 'Frontend', value: 30, variant: 'success' },</span>
+  <span class="comment">  { label: 'QA', value: 25, variant: 'warning' },</span>
+  <span class="comment">];</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>segments</code></td><td><code>{ label, value, variant }[]</code></td><td><code>[]</code></td><td class="desc"><code>value</code> en porcentaje (0-100). <code>variant</code>: "neutral" | "primary" | "success" | "warning" | "danger" | "info" | "purple".</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots — todo el contenido sale de <code>segments</code>.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>La leyenda repite el valor numérico como texto — el color nunca es el único portador de significado.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('meter-demo').segments = [
+      { label: 'Backend', value: 45, variant: 'primary' },
+      { label: 'Frontend', value: 30, variant: 'success' },
+      { label: 'QA', value: 25, variant: 'warning' },
+    ];
+  </script>
+</body>
+</html>

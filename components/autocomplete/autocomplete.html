@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoComplete · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/autocomplete.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>AutoComplete</h1>
+    <p class="doc-lede">Input de texto que filtra una lista de opciones a medida que escribís (coincidencia de substring, client-side). Como <a href="../select/select.html">Select</a>, pero navegable por texto en vez de solo por click.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-autocomplete placeholder="Buscar país..." style="width:16rem">
+        <ui-option value="ar">Argentina</ui-option>
+        <ui-option value="br">Brasil</ui-option>
+        <ui-option value="cl">Chile</ui-option>
+        <ui-option value="co">Colombia</ui-option>
+        <ui-option value="mx">México</ui-option>
+        <ui-option value="uy">Uruguay</ui-option>
+      </ui-autocomplete>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-autocomplete</span> <span class="attr">placeholder</span>=<span class="str">"Buscar país..."</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"ar"</span>&gt;Argentina&lt;/<span class="tag">ui-option</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"br"</span>&gt;Brasil&lt;/<span class="tag">ui-option</span>&gt;
+&lt;/<span class="tag">ui-autocomplete</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>string</td><td><code>""</code></td><td class="desc">Valor seleccionado.</td></tr>
+        <tr><td><code>placeholder</code></td><td>string</td><td><code>"Buscar..."</code></td><td class="desc">Placeholder del input.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Opciones — se leen una sola vez al conectar (no reactivo a cambios posteriores del DOM).</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-input</code></td><td><code>{ value }</code></td><td class="desc">En cada tecleo (texto libre, no necesariamente una opción válida todavía).</td></tr>
+        <tr><td><code>ui-change</code></td><td><code>{ value, label }</code></td><td class="desc">Al elegir una opción de la lista.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-autocomplete</span> (ui-change)=<span class="str">"country = $event.detail.value"</span>&gt;
+  &lt;<span class="tag">ui-option</span> *ngFor=<span class="str">"let c of countries"</span> [<span class="attr">value</span>]=<span class="str">"c.code"</span>&gt;{{ c.name }}&lt;/<span class="tag">ui-option</span>&gt;
+&lt;/<span class="tag">ui-autocomplete</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-autocomplete</span> <span class="attr">x-on:ui-change</span>=<span class="str">"$wire.country = $event.detail.value"</span>&gt;
+  @foreach ($countries as $c)
+    &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"{{ $c->code }}"</span>&gt;{{ $c->name }}&lt;/<span class="tag">ui-option</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-autocomplete</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>role="combobox"</code> con <code>aria-expanded</code>/<code>aria-autocomplete="list"</code>; resultados con <code>role="listbox"</code>/<code>role="option"</code>.</li>
+      <li>Flechas arriba/abajo navegan resultados, <code>Enter</code> selecciona, <code>Escape</code> cierra.</li>
+      <li>Filtrado 100% client-side en v1 — para listas grandes o búsqueda server-side, hay que extenderlo (no incluido todavía).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

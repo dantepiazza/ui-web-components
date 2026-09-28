@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Card · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/profile-card.js" defer></script>
+  <script src="../dist/avatar.js" defer></script>
+  <script src="../dist/tag.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Profile Card</h1>
+    <p class="doc-lede">Avatar + título + subtítulo, genérico a propósito: una persona, un workspace, un producto, un equipo — cualquier cosa con una imagen, un nombre y una línea de contexto. Migrado del catálogo interno de <code>panel-assets</code> (<code>.candidate-card</code>), generalizado — candidato surgido de la comparación 1 a 1.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="width:100%">
+      <ui-profile-card avatar-text="JP" title="Juan Pérez" subtitle="Frontend · Córdoba" style="width:100%"></ui-profile-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-profile-card</span> <span class="attr">avatar-text</span>=<span class="str">"JP"</span> <span class="attr">title</span>=<span class="str">"Juan Pérez"</span> <span class="attr">subtitle</span>=<span class="str">"Frontend · Córdoba"</span>&gt;
+&lt;/<span class="tag">ui-profile-card</span>&gt;</pre>
+
+    <h3>Con contenido extra</h3>
+    <div class="doc-demo" style="width:100%">
+      <ui-profile-card avatar-text="AC" title="Acme Workspace" subtitle="12 miembros" style="width:100%">
+        <ui-tag variant="success">Activo</ui-tag>
+      </ui-profile-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-profile-card</span> <span class="attr">avatar-text</span>=<span class="str">"AC"</span> <span class="attr">title</span>=<span class="str">"Acme Workspace"</span> <span class="attr">subtitle</span>=<span class="str">"12 miembros"</span>&gt;
+  &lt;<span class="tag">ui-tag</span> <span class="attr">variant</span>=<span class="str">"success"</span>&gt;Activo&lt;/<span class="tag">ui-tag</span>&gt;
+&lt;/<span class="tag">ui-profile-card</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>avatar-src</code></td><td>string</td><td><code>""</code></td><td class="desc">URL de la imagen del avatar. Sin ella, cae a iniciales.</td></tr>
+        <tr><td><code>avatar-text</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto para las iniciales del avatar. Sin él, se derivan de <code>title</code>.</td></tr>
+        <tr><td><code>title</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre/título principal.</td></tr>
+        <tr><td><code>subtitle</code></td><td>string</td><td><code>""</code></td><td class="desc">Línea de contexto debajo del título.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Contenido extra debajo del subtítulo — tags, meta rows, botones de acción.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Usa <a href="../avatar/avatar.html">Avatar</a> internamente — mismo fallback a iniciales y <code>role="img"</code> con <code>aria-label</code>.</li>
+      <li>Título y subtítulo son texto real, sin truncado forzado salvo el título en una sola línea.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

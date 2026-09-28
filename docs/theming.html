@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theming · UI Web Components</title>
+  <link rel="stylesheet" href="./css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./js/uiwc-tailwind.js"></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Guía</p>
+    <h1>Personalizar colores &amp; modo oscuro</h1>
+    <p class="doc-lede">Los componentes no usan <code>zinc</code>/<code>emerald</code> directo — usan una paleta semántica respaldada por CSS custom properties (<code>--ui-*</code>). Redefinir esas variables re-tematiza toda la librería, incluso con el CSS ya compilado y sin recompilar.</p>
+
+    <h2>Tokens</h2>
+    <table class="doc-table">
+      <thead><tr><th>Token</th><th class="desc">Para qué</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>base-50…950</code></td><td class="desc">Escala neutra: texto, bordes, fondos, rellenos, disabled</td><td><code>zinc</code></td></tr>
+        <tr><td><code>surface</code></td><td class="desc">Superficies elevadas: cards, inputs, modales, popovers, topbar</td><td><code>white</code></td></tr>
+        <tr><td><code>brand-50…950</code></td><td class="desc">Acento: botón primary, estados activos, focus rings, slider/progress</td><td>= <code>base</code></td></tr>
+        <tr><td><code>brand-fg</code></td><td class="desc">Texto/ícono encima de un fondo <code>brand</code></td><td><code>white</code></td></tr>
+        <tr><td><code>success</code> · <code>warning</code> · <code>danger</code> · <code>info</code> (+ <code>-fg</code>)</td><td class="desc">Estados semánticos (callout, toast, validación, progress)</td><td>emerald · amber · rose · blue</td></tr>
+      </tbody>
+    </table>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Cada token es <code>rgb(var(--ui-TOKEN, &lt;default&gt;) / &lt;alpha-value&gt;)</code>: funciona la opacidad (<code>bg-brand-600/10</code>), cae al default si no lo definís, y los valores son <strong>canales RGB separados por espacio</strong> (<code>24 24 27</code>), no <code>#hex</code>.</p>
+
+    <h2>Con el CSS compilado (dos tags)</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Cargá tu <code>:root</code> <strong>después</strong> de <code>ui-web-components.css</code>:</p>
+    <pre class="doc-code">:root {
+  <span class="comment">/* marca azul — solo el acento, el texto/neutro no se toca */</span>
+  --ui-brand-500: 59 130 246;
+  --ui-brand-600: 37 99 235;
+  --ui-brand-900: 30 58 138;
+  --ui-brand-fg:  255 255 255;
+}</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">El botón primary usa <code>brand-900</code>. Si tu marca es un mid-tone y no querés que quede oscuro, poné ese valor en el slot <code>900</code> — o pisá solo el botón: <code>.ui-button.bg-brand-900 { background-color: #005ffe }</code>.</p>
+
+    <h2>Con tu propio build de Tailwind</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Extendé <code>theme.extend.colors</code> con los mismos nombres (<code>base</code>, <code>brand</code>, <code>surface</code>, <code>success</code>…) y sumá los <code>.js</code> de la librería al <code>content</code>. El <code>:root</code> de referencia está en <code>scripts/tailwind-input.css</code>.</p>
+
+    <h2>Modo oscuro</h2>
+    <ul class="doc-checklist">
+      <li>Disparador: el atributo global <code>ui-theme-toggle</code> en cualquier elemento, o <code>window.__uiwc.setTheme('dark'|'light')</code>. Persiste en <code>localStorage</code>.</li>
+      <li>Bajo <code>.dark</code> la escala <code>base</code>/<code>brand</code> se invierte y los estados se aclaran — todo componente que use <code>bg-base-*</code> se re-tematiza solo.</li>
+      <li>Si togglés <code>.dark</code> a mano: agregá una clase con <code>transition: none !important</code>, flipeá, forzá un reflow, sacala en el próximo frame — Chromium se queda con el color viejo si solo cambió la variable (<a href="https://crbug.com/1226629">crbug.com/1226629</a>). <code>ui-theme-toggle</code> ya lo hace; la clase <code>.uiwc-theme-switching</code> viene en el CSS.</li>
+      <li>Personalizá el dark redefiniendo <code>--ui-*</code> dentro de tu propio <code>.dark { … }</code>.</li>
+    </ul>
+  </main>
+  <script src="./js/docs.js"></script>
+</body>
+</html>

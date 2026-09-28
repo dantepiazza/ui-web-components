@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flag · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/flag.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Flag</h1>
+    <p class="doc-lede">Bandera de país a partir de un código ISO 3166-1 alpha-2. Los países con SVG propio (hoy solo <code>AR</code>, a modo de referencia — el resto queda como deuda pendiente) se ven idénticos en cualquier navegador/SO; todo lo demás cae al emoji nativo, que en Windows suele mostrarse como las dos letras del código en vez del gráfico.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-flag country="AR"></ui-flag>
+      <ui-flag country="BR"></ui-flag>
+      <ui-flag country="US"></ui-flag>
+      <ui-flag country="ES"></ui-flag>
+    </div>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Arriba: <code>AR</code> es SVG real, el resto es fallback a emoji (en Windows se ve como texto — es la deuda pendiente).</p>
+    <pre class="doc-code">&lt;<span class="tag">ui-flag</span> <span class="attr">country</span>=<span class="str">"AR"</span>&gt;&lt;/<span class="tag">ui-flag</span>&gt;</pre>
+
+    <h3>Tamaños</h3>
+    <div class="doc-demo">
+      <ui-flag country="AR" size="sm"></ui-flag>
+      <ui-flag country="AR" size="md"></ui-flag>
+      <ui-flag country="AR" size="lg"></ui-flag>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-flag</span> <span class="attr">country</span>=<span class="str">"AR"</span> <span class="attr">size</span>=<span class="str">"lg"</span>&gt;&lt;/<span class="tag">ui-flag</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>country</code></td><td>string</td><td><code>""</code></td><td class="desc">Código ISO 3166-1 alpha-2 (<code>"AR"</code>, <code>"BR"</code>, etc). Case-insensitive.</td></tr>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Tamaño del emoji.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos. Si <code>country</code> no es un código válido, loguea un warning y no renderiza nada.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-flag</span> [<span class="attr">country</span>]=<span class="str">"user.countryCode"</span>&gt;&lt;/<span class="tag">ui-flag</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-flag</span> <span class="attr">country</span>=<span class="str">"{{ $user->country_code }}"</span>&gt;&lt;/<span class="tag">ui-flag</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>role="img"</code> con <code>aria-label="Bandera de XX"</code> — los emoji de bandera no siempre se anuncian de forma clara por sí solos en todos los lectores de pantalla.</li>
+      <li>Requiere que el sistema operativo/fuente tenga soporte de emoji de bandera (universal en iOS/Android/macOS; Windows lo soporta desde Windows 11 — en Windows 10 puede mostrar el código de país en texto en vez del gráfico).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

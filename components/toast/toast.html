@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toast · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/toast.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Feedback</p>
+    <h1>Toast</h1>
+    <p class="doc-lede">Notificación que se autodescarta. Se agrega al DOM (normalmente a un contenedor fijo en una esquina) y se elimina sola después de <code>duration</code> ms, o al hacer click en cerrar.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-button size="sm" id="toast-trigger">Mostrar toast</ui-button>
+      <ui-button size="sm" variant="secondary" id="toast-heading-trigger">Con título</ui-button>
+    </div>
+    <div id="toast-container" style="position:fixed;top:1rem;right:1rem;z-index:50;display:flex;flex-direction:column;gap:0.5rem;width:20rem"></div>
+    <pre class="doc-code">&lt;<span class="tag">div</span> <span class="attr">id</span>=<span class="str">"toast-container"</span> style=<span class="str">"position:fixed;top:1rem;right:1rem"</span>&gt;&lt;/<span class="tag">div</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">// al confirmar una acción:</span>
+  <span class="comment">const toast = document.createElement('ui-toast');</span>
+  <span class="comment">toast.setAttribute('variant', 'success');</span>
+  <span class="comment">toast.textContent = 'Cambios guardados';</span>
+  <span class="comment">document.getElementById('toast-container').appendChild(toast);</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td>"info" | "success" | "warning" | "danger"</td><td><code>"info"</code></td><td class="desc">Ícono y color asociado.</td></tr>
+        <tr><td><code>duration</code></td><td>number</td><td><code>4000</code></td><td class="desc">Milisegundos antes de autodescartarse. <code>0</code> lo deja abierto hasta que lo cierren manualmente.</td></tr>
+        <tr><td><code>heading</code></td><td>string</td><td><code>""</code></td><td class="desc">Título opcional, en negrita, arriba del mensaje.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Mensaje del toast.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-toast-dismiss</code></td><td>—</td><td class="desc">Justo antes de que el toast se remueva solo del DOM (por timeout o por click en cerrar).</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">createToast(msg: string, variant = 'info') {
+  const el = document.createElement('ui-toast');
+  el.setAttribute('variant', variant);
+  el.textContent = msg;
+  this.toastContainer.nativeElement.appendChild(el);
+}</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">div</span> <span class="attr">x-data</span> <span class="attr">x-on:notify.window</span>=<span class="str">"..."</span>&gt;
+  <span class="comment">// disparar desde Livewire con $dispatch('notify', { message, variant })</span>
+  <span class="comment">// y crear el &lt;ui-toast&gt; en el handler de Alpine</span>
+&lt;/<span class="tag">div</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>role="status"</code> + <code>aria-live="polite"</code> — se anuncia sin robar el foco.</li>
+      <li>El botón de cierre tiene <code>aria-label="Cerrar"</code>.</li>
+      <li>4 segundos por defecto es suficiente para leer mensajes cortos; para mensajes largos, subí <code>duration</code> o usá <code>duration="0"</code> con cierre manual.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('toast-trigger').addEventListener('click', () => {
+      const toast = document.createElement('ui-toast');
+      toast.setAttribute('variant', 'success');
+      toast.textContent = 'Cambios guardados';
+      document.getElementById('toast-container').appendChild(toast);
+    });
+    document.getElementById('toast-heading-trigger').addEventListener('click', () => {
+      const toast = document.createElement('ui-toast');
+      toast.setAttribute('variant', 'danger');
+      toast.setAttribute('heading', 'Error');
+      toast.textContent = 'No se pudo completar la acción.';
+      document.getElementById('toast-container').appendChild(toast);
+    });
+  </script>
+</body>
+</html>

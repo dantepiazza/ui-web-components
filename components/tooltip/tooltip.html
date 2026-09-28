@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tooltip · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/tooltip.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Overlays</p>
+    <h1>Tooltip</h1>
+    <p class="doc-lede">No es un componente que envuelve — es un <strong>atributo global</strong>. Poné <code>ui-tooltip="texto"</code> en cualquier elemento (botón, ícono, texto plano, lo que sea) y muestra un globo flotante al pasar el mouse o enfocarlo. Se cierra con <code>Escape</code>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="padding-top:2.5rem;padding-bottom:2.5rem">
+      <ui-button size="sm" variant="secondary" ui-tooltip="Guardar cambios">Hover o foco acá</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">ui-tooltip</span>=<span class="str">"Guardar cambios"</span>&gt;Hover o foco acá&lt;/<span class="tag">ui-button</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Funciona igual en cualquier elemento — no hace falta que sea un componente de la librería:</p>
+    <pre class="doc-code">&lt;<span class="tag">button</span> <span class="attr">ui-tooltip</span>=<span class="str">"Info"</span>&gt;?&lt;/<span class="tag">button</span>&gt;
+&lt;<span class="tag">span</span> <span class="attr">ui-tooltip</span>=<span class="str">"También en texto plano"</span>&gt;algo&lt;/<span class="tag">span</span>&gt;</pre>
+
+    <h3>Posiciones</h3>
+    <div class="doc-demo" style="padding-top:2.5rem;padding-bottom:2.5rem">
+      <ui-button size="sm" variant="secondary" ui-tooltip="Arriba" ui-tooltip-placement="top">Top</ui-button>
+      <ui-button size="sm" variant="secondary" ui-tooltip="Abajo" ui-tooltip-placement="bottom">Bottom</ui-button>
+      <ui-button size="sm" variant="secondary" ui-tooltip="Izquierda" ui-tooltip-placement="left">Left</ui-button>
+      <ui-button size="sm" variant="secondary" ui-tooltip="Derecha" ui-tooltip-placement="right">Right</ui-button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-button</span> <span class="attr">ui-tooltip</span>=<span class="str">"Abajo"</span> <span class="attr">ui-tooltip-placement</span>=<span class="str">"bottom"</span>&gt;...&lt;/<span class="tag">ui-button</span>&gt;</pre>
+
+    <h2>Atributos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-tooltip</code></td><td>string</td><td>—</td><td class="desc">Texto a mostrar. Sin este atributo, el elemento no hace nada — no hay componente que instanciar.</td></tr>
+        <tr><td><code>ui-tooltip-placement</code></td><td>"top" | "bottom" | "left" | "right"</td><td><code>"top"</code></td><td class="desc">Posición relativa al elemento.</td></tr>
+      </tbody>
+    </table>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Ambos nombres siguen el prefijo en runtime como el resto de la librería — con <code>defineComponents('wc')</code> pasan a ser <code>wc-tooltip</code>/<code>wc-tooltip-placement</code>.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El texto se asocia al elemento vía <code>aria-describedby</code>, solo mientras está visible.</li>
+      <li>Se muestra tanto en hover como en foco por teclado (<code>focusin</code>/<code>focusout</code>), no solo con mouse.</li>
+      <li>Se cierra con <code>Escape</code> sin mover el foco.</li>
+      <li><code>pointer-events: none</code> en el globo — nunca intercepta clicks.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

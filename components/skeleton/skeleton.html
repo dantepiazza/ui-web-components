@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skeleton · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/skeleton.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Feedback</p>
+    <h1>Skeleton</h1>
+    <p class="doc-lede">Bloque placeholder animado, para mostrar mientras carga el contenido real.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:0.5rem">
+      <ui-skeleton variant="text"></ui-skeleton>
+      <ui-skeleton variant="text" style="width:70%"></ui-skeleton>
+      <ui-skeleton variant="text" style="width:40%"></ui-skeleton>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-skeleton</span> <span class="attr">variant</span>=<span class="str">"text"</span>&gt;&lt;/<span class="tag">ui-skeleton</span>&gt;</pre>
+
+    <h3>Variantes</h3>
+    <div class="doc-demo">
+      <ui-skeleton variant="circle" width="3rem" height="3rem"></ui-skeleton>
+      <ui-skeleton variant="rect" width="6rem" height="4rem"></ui-skeleton>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-skeleton</span> <span class="attr">variant</span>=<span class="str">"circle"</span> <span class="attr">width</span>=<span class="str">"3rem"</span> <span class="attr">height</span>=<span class="str">"3rem"</span>&gt;&lt;/<span class="tag">ui-skeleton</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td>"text" | "circle" | "rect"</td><td><code>"text"</code></td><td class="desc">Forma del placeholder.</td></tr>
+        <tr><td><code>width</code></td><td>string</td><td><code>""</code></td><td class="desc">Ancho CSS explícito (ej. <code>"3rem"</code>). Sin esto, ocupa el 100% del contenedor.</td></tr>
+        <tr><td><code>height</code></td><td>string</td><td><code>""</code></td><td class="desc">Alto CSS explícito. <code>variant="text"</code> ya trae un alto de línea por defecto.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-skeleton</span> *ngIf=<span class="str">"loading"</span> <span class="attr">variant</span>=<span class="str">"text"</span>&gt;&lt;/<span class="tag">ui-skeleton</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">div</span> <span class="attr">wire:loading</span>&gt;
+  &lt;<span class="tag">ui-skeleton</span> <span class="attr">variant</span>=<span class="str">"text"</span>&gt;&lt;/<span class="tag">ui-skeleton</span>&gt;
+&lt;/<span class="tag">div</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Se renderiza con <code>role="presentation"</code> y <code>aria-hidden="true"</code> — no distrae a lectores de pantalla con contenido irrelevante.</li>
+      <li>El contenido real cargado debe reemplazar completamente el skeleton, no solapar.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

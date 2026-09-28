@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero Card · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/hero-card.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+  <script src="../dist/theme-toggle.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Cards</p>
+    <h1>Hero Card</h1>
+    <p class="doc-lede">Card de promo grande: fondo degradado, resplandor difuminado, ícono, título, texto y botón. Toda la card es el link. <code>tone</code> es un color <strong>literal</strong> (como el <code>variant</code> de <a href="../badge/badge.html">Badge</a>) — cada tono es su propia familia, no un token de tema.</p>
+
+    <ui-button size="sm" variant="secondary" ui-theme-toggle style="margin-bottom:1.5rem">🌓 Probar en modo oscuro</ui-button>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><strong>Se invierte con el tema:</strong> degradado oscuro sobre página clara (default), y la versión clara del mismo tono sobre página oscura — siempre queda como lo más brillante del lugar, nunca el mismo look fijo. Probalo con el botón de arriba.</p>
+
+    <h2>Tonos</h2>
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;padding:1.5rem">
+      <ui-hero-card tone="indigo" icon="pi pi-code" heading="Desplegá una app" text="Instalá WordPress, n8n, Chatwoot y muchas apps más en segundos." button-label="Instalar aplicación" href="#"></ui-hero-card>
+      <ui-hero-card tone="emerald" icon="credit-card" heading="Facturación automática" text="Conectá tu pasarela de pago y cobrá suscripciones." button-label="Configurar cobros" href="#"></ui-hero-card>
+      <ui-hero-card tone="amber" icon="zap" heading="Escalá tus recursos" text="Más CPU, RAM y almacenamiento al instante." button-label="Ver planes" href="#"></ui-hero-card>
+      <ui-hero-card tone="rose" icon="warning" heading="Renovación pendiente" text="Tu plan vence en 3 días." button-label="Renovar ahora" href="#"></ui-hero-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-hero-card</span>
+  <span class="attr">tone</span>=<span class="str">"indigo"</span>
+  <span class="attr">icon</span>=<span class="str">"pi pi-code"</span>
+  <span class="attr">heading</span>=<span class="str">"Desplegá una app"</span>
+  <span class="attr">text</span>=<span class="str">"Instalá WordPress, n8n, Chatwoot y muchas apps más en segundos."</span>
+  <span class="attr">button-label</span>=<span class="str">"Instalar aplicación"</span>
+  <span class="attr">href</span>=<span class="str">"/apps"</span>
+&gt;&lt;/<span class="tag">ui-hero-card</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>tone</code></td><td>"indigo" | "emerald" | "amber" | "rose"</td><td><code>"indigo"</code></td><td class="desc">Familia de color del degradado, ícono y botón.</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de ícono — funciona con el set incorporado o con clases de una fuente externa (ej. PrimeIcons: <code>"pi pi-code"</code>).</td></tr>
+        <tr><td><code>heading</code></td><td>string</td><td><code>""</code></td><td class="desc">Título.</td></tr>
+        <tr><td><code>text</code></td><td>string</td><td><code>""</code></td><td class="desc">Descripción, opcional.</td></tr>
+        <tr><td><code>button-label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto del botón visual. Sin <code>href</code> es solo decorativo — toda la card ya es el link.</td></tr>
+        <tr><td><code>href</code></td><td>string</td><td><code>""</code></td><td class="desc">Si está presente, la card entera es un <code>&lt;a href&gt;</code>.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>¿Hero Card, Banner Card o Nav Card?</h2>
+    <ul class="doc-checklist">
+      <li><strong>Banner Card</strong> — franja angosta, un aviso puntual, color neutro (sigue tu marca vía <code>base</code>/<code>brand</code>).</li>
+      <li><strong>Nav Card</strong> — card chica de navegación/atajo, varios layouts, para grillas densas.</li>
+      <li><strong>Hero Card</strong> (acá) — la más grande y vistosa, un solo CTA destacado, color literal por instancia — para promocionar algo puntual (una app, un upgrade), no para grillas de muchas.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

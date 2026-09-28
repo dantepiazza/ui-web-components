@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accordion · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/accordion.js" defer></script>
+  <script src="../dist/accordion-item.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Accordion</h1>
+    <p class="doc-lede"><code>ui-accordion</code> agrupa varios <code>ui-accordion-item</code> y, salvo que uses <code>multiple</code>, cierra los demás al abrir uno. No captura ni reprocesa el contenido de los items — pueden tener formularios u otros componentes adentro sin perder estado.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked">
+      <ui-accordion style="width:100%">
+        <ui-accordion-item label="¿Cómo instalo el paquete?" open>
+          Con <code>npm install @ui-web-components/components</code>, o linkeando el script+CSS compilado.
+        </ui-accordion-item>
+        <ui-accordion-item label="¿Funciona sin build?">
+          Sí — el modo script+CSS compilado no requiere pipeline de build del lado consumidor.
+        </ui-accordion-item>
+        <ui-accordion-item label="¿Qué licencia tiene?">
+          MIT.
+        </ui-accordion-item>
+      </ui-accordion>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-accordion</span>&gt;
+  &lt;<span class="tag">ui-accordion-item</span> <span class="attr">label</span>=<span class="str">"¿Cómo instalo?"</span> <span class="attr">open</span>&gt;
+    Con npm install...
+  &lt;/<span class="tag">ui-accordion-item</span>&gt;
+  &lt;<span class="tag">ui-accordion-item</span> <span class="attr">label</span>=<span class="str">"¿Funciona sin build?"</span>&gt;
+    Sí...
+  &lt;/<span class="tag">ui-accordion-item</span>&gt;
+&lt;/<span class="tag">ui-accordion</span>&gt;</pre>
+
+    <h2>Props — <code>ui-accordion</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>multiple</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Permite varios items abiertos a la vez. Por defecto, abrir uno cierra los demás.</td></tr></tbody>
+    </table>
+
+    <h2>Props — <code>ui-accordion-item</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Título del header, clickeable.</td></tr>
+        <tr><td><code>open</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Estado expandido.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-accordion</code></td><td>(default)</td><td class="desc">Elementos <code>ui-accordion-item</code>.</td></tr>
+        <tr><td><code>ui-accordion-item</code></td><td>(default)</td><td class="desc">Contenido del panel.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-accordion-toggle</code></td><td><code>{ open }</code></td><td class="desc">En <code>ui-accordion-item</code>, al abrir/cerrar.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-accordion</span>&gt;
+  &lt;<span class="tag">ui-accordion-item</span> *ngFor=<span class="str">"let f of faqs"</span> [<span class="attr">label</span>]=<span class="str">"f.question"</span>&gt;
+    {{ f.answer }}
+  &lt;/<span class="tag">ui-accordion-item</span>&gt;
+&lt;/<span class="tag">ui-accordion</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-accordion</span>&gt;
+  @foreach ($faqs as $f)
+    &lt;<span class="tag">ui-accordion-item</span> <span class="attr">label</span>=<span class="str">"{{ $f->question }}"</span>&gt;{{ $f->answer }}&lt;/<span class="tag">ui-accordion-item</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-accordion</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Header como <code>&lt;button&gt;</code> dentro de <code>&lt;h3&gt;</code>, con <code>aria-expanded</code> y <code>aria-controls</code> apuntando al panel.</li>
+      <li>El panel tiene <code>role="region"</code> y se oculta con el atributo <code>hidden</code> nativo (no solo <code>display:none</code> por CSS).</li>
+      <li>Navegable por teclado como cualquier botón (<code>Tab</code>, <code>Enter</code>/<code>Space</code>).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "ui-web-components",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build-components.mjs && npm run build:css",
+    "build:css": "tailwindcss -c scripts/tailwind.config.cjs -i scripts/tailwind-input.css -o components/dist/ui-web-components.css --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "tailwindcss": "^3.4.19"
+  }
+}

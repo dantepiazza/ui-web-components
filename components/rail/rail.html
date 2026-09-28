@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rail · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/rail.js" defer></script>
+  <script src="../dist/rail-first.js" defer></script>
+  <script src="../dist/rail-last.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Rail</h1>
+    <p class="doc-lede">La franja angosta de íconos al lado de <a href="../sidebar/sidebar.html">Sidebar</a> — workspace switcher, cambiar tema, logout: un control por ícono. En desktop es una tira vertical fija en el borde izquierdo; debajo de 768px se convierte sola en una barra superior horizontal, sin que cambies nada de tu markup.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="padding:0;overflow:hidden;border-radius:0.75rem;height:20rem;position:relative">
+      <ui-rail style="position:absolute">
+        <ui-rail-first>
+          <ui-button variant="ghost" size="sm" icon="home" label="Inicio" class="text-white"></ui-button>
+        </ui-rail-first>
+        <ui-rail-last>
+          <ui-button variant="ghost" size="sm" icon="settings" label="Configuración" class="text-white"></ui-button>
+          <ui-button variant="ghost" size="sm" icon="log-out" label="Salir" class="text-white"></ui-button>
+        </ui-rail-last>
+      </ui-rail>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-rail</span>&gt;
+  &lt;<span class="tag">ui-rail-first</span>&gt;
+    &lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span class="attr">icon</span>=<span class="str">"home"</span> <span class="attr">label</span>=<span class="str">"Inicio"</span>&gt;&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;/<span class="tag">ui-rail-first</span>&gt;
+  &lt;<span class="tag">ui-rail-last</span>&gt;
+    &lt;<span class="tag">ui-button</span> <span class="attr">variant</span>=<span class="str">"ghost"</span> <span class="attr">icon</span>=<span class="str">"settings"</span> <span class="attr">label</span>=<span class="str">"Configuración"</span>&gt;&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;/<span class="tag">ui-rail-last</span>&gt;
+&lt;/<span class="tag">ui-rail</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Achicá la ventana debajo de 768px (o mirá esta demo en mobile) — el rail pasa solo de tira vertical a barra horizontal, con <code>ui-rail-first</code> a la izquierda y <code>ui-rail-last</code> empujado a la derecha.</p>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props — todo el comportamiento responsive es automático. El posicionamiento de página (offset del contenido de al lado) queda del lado de quien consume, igual que <a href="../sidebar/sidebar.html">Sidebar</a>.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-rail-first</code></td><td class="desc">Grupo pegado al inicio (arriba en desktop, izquierda en mobile).</td></tr>
+        <tr><td><code>ui-rail-last</code></td><td class="desc">Grupo pegado al final (abajo en desktop, derecha en mobile).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Es un contenedor puramente de layout — la accesibilidad de cada control (botón, ícono) la da el componente real que pongas adentro, ver <a href="../button/button.html">Button</a>.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

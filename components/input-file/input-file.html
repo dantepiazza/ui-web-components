@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input File · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/input-file.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Input File</h1>
+    <p class="doc-lede">Campo de archivo compacto para una fila de formulario: botón + nombre del archivo elegido. Para un área de arrastrar y soltar con lista de varios archivos, usá <a href="../file-upload/file-upload.html">File Upload</a>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-input-file label="Currículum" accept=".pdf,.doc,.docx" style="width:20rem"></ui-input-file>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-input-file</span> <span class="attr">label</span>=<span class="str">"Currículum"</span> <span class="attr">accept</span>=<span class="str">".pdf,.doc,.docx"</span>&gt;&lt;/<span class="tag">ui-input-file</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Etiqueta visible.</td></tr>
+        <tr><td><code>accept</code></td><td>string</td><td><code>""</code></td><td class="desc">Filtro de tipos, formato nativo (<code>"image/*"</code>, <code>".pdf"</code>).</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-input</code></td><td><code>{ file }</code></td><td class="desc">Al elegir o quitar el archivo. <code>file</code> es un <code>File</code> o <code>null</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-input-file</span> <span class="attr">label</span>=<span class="str">"Currículum"</span> (ui-input)=<span class="str">"resume = $event.detail.file"</span>&gt;&lt;/<span class="tag">ui-input-file</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-input-file</span> <span class="attr">label</span>=<span class="str">"Currículum"</span> <span class="attr">x-on:ui-input</span>=<span class="str">"$wire.upload('resume', $event.detail.file)"</span>&gt;&lt;/<span class="tag">ui-input-file</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El botón "Elegir archivo" es un <code>&lt;label&gt;</code> asociado al input real (<code>sr-only</code>) — clickeable y activable por teclado.</li>
+      <li>El botón de quitar tiene <code>aria-label="Quitar archivo"</code>.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

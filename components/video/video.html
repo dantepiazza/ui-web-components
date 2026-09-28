@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video / Video Playlist · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/video.js" defer></script>
+  <script src="../dist/video-playlist.js" defer></script>
+  <script src="../dist/video-playlist-item.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Media</p>
+    <h1>Video / Video Playlist</h1>
+    <p class="doc-lede"><code>ui-video</code> envuelve un <code>&lt;video controls&gt;</code> nativo — v1 mantiene la barra de controles del navegador (subtítulos, fullscreen, volumen y scrubbing funcionan gratis) en vez de reconstruir controles custom.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" poster="" style="width:100%;max-width:24rem"></ui-video>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-video</span> <span class="attr">src</span>=<span class="str">"clip.mp4"</span> <span class="attr">poster</span>=<span class="str">"thumb.jpg"</span>&gt;&lt;/<span class="tag">ui-video</span>&gt;</pre>
+
+    <h3>Playlist</h3>
+    <div class="doc-demo">
+      <ui-video-playlist style="width:100%;max-width:24rem">
+        <ui-video-playlist-item src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" title="Flor"></ui-video-playlist-item>
+        <ui-video-playlist-item src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" title="Flor (webm)"></ui-video-playlist-item>
+      </ui-video-playlist>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-video-playlist</span>&gt;
+  &lt;<span class="tag">ui-video-playlist-item</span> <span class="attr">src</span>=<span class="str">"clip1.mp4"</span> <span class="attr">poster</span>=<span class="str">"thumb1.jpg"</span> <span class="attr">title</span>=<span class="str">"Intro"</span>&gt;&lt;/<span class="tag">ui-video-playlist-item</span>&gt;
+  &lt;<span class="tag">ui-video-playlist-item</span> <span class="attr">src</span>=<span class="str">"clip2.mp4"</span> <span class="attr">poster</span>=<span class="str">"thumb2.jpg"</span> <span class="attr">title</span>=<span class="str">"Capítulo 1"</span>&gt;&lt;/<span class="tag">ui-video-playlist-item</span>&gt;
+&lt;/<span class="tag">ui-video-playlist</span>&gt;</pre>
+
+    <h2>Props — <code>ui-video</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>src</code></td><td>string</td><td><code>""</code></td><td class="desc">URL del video.</td></tr>
+        <tr><td><code>poster</code></td><td>string</td><td><code>""</code></td><td class="desc">Miniatura antes de reproducir.</td></tr>
+        <tr><td><code>autoplay</code> / <code>loop</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Comportamiento nativo del elemento <code>&lt;video&gt;</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Props — <code>ui-video-playlist-item</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>src</code></td><td>string</td><td class="desc">URL del clip.</td></tr>
+        <tr><td><code>poster</code></td><td>string</td><td class="desc">Miniatura mostrada en la lista y como poster al reproducirse.</td></tr>
+        <tr><td><code>title</code></td><td>string</td><td class="desc">Texto accesible de la miniatura.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>ui-video-playlist</code></td><td class="desc">Elementos <code>ui-video-playlist-item</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emiten eventos propios — usá los eventos nativos del <code>&lt;video&gt;</code> (<code>play</code>, <code>ended</code>, etc) vía <code>.videoElement</code> en <code>ui-video</code>.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-video</span> [<span class="attr">src</span>]=<span class="str">"lesson.videoUrl"</span> [<span class="attr">poster</span>]=<span class="str">"lesson.thumbnail"</span>&gt;&lt;/<span class="tag">ui-video</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-video</span> <span class="attr">src</span>=<span class="str">"{{ $lesson->video_url }}"</span> <span class="attr">poster</span>=<span class="str">"{{ $lesson->thumbnail }}"</span>&gt;&lt;/<span class="tag">ui-video</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Al usar los controles nativos del navegador, hereda soporte de teclado, subtítulos (<code>&lt;track&gt;</code>, no expuesto como prop todavía — agregalo directo al <code>&lt;video&gt;</code> vía <code>.videoElement</code>) y accesibilidad del sistema.</li>
+      <li>Miniaturas de la playlist son botones reales, navegables por <code>Tab</code>.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

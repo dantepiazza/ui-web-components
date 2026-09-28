@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagination · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/pagination.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Navigation</p>
+    <h1>Pagination</h1>
+    <p class="doc-lede">Navegación por número de página, con ventana alrededor de la página actual y elipsis para rangos largos.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" id="pagination-demo">
+      <ui-pagination page="4" total-pages="12"></ui-pagination>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-pagination</span> <span class="attr">page</span>=<span class="str">"4"</span> <span class="attr">total-pages</span>=<span class="str">"12"</span>&gt;&lt;/<span class="tag">ui-pagination</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>page</code></td><td>number</td><td><code>1</code></td><td class="desc">Página actual.</td></tr>
+        <tr><td><code>total-pages</code></td><td>number</td><td><code>1</code></td><td class="desc">Cantidad total de páginas.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-page-change</code></td><td><code>{ page }</code></td><td class="desc">Al hacer click en una página, o en anterior/siguiente.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-pagination</span> [<span class="attr">page</span>]=<span class="str">"currentPage"</span> [<span class="attr">total-pages</span>]=<span class="str">"totalPages"</span>
+  (ui-page-change)=<span class="str">"currentPage = $event.detail.page"</span>&gt;&lt;/<span class="tag">ui-pagination</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-pagination</span> <span class="attr">page</span>=<span class="str">"{{ $currentPage }}"</span> <span class="attr">total-pages</span>=<span class="str">"{{ $totalPages }}"</span>
+  <span class="attr">x-on:ui-page-change</span>=<span class="str">"$wire.currentPage = $event.detail.page"</span>&gt;&lt;/<span class="tag">ui-pagination</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;nav aria-label="Paginación"&gt;</code>; la página actual lleva <code>aria-current="page"</code>.</li>
+      <li>Botones anterior/siguiente con <code>aria-label</code> propio, deshabilitados en los extremos.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('pagination-demo').addEventListener('ui-page-change', (e) => {
+      document.querySelector('#pagination-demo ui-pagination').page = e.detail.page;
+    });
+  </script>
+</body>
+</html>

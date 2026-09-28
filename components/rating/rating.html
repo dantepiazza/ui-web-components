@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rating · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/rating.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Rating</h1>
+    <p class="doc-lede">Calificación con estrellas, clickeable o de solo lectura.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-rating value="3"></ui-rating>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-rating</span> <span class="attr">value</span>=<span class="str">"3"</span>&gt;&lt;/<span class="tag">ui-rating</span>&gt;</pre>
+
+    <h3>Solo lectura</h3>
+    <div class="doc-demo">
+      <ui-rating value="4" readonly></ui-rating>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-rating</span> <span class="attr">value</span>=<span class="str">"4"</span> <span class="attr">readonly</span>&gt;&lt;/<span class="tag">ui-rating</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>number</td><td><code>0</code></td><td class="desc">Calificación actual.</td></tr>
+        <tr><td><code>max</code></td><td>number</td><td><code>5</code></td><td class="desc">Cantidad de estrellas.</td></tr>
+        <tr><td><code>readonly</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita la interacción (para mostrar un promedio, por ejemplo).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-change</code></td><td><code>{ value }</code></td><td class="desc">Al hacer click en una estrella o cambiar con flechas del teclado.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-rating</span> [<span class="attr">value</span>]=<span class="str">"stars"</span> (ui-change)=<span class="str">"stars = $event.detail.value"</span>&gt;&lt;/<span class="tag">ui-rating</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-rating</span> <span class="attr">value</span>=<span class="str">"{{ $stars }}"</span> <span class="attr">wire:model</span>=<span class="str">"stars"</span>&gt;&lt;/<span class="tag">ui-rating</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Expone <code>role="slider"</code> con <code>aria-valuemin</code>/<code>aria-valuemax</code>/<code>aria-valuenow</code>, navegable con flechas del teclado.</li>
+      <li>En modo <code>readonly</code> no recibe foco (<code>tabindex="-1"</code>).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

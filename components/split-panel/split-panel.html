@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Split Panel · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/split-panel.js" defer></script>
+  <script src="../dist/split-pane.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Split Panel</h1>
+    <p class="doc-lede">Layout de dos paneles redimensionables con un divisor arrastrable. No captura ni reprocesa el contenido de los panes — solo gestiona su tamaño.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-split-panel split="35" style="width:100%;height:14rem;border:1px solid #e4e4e7;border-radius:0.75rem;overflow:hidden">
+        <ui-split-pane style="padding:1rem;background:#fafafa">Panel izquierdo</ui-split-pane>
+        <ui-split-pane style="padding:1rem">Panel derecho — arrastrá el divisor</ui-split-pane>
+      </ui-split-panel>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-split-panel</span> <span class="attr">split</span>=<span class="str">"35"</span>&gt;
+  &lt;<span class="tag">ui-split-pane</span>&gt;Panel izquierdo&lt;/<span class="tag">ui-split-pane</span>&gt;
+  &lt;<span class="tag">ui-split-pane</span>&gt;Panel derecho&lt;/<span class="tag">ui-split-pane</span>&gt;
+&lt;/<span class="tag">ui-split-panel</span>&gt;</pre>
+
+    <h3>Vertical</h3>
+    <div class="doc-demo">
+      <ui-split-panel split="50" orientation="vertical" style="width:100%;height:14rem;border:1px solid #e4e4e7;border-radius:0.75rem;overflow:hidden">
+        <ui-split-pane style="padding:1rem;background:#fafafa">Panel de arriba</ui-split-pane>
+        <ui-split-pane style="padding:1rem">Panel de abajo</ui-split-pane>
+      </ui-split-panel>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-split-panel</span> <span class="attr">orientation</span>=<span class="str">"vertical"</span>&gt;...&lt;/<span class="tag">ui-split-panel</span>&gt;</pre>
+
+    <h2>Props — <code>ui-split-panel</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>split</code></td><td>number (atributo)</td><td><code>50</code></td><td class="desc">Porcentaje inicial del primer pane, clampeado entre 10 y 90.</td></tr>
+        <tr><td><code>orientation</code></td><td>"horizontal" | "vertical" (atributo)</td><td><code>"horizontal"</code></td><td class="desc">Lado a lado, o apilado.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Exactamente dos <code>ui-split-pane</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-split-resize</code></td><td><code>{ split }</code></td><td class="desc">Mientras se arrastra el divisor.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-split-panel</span> <span class="attr">split</span>=<span class="str">"30"</span>&gt;
+  &lt;<span class="tag">ui-split-pane</span>&gt;&lt;app-sidebar&gt;&lt;/app-sidebar&gt;&lt;/<span class="tag">ui-split-pane</span>&gt;
+  &lt;<span class="tag">ui-split-pane</span>&gt;&lt;router-outlet&gt;&lt;/router-outlet&gt;&lt;/<span class="tag">ui-split-pane</span>&gt;
+&lt;/<span class="tag">ui-split-panel</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-split-panel</span> <span class="attr">split</span>=<span class="str">"30"</span>&gt;
+  &lt;<span class="tag">ui-split-pane</span>&gt;@include('sidebar')&lt;/<span class="tag">ui-split-pane</span>&gt;
+  &lt;<span class="tag">ui-split-pane</span>&gt;{{ $slot }}&lt;/<span class="tag">ui-split-pane</span>&gt;
+&lt;/<span class="tag">ui-split-panel</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El divisor tiene <code>role="separator"</code> con <code>aria-orientation</code>, es enfocable y ajustable con las flechas del teclado (no solo arrastre con mouse).</li>
+      <li>Tamaño mínimo de cada pane clampeado a 10% — nunca colapsa a 0 por accidente.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

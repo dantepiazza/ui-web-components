@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/main.js" defer></script>
+  <script src="../dist/sidebar.js" defer></script>
+  <script src="../dist/topbar.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Layout</p>
+    <h1>Main</h1>
+    <p class="doc-lede">La columna de contenido del shell de la app: adentro va un <a href="../topbar/topbar.html">Topbar</a> (primer hijo, queda pegado arriba) seguido del contenido de la página. Se combina con <a href="../sidebar/sidebar.html">Sidebar</a> — envolvés los dos en un <code>&lt;div class="flex h-screen"&gt;</code> plano y flexbox hace el resto, sin posiciones fijas ni variables CSS.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="padding:0;overflow:hidden;border-radius:0.75rem">
+      <div style="display:flex;height:14rem;overflow:hidden">
+        <ui-sidebar style="position:static;width:12rem">
+          <a href="#" class="active">Consola</a>
+          <a href="#">Configuración</a>
+        </ui-sidebar>
+        <ui-main>
+          <ui-topbar heading="Título de página"></ui-topbar>
+          <div style="padding:1.25rem;font-size:.8rem;color:#71717a">Contenido de la página, scrollea acá adentro.</div>
+        </ui-main>
+      </div>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"flex h-screen overflow-hidden"</span>&gt;
+  &lt;<span class="tag">ui-sidebar</span>&gt;...&lt;/<span class="tag">ui-sidebar</span>&gt;
+  &lt;<span class="tag">ui-main</span>&gt;
+    &lt;<span class="tag">ui-topbar</span> <span class="attr">heading</span>=<span class="str">"Título de página"</span>&gt;&lt;/<span class="tag">ui-topbar</span>&gt;
+    &lt;<span class="tag">div</span> <span class="attr">class</span>=<span class="str">"p-6"</span>&gt;...&lt;/<span class="tag">div</span>&gt;
+  &lt;/<span class="tag">ui-main</span>&gt;
+&lt;/<span class="tag">div</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Receta completa en <a href="../../docs/recipes.html#app-shell">Recetas → Shell de app</a>.</p>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Normalmente un <code>ui-topbar</code> más el contenido de la página.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Contenedor puramente de layout, sin rol ARIA especial — usá <code>&lt;main&gt;</code> real dentro si corresponde semánticamente en tu página.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

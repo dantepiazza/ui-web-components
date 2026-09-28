@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Breadcrumb · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/breadcrumb.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Navigation</p>
+    <h1>Breadcrumb</h1>
+    <p class="doc-lede">Rastro de navegación con separador automático entre items (CSS puro, sin importar cuántos haya).</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-breadcrumb>
+        <a href="#">Inicio</a>
+        <a href="#">Componentes</a>
+        <span>Breadcrumb</span>
+      </ui-breadcrumb>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-breadcrumb</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"/"</span>&gt;Inicio&lt;/<span class="tag">a</span>&gt;
+  &lt;<span class="tag">a</span> <span class="attr">href</span>=<span class="str">"/docs"</span>&gt;Componentes&lt;/<span class="tag">a</span>&gt;
+  &lt;<span class="tag">span</span>&gt;Breadcrumb&lt;/<span class="tag">span</span>&gt;
+&lt;/<span class="tag">ui-breadcrumb</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc"><code>&lt;a&gt;</code> para cada nivel navegable; <code>&lt;span&gt;</code> para el nivel actual (no clickeable).</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos — los links son <code>&lt;a&gt;</code> reales.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-breadcrumb</span>&gt;
+  &lt;a *ngFor=<span class="str">"let c of crumbs"</span> [routerLink]=<span class="str">"c.url"</span>&gt;{{ c.label }}&lt;/a&gt;
+&lt;/<span class="tag">ui-breadcrumb</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-breadcrumb</span>&gt;
+  @foreach ($crumbs as $c)
+    &lt;a href=<span class="str">"{{ $c->url }}"</span>&gt;{{ $c->label }}&lt;/a&gt;
+  @endforeach
+&lt;/<span class="tag">ui-breadcrumb</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;nav aria-label="Breadcrumb"&gt;</code> con lista <code>&lt;ol&gt;</code> semántica.</li>
+      <li>El último item se distingue visualmente (negrita) pero además debería ser un <code>&lt;span&gt;</code>, no un link, ya que representa la página actual.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

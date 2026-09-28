@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tree · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/tree.js" defer></script>
+  <script src="../dist/tree-item.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Tree</h1>
+    <p class="doc-lede">Lista jerárquica expandible. <code>ui-tree-item</code> es recursivo — anidá tantos niveles como necesites.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-tree style="width:100%">
+        <ui-tree-item label="src">
+          <ui-tree-item label="components">
+            <ui-tree-item label="button.js"></ui-tree-item>
+            <ui-tree-item label="badge.js"></ui-tree-item>
+          </ui-tree-item>
+          <ui-tree-item label="index.js"></ui-tree-item>
+        </ui-tree-item>
+        <ui-tree-item label="package.json"></ui-tree-item>
+      </ui-tree>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-tree</span>&gt;
+  &lt;<span class="tag">ui-tree-item</span> <span class="attr">label</span>=<span class="str">"src"</span>&gt;
+    &lt;<span class="tag">ui-tree-item</span> <span class="attr">label</span>=<span class="str">"button.js"</span>&gt;&lt;/<span class="tag">ui-tree-item</span>&gt;
+  &lt;/<span class="tag">ui-tree-item</span>&gt;
+  &lt;<span class="tag">ui-tree-item</span> <span class="attr">label</span>=<span class="str">"package.json"</span>&gt;&lt;/<span class="tag">ui-tree-item</span>&gt;
+&lt;/<span class="tag">ui-tree</span>&gt;</pre>
+
+    <h2>Props — <code>ui-tree-item</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop (atributo)</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>label</code></td><td>string</td><td class="desc">Texto del nodo. El chevron de expandir aparece solo si tiene <code>ui-tree-item</code> anidados.</td></tr></tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-tree</code></td><td>(default)</td><td class="desc">Elementos <code>ui-tree-item</code> de nivel raíz.</td></tr>
+        <tr><td><code>ui-tree-item</code></td><td>(default)</td><td class="desc"><code>ui-tree-item</code> anidados (opcional).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-tree-select</code></td><td><code>{ label }</code></td><td class="desc">Al hacer click en un nodo. <code>ui-tree</code> deselecciona automáticamente los demás.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-tree</span> (ui-tree-select)=<span class="str">"onSelect($event.detail.label)"</span>&gt;
+  &lt;<span class="tag">ui-tree-item</span> *ngFor=<span class="str">"let n of nodes"</span> [<span class="attr">label</span>]=<span class="str">"n.name"</span>&gt;&lt;/<span class="tag">ui-tree-item</span>&gt;
+&lt;/<span class="tag">ui-tree</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-tree</span>&gt;
+  @foreach ($nodes as $n)
+    &lt;<span class="tag">ui-tree-item</span> <span class="attr">label</span>=<span class="str">"{{ $n->name }}"</span>&gt;&lt;/<span class="tag">ui-tree-item</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-tree</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>ui-tree</code> expone <code>role="tree"</code>; cada nodo <code>role="treeitem"</code> con <code>aria-expanded</code>/<code>aria-selected</code>.</li>
+      <li>Cada header de nodo es enfocable (<code>tabindex="0"</code>).</li>
+      <li>Pendiente v2: navegación completa con flechas arriba/abajo/izquierda/derecha entre nodos (patrón ARIA Tree) — por ahora la navegación es por <code>Tab</code> normal.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

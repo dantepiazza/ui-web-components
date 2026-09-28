@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theme Toggle · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/theme-toggle.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Utilidades</p>
+    <h1>Theme Toggle</h1>
+    <p class="doc-lede">No es un componente — es un <strong>atributo global</strong>. Poné <code>ui-theme-toggle</code> en cualquier elemento y al hacer click agrega o quita <code>class="dark"</code> en el <code>&lt;html&gt;</code>. La elección se guarda en <code>localStorage</code> y se re-aplica al recargar.</p>
+    <p class="doc-lede" style="margin-bottom:1.5rem"><strong>Por ahora solo togglea la clase</strong> — el modo dark propio de la librería viene después.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-button size="sm" variant="secondary" ui-theme-toggle>Cambiar tema</ui-button>
+      <button ui-theme-toggle class="rounded border border-zinc-300 px-3 py-1.5 text-sm">🌓 Dark</button>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">button</span> <span class="attr">ui-theme-toggle</span>&gt;🌓 Dark&lt;/<span class="tag">button</span>&gt;</pre>
+    <p class="doc-lede" style="margin:1.5rem 0">Funciona en cualquier elemento — no hace falta que sea un componente de la librería. Al hacer click sobre este texto, revisá el <code>&lt;html&gt;</code> en el inspector:</p>
+    <pre class="doc-code" data-live-check>&lt;<span class="tag">html</span> <span class="attr">class</span>=<span class="str">"dark"</span>&gt;  <span class="comment">&lt;!-- se agrega/quita en cada click --&gt;</span></pre>
+
+    <h2>API programática</h2>
+    <table class="doc-table">
+      <thead><tr><th>Llamada</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>window.__uiwc.themeToggle()</code></td><td class="desc">Invierte el tema actual (dark ↔ light).</td></tr>
+        <tr><td><code>window.__uiwc.setTheme('dark')</code></td><td class="desc">Fija el tema explícitamente (<code>'dark'</code> o <code>'light'</code>).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Atributos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-theme-toggle</code></td><td>flag</td><td class="desc">Presente = el elemento togglea el tema al hacer click. El valor se ignora. Sigue el prefijo en runtime como el resto de la librería (<code>wc-theme-toggle</code> con <code>defineComponents('wc')</code>).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Persistencia</h2>
+    <ul class="doc-checklist">
+      <li>El tema elegido se guarda en <code>localStorage</code> bajo la clave <code>uiwc-theme</code>.</li>
+      <li>Al cargar la página, si hay un valor guardado se re-aplica apenas corre el script.</li>
+      <li>Si <code>localStorage</code> no está disponible (modo privado, etc.) la clase igual se aplica — solo no persiste.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

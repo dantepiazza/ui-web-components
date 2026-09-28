@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Callout · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/callout.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Feedback</p>
+    <h1>Callout</h1>
+    <p class="doc-lede">Mensaje inline con ícono y color semántico, para avisos, confirmaciones o errores dentro del flujo de la página.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:0.75rem">
+      <ui-callout variant="info" title="Info">Este flujo se guarda automáticamente cada 30 segundos.</ui-callout>
+      <ui-callout variant="warning" title="Atención">Tu sesión vence en 5 minutos.</ui-callout>
+      <ui-callout variant="danger" title="Error">No pudimos procesar el pago.</ui-callout>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-callout</span> <span class="attr">variant</span>=<span class="str">"warning"</span> <span class="attr">title</span>=<span class="str">"Atención"</span>&gt;
+  Tu sesión vence en 5 minutos.
+&lt;/<span class="tag">ui-callout</span>&gt;</pre>
+
+    <h3>Descartable</h3>
+    <div class="doc-demo" id="dismiss-demo">
+      <ui-callout variant="success" title="Listo" dismissible>Cambios guardados.</ui-callout>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-callout</span> <span class="attr">variant</span>=<span class="str">"success"</span> <span class="attr">dismissible</span>&gt;Cambios guardados.&lt;/<span class="tag">ui-callout</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td>"info" | "success" | "warning" | "danger"</td><td><code>"info"</code></td><td class="desc">Color, ícono y rol ARIA asociado.</td></tr>
+        <tr><td><code>title</code></td><td>string</td><td><code>""</code></td><td class="desc">Título opcional en negrita sobre el mensaje.</td></tr>
+        <tr><td><code>dismissible</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Muestra un botón de cierre que emite <code>ui-callout-dismiss</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Cuerpo del mensaje.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-callout-dismiss</code></td><td>—</td><td class="desc">Al hacer click en el botón de cierre. El componente no se remueve solo del DOM.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-callout</span> <span class="attr">variant</span>=<span class="str">"danger"</span> *ngIf=<span class="str">"error"</span>&gt;
+  {{ error.message }}
+&lt;/<span class="tag">ui-callout</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>@if ($errors->any())
+  &lt;<span class="tag">ui-callout</span> <span class="attr">variant</span>=<span class="str">"danger"</span>&gt;{{ $errors->first() }}&lt;/<span class="tag">ui-callout</span>&gt;
+@endif</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Usa <code>role="alert"</code> en <code>warning</code>/<code>danger</code> (interrumpe al lector de pantalla) y <code>role="status"</code> en <code>info</code>/<code>success</code> (anuncio no intrusivo).</li>
+      <li>El ícono es decorativo — el significado lo lleva el texto, nunca solo el color.</li>
+      <li>El botón de cierre tiene <code>aria-label="Cerrar"</code>.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('dismiss-demo').addEventListener('ui-callout-dismiss', (e) => e.target.remove());
+  </script>
+</body>
+</html>

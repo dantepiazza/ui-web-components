@@ -1,0 +1,115 @@
+/* Sin @tailwind base a propósito: ese es el "Preflight" de Tailwind (reset global de
+   márgenes, box-sizing, tipografía, etc.) — lo pisaría en TODA la página de quien
+   consume la librería, no solo en los componentes. Un archivo de librería no debe
+   resetear estilos ajenos. */
+@tailwind components;
+@tailwind utilities;
+
+/* Kills transitions for one frame while `ui-theme-toggle` flips `.dark` — Chromium
+   keeps the stale resolved value of a transitioned `rgb(var(--ui-*) / …)` colour
+   when only the variable changed (crbug.com/1226629). Roll-your-own toggles should
+   add/remove this class around the flip + a reflow. */
+.uiwc-theme-switching *,
+.uiwc-theme-switching *::before,
+.uiwc-theme-switching *::after {
+  transition: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CONTRATO DE TEMA — la única CSS custom que trae la librería.
+
+   Los componentes usan clases semánticas (`bg-brand-600`, `text-base-900`,
+   `bg-surface`, `text-success`...) que resuelven a estas variables. Redefiní las
+   que quieras en tu propio `:root` (cargado DESPUÉS de este CSS) para re-tematizar
+   sin recompilar. Ver "Personalizar colores" en el README.
+
+   Los valores son canales RGB separados por espacio (no `#hex`, no `rgb()`), para
+   que funcione el modificador de opacidad de Tailwind (`bg-brand-600/10`).
+
+   Default de fábrica: `base` y `brand` son la paleta `zinc` de Tailwind; el acento
+   es neutro (negro/gris). Los estados usan emerald/amber/rose/blue.
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+    /* Escala neutra: texto, bordes, fondos, rellenos sutiles */
+    --ui-base-50: 250 250 250;
+    --ui-base-100: 244 244 245;
+    --ui-base-200: 228 228 231;
+    --ui-base-300: 212 212 216;
+    --ui-base-400: 161 161 170;
+    --ui-base-500: 113 113 122;
+    --ui-base-600: 82 82 91;
+    --ui-base-700: 63 63 70;
+    --ui-base-800: 39 39 42;
+    --ui-base-900: 24 24 27;
+    --ui-base-950: 9 9 11;
+
+    /* Superficie elevada (cards, inputs, modales, popovers, topbar) */
+    --ui-surface: 255 255 255;
+
+    /* Acento / acción: botón primary, estados activos, focus rings, links.
+       Por default = `base` (neutro). Redefinilo para darle color de marca. */
+    --ui-brand-50: 250 250 250;
+    --ui-brand-100: 244 244 245;
+    --ui-brand-200: 228 228 231;
+    --ui-brand-300: 212 212 216;
+    --ui-brand-400: 161 161 170;
+    --ui-brand-500: 113 113 122;
+    --ui-brand-600: 82 82 91;
+    --ui-brand-700: 63 63 70;
+    --ui-brand-800: 39 39 42;
+    --ui-brand-900: 24 24 27;
+    --ui-brand-950: 9 9 11;
+    --ui-brand-fg: 255 255 255; /* texto/ícono sobre un fondo `brand` */
+
+    /* Estados semánticos (sólido + texto encima) */
+    --ui-success: 4 120 87;
+    --ui-success-fg: 255 255 255;
+    --ui-warning: 245 158 11;
+    --ui-warning-fg: 69 26 3;
+    --ui-danger: 225 29 72;
+    --ui-danger-fg: 255 255 255;
+    --ui-info: 37 99 235;
+    --ui-info-fg: 255 255 255;
+  }
+
+  /* Modo oscuro: `class="dark"` en <html> (lo pone el atributo `ui-theme-toggle`).
+     La escala neutra se INVIERTE (50 = lo más oscuro, 950 = lo más claro), así los
+     componentes que usan `bg-base-*` / `text-base-*` se adaptan sin tocar nada. */
+  :root.dark,
+  .dark {
+    --ui-base-50: 9 9 11;
+    --ui-base-100: 24 24 27;
+    --ui-base-200: 39 39 42;
+    --ui-base-300: 63 63 70;
+    --ui-base-400: 82 82 91;
+    --ui-base-500: 113 113 122;
+    --ui-base-600: 161 161 170;
+    --ui-base-700: 212 212 216;
+    --ui-base-800: 228 228 231;
+    --ui-base-900: 244 244 245;
+    --ui-base-950: 250 250 250;
+
+    --ui-surface: 24 24 27;
+
+    --ui-brand-50: 9 9 11;
+    --ui-brand-100: 24 24 27;
+    --ui-brand-200: 39 39 42;
+    --ui-brand-300: 63 63 70;
+    --ui-brand-400: 82 82 91;
+    --ui-brand-500: 113 113 122;
+    --ui-brand-600: 161 161 170;
+    --ui-brand-700: 212 212 216;
+    --ui-brand-800: 228 228 231;
+    --ui-brand-900: 244 244 245;
+    --ui-brand-950: 250 250 250;
+    --ui-brand-fg: 24 24 27;
+
+    --ui-success: 52 211 153;
+    --ui-success-fg: 2 44 34;
+    --ui-warning: 251 191 36;
+    --ui-warning-fg: 69 26 3;
+    --ui-danger: 244 63 94;
+    --ui-danger-fg: 255 255 255;
+    --ui-info: 96 165 250;
+    --ui-info-fg: 255 255 255;
+}

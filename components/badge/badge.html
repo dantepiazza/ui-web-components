@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Badge · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/badge.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Badge</h1>
+    <p class="doc-lede">Indicador chico de estado, categoría o cantidad. Puramente visual — para una versión con acción de quitar, usá <a href="../tag/tag.html">Tag</a>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-badge>Neutral</ui-badge>
+      <ui-badge variant="primary">Primary</ui-badge>
+      <ui-badge variant="success">Success</ui-badge>
+      <ui-badge variant="warning">Warning</ui-badge>
+      <ui-badge variant="danger">Danger</ui-badge>
+      <ui-badge variant="info">Info</ui-badge>
+      <ui-badge variant="purple">Purple</ui-badge>
+      <ui-badge variant="pink">Pink</ui-badge>
+      <ui-badge variant="indigo">Indigo</ui-badge>
+      <ui-badge variant="cyan">Cyan</ui-badge>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-badge</span>&gt;Neutral&lt;/<span class="tag">ui-badge</span>&gt;
+&lt;<span class="tag">ui-badge</span> <span class="attr">variant</span>=<span class="str">"success"</span>&gt;Success&lt;/<span class="tag">ui-badge</span>&gt;</pre>
+
+    <h3>Con ícono</h3>
+    <div class="doc-demo">
+      <ui-badge variant="success"><ui-icon name="check" size="sm"></ui-icon> Activo</ui-badge>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-badge</span> <span class="attr">variant</span>=<span class="str">"success"</span>&gt;
+  &lt;<span class="tag">ui-icon</span> <span class="attr">name</span>=<span class="str">"check"</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;&lt;/<span class="tag">ui-icon</span>&gt; Activo
+&lt;/<span class="tag">ui-badge</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td>"neutral" | "primary" | "success" | "warning" | "danger" | "info" | "purple" | "pink" | "indigo" | "cyan"</td><td><code>"neutral"</code></td><td class="desc">Color semántico del badge.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>(default)</td><td class="desc">Contenido del badge: texto, número o combinación con <code>ui-icon</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-badge</span> <span class="attr">variant</span>=<span class="str">"{{ status === 'ok' ? 'success' : 'danger' }}"</span>&gt;
+  {{ status }}
+&lt;/<span class="tag">ui-badge</span>&gt;
+
+<span class="comment">// schemas: [CUSTOM_ELEMENTS_SCHEMA] en el módulo consumidor</span></pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>{{-- resources/views/components/... --}}
+&lt;<span class="tag">ui-badge</span> <span class="attr">variant</span>=<span class="str">"{{ $user-&gt;isActive() ? 'success' : 'neutral' }}"</span>&gt;
+  {{ $user-&gt;isActive() ? 'Activo' : 'Inactivo' }}
+&lt;/<span class="tag">ui-badge</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Es texto real dentro del elemento — accesible a lectores de pantalla sin configuración extra.</li>
+      <li>El color nunca es el único portador de significado: siempre acompañado de texto (ej. "Success" y no solo un punto verde).</li>
+      <li>Contraste texto/fondo AA verificado en las 5 variantes sobre fondo blanco.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

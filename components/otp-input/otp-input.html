@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OTP Input · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/otp-input.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>OTP Input</h1>
+    <p class="doc-lede">Un input por dígito, con avance automático de foco y soporte de pegado del código completo.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-otp-input length="6"></ui-otp-input>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-otp-input</span> <span class="attr">length</span>=<span class="str">"6"</span>&gt;&lt;/<span class="tag">ui-otp-input</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>length</code></td><td>number</td><td><code>6</code></td><td class="desc">Cantidad de dígitos/cajas.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita todas las cajas.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-input</code></td><td><code>{ value }</code></td><td class="desc">En cada dígito ingresado.</td></tr>
+        <tr><td><code>ui-otp-complete</code></td><td><code>{ value }</code></td><td class="desc">Cuando se completan todas las cajas.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-otp-input</span> <span class="attr">length</span>=<span class="str">"6"</span> (ui-otp-complete)=<span class="str">"verify($event.detail.value)"</span>&gt;&lt;/<span class="tag">ui-otp-input</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-otp-input</span> <span class="attr">length</span>=<span class="str">"6"</span>
+  <span class="attr">x-on:ui-otp-complete</span>=<span class="str">"$wire.verify($event.detail.value)"</span>&gt;&lt;/<span class="tag">ui-otp-input</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Cada caja tiene <code>aria-label="Dígito N de longitud"</code>.</li>
+      <li><code>autocomplete="one-time-code"</code> — algunos navegadores/OS ofrecen autocompletar desde el SMS recibido.</li>
+      <li><code>Backspace</code> en una caja vacía mueve el foco a la anterior, replicando el patrón esperado de este control.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dialog · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/dialog.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/spinner.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Overlays</p>
+    <h1>Dialog</h1>
+    <p class="doc-lede">Caja de diálogo centrada, construida sobre <code>&lt;dialog&gt;</code> nativo (<code>showModal()</code>) — foco atrapado, capa superior y cierre con <code>Escape</code> los da el navegador gratis. El contenido va en un <code>&lt;template&gt;</code>, así que sobrevive intacto entre aperturas. Es para mensajes, confirmaciones y a lo sumo un form chico — <strong>siempre</strong> se ve como una caja de diálogo, nunca pantalla completa ni drawer. Si necesitás contenido libre (cualquier HTML) y/o un panel que se deslice desde un borde, usá <a href="../modal/modal.html">Modal</a> — son componentes distintos a propósito.</p>
+
+    <h2>Uso básico (centrado)</h2>
+    <div class="doc-demo">
+      <ui-button size="sm" id="dialog-trigger">Abrir dialog</ui-button>
+      <ui-dialog id="demo-dialog">
+        <template>
+          <h3 style="margin:0 0 0.5rem;font-size:1.05rem;font-weight:600">Confirmar acción</h3>
+          <p style="margin:0 0 1.25rem;color:#71717a;font-size:0.875rem">Esta acción no se puede deshacer.</p>
+          <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+            <ui-button size="sm" variant="secondary" id="dialog-cancel">Cancelar</ui-button>
+            <ui-button size="sm" variant="danger" id="dialog-confirm">Eliminar</ui-button>
+          </div>
+        </template>
+      </ui-dialog>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-dialog</span> <span class="attr">id</span>=<span class="str">"demo-dialog"</span>&gt;
+  &lt;<span class="tag">template</span>&gt;
+    &lt;h3&gt;Confirmar acción&lt;/h3&gt;
+    &lt;<span class="tag">ui-button</span> <span class="attr">id</span>=<span class="str">"dialog-cancel"</span>&gt;Cancelar&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-dialog</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">document.getElementById('dialog-trigger').onclick = () =&gt;</span>
+  <span class="comment">  document.getElementById('demo-dialog').show();</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Confirm / Prompt (API por JS, sin markup)</h2>
+    <p class="doc-lede">Para el caso común de "confirmá esto" / "pedí un valor corto" no hace falta armar un <code>&lt;template&gt;</code> — <code>UiDialog.confirm()</code> y <code>UiDialog.prompt()</code> arman un <code>ui-dialog</code> al vuelo, lo muestran, y devuelven una <code>Promise</code>. Si no importaste la clase (bundle clásico), usá los atajos <code>window.__uiwc.confirm()</code> / <code>.prompt()</code>.</p>
+    <div class="doc-demo demo-row">
+      <ui-button size="sm" variant="danger" id="confirm-trigger">Eliminar producto</ui-button>
+      <ui-button size="sm" variant="secondary" id="prompt-trigger">Renombrar</ui-button>
+    </div>
+    <p class="doc-lede" id="confirm-result" style="margin-bottom:1.5rem"></p>
+    <pre class="doc-code"><span class="comment">// devuelve Promise&lt;boolean&gt;</span>
+const ok = await window.__uiwc.confirm('¿Eliminar este producto?', {
+  title: 'Confirmar acción',
+  confirmLabel: 'Eliminar',
+  variant: 'danger',
+});
+
+<span class="comment">// devuelve Promise&lt;string | null&gt; (null si cancelan)</span>
+const nombre = await window.__uiwc.prompt('Nuevo nombre:', { value: 'Producto A' });</pre>
+
+    <h2>Props (atributos) / API</h2>
+    <table class="doc-table">
+      <thead><tr><th>Miembro</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code></td><td>boolean (atributo)</td><td class="desc">Refleja el estado abierto/cerrado.</td></tr>
+        <tr><td><code>.show()</code> / <code>.close()</code></td><td>métodos</td><td class="desc">Control imperativo.</td></tr>
+        <tr><td><code>UiDialog.confirm(msg, opts)</code></td><td>método estático → <code>Promise&lt;boolean&gt;</code></td><td class="desc"><code>opts</code>: <code>title</code>, <code>confirmLabel</code>, <code>cancelLabel</code>, <code>variant</code> ("primary" | "danger").</td></tr>
+        <tr><td><code>UiDialog.prompt(msg, opts)</code></td><td>método estático → <code>Promise&lt;string|null&gt;</code></td><td class="desc"><code>opts</code>: <code>title</code>, <code>placeholder</code>, <code>value</code>, <code>confirmLabel</code>, <code>cancelLabel</code>. <code>null</code> si cancelan.</td></tr>
+        <tr><td><code>window.__uiwc.confirm()</code> / <code>.prompt()</code></td><td>funciones</td><td class="desc">Mismo comportamiento que los estáticos — para cuando no tenés la clase <code>UiDialog</code> a mano (bundle clásico, sin <code>import</code>).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Elemento</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>&lt;template&gt;</code></td><td class="desc">Contenido del modal/drawer, clonado una vez. No aplica al usar <code>confirm()</code>/<code>prompt()</code>, que arman su propio contenido.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-dialog-close</code></td><td class="desc">Al cerrarse (Escape, click en el backdrop, o <code>.close()</code>).</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-button</span> (click)=<span class="str">"dialog.show()"</span>&gt;Eliminar&lt;/<span class="tag">ui-button</span>&gt;
+&lt;<span class="tag">ui-dialog</span> #dialog (ui-dialog-close)=<span class="str">"onClose()"</span>&gt;
+  &lt;<span class="tag">template</span>&gt;...&lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-dialog</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-dialog</span> <span class="attr">x-ref</span>=<span class="str">"dialog"</span>&gt;
+  &lt;<span class="tag">template</span>&gt;...&lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-dialog</span>&gt;
+&lt;<span class="tag">button</span> <span class="attr">x-on:click</span>=<span class="str">"$refs.dialog.show()"</span>&gt;Eliminar&lt;/<span class="tag">button</span>&gt;</pre>
+    </div>
+
+    <h2>¿Dialog o Modal?</h2>
+    <ul class="doc-checklist">
+      <li><strong>Dialog</strong> (acá) — mensaje, confirmación, o un form chico que SIEMPRE se ve como una caja de diálogo centrada. Nunca cambia de forma según el viewport. Trae <code>confirm()</code>/<code>prompt()</code> de regalo.</li>
+      <li><strong><a href="../modal/modal.html">Modal</a></strong> — panel de contenido libre (cualquier HTML), puede ser centrado o drawer izquierdo/derecho, y pasa a pantalla completa en mobile. No impone título/cuerpo/footer.</li>
+    </ul>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>showModal()</code> nativo: foco atrapado dentro del dialog, <code>Escape</code> cierra, el resto de la página queda <code>inert</code> automáticamente.</li>
+      <li>El foco vuelve al elemento que abrió el dialog al cerrarse (comportamiento nativo del navegador).</li>
+      <li>Click en el backdrop (fuera del contenido) cierra el modal.</li>
+      <li><code>confirm()</code>/<code>prompt()</code> ponen el foco inicial en el botón de confirmar / el input, respectivamente.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+  <script>
+    document.getElementById('dialog-trigger').addEventListener('click', () => document.getElementById('demo-dialog').show());
+    document.addEventListener('click', (e) => {
+      // closest(), no e.target.id: el click real llega del <button> interno de
+      // <ui-button> (Light DOM), no del host que tiene el id.
+      if (e.target.closest('#dialog-cancel, #dialog-confirm')) {
+        document.getElementById('demo-dialog').close();
+      }
+    });
+    document.getElementById('confirm-trigger').addEventListener('click', async () => {
+      const ok = await window.__uiwc.confirm('¿Eliminar este producto? Esta acción no se puede deshacer.', {
+        title: 'Confirmar acción',
+        confirmLabel: 'Eliminar',
+        variant: 'danger',
+      });
+      document.getElementById('confirm-result').textContent = ok ? 'Confirmado: se eliminó.' : 'Cancelado.';
+    });
+    document.getElementById('prompt-trigger').addEventListener('click', async () => {
+      const nombre = await window.__uiwc.prompt('Nuevo nombre:', { value: 'Producto A' });
+      document.getElementById('confirm-result').textContent = nombre === null ? 'Cancelado.' : `Nuevo nombre: "${nombre}"`;
+    });
+  </script>
+</body>
+</html>

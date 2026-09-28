@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Palette · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/command-palette.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Overlays</p>
+    <h1>Command Palette</h1>
+    <p class="doc-lede">Overlay global tipo "Cmd+K": <code>Ctrl+K</code> (o <code>Cmd+K</code> en Mac) en cualquier parte de la página lo abre, con un buscador que filtra comandos.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <p style="margin:0;color:#71717a;font-size:0.875rem">Probá presionar <kbd style="border:1px solid #d4d4d8;border-radius:0.25rem;padding:0.1rem 0.4rem;font-family:monospace;font-size:0.75rem">Ctrl</kbd> + <kbd style="border:1px solid #d4d4d8;border-radius:0.25rem;padding:0.1rem 0.4rem;font-family:monospace;font-size:0.75rem">K</kbd> en esta página.</p>
+      <ui-command-palette>
+        <ui-command value="new-file">Nuevo archivo</ui-command>
+        <ui-command value="new-folder">Nueva carpeta</ui-command>
+        <ui-command value="settings">Abrir configuración</ui-command>
+        <ui-command value="logout">Cerrar sesión</ui-command>
+      </ui-command-palette>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-command-palette</span>&gt;
+  &lt;<span class="tag">ui-command</span> <span class="attr">value</span>=<span class="str">"new-file"</span>&gt;Nuevo archivo&lt;/<span class="tag">ui-command</span>&gt;
+  &lt;<span class="tag">ui-command</span> <span class="attr">value</span>=<span class="str">"settings"</span>&gt;Abrir configuración&lt;/<span class="tag">ui-command</span>&gt;
+&lt;/<span class="tag">ui-command-palette</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props — el atajo es siempre <code>Ctrl/Cmd+K</code> en v1.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Comandos — se leen una sola vez al conectar (no reactivo a cambios posteriores).</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-command-select</code></td><td><code>{ value, label }</code></td><td class="desc">Al elegir un comando (click o Enter).</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-command-palette</span> (ui-command-select)=<span class="str">"runCommand($event.detail.value)"</span>&gt;
+  &lt;<span class="tag">ui-command</span> *ngFor=<span class="str">"let c of commands"</span> [<span class="attr">value</span>]=<span class="str">"c.id"</span>&gt;{{ c.label }}&lt;/<span class="tag">ui-command</span>&gt;
+&lt;/<span class="tag">ui-command-palette</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-command-palette</span> <span class="attr">x-on:ui-command-select</span>=<span class="str">"$wire.run($event.detail.value)"</span>&gt;
+  @foreach ($commands as $c)
+    &lt;<span class="tag">ui-command</span> <span class="attr">value</span>=<span class="str">"{{ $c->id }}"</span>&gt;{{ $c->label }}&lt;/<span class="tag">ui-command</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-command-palette</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Foco automático en el input de búsqueda al abrir.</li>
+      <li>Flechas arriba/abajo navegan, <code>Enter</code> ejecuta, <code>Escape</code> cierra.</li>
+      <li>Solo un atajo global por página — si hay más de un <code>ui-command-palette</code> montado a la vez, el último definido gana el listener (evitar montar más de uno).</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

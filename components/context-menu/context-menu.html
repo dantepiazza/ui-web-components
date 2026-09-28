@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context Menu · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/context-menu.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Overlays</p>
+    <h1>Context Menu</h1>
+    <p class="doc-lede">Click derecho sobre el área envuelta abre un menú en la posición del cursor. Los items van en un <code>&lt;template data-menu-items&gt;</code>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-context-menu style="width:100%">
+        <div style="border:1px dashed #d4d4d8;border-radius:0.75rem;padding:2rem;text-align:center;color:#71717a;font-size:0.875rem">
+          Click derecho acá
+        </div>
+        <template data-menu-items>
+          <button data-value="rename">Renombrar</button>
+          <button data-value="duplicate">Duplicar</button>
+          <button data-value="delete">Eliminar</button>
+        </template>
+      </ui-context-menu>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-context-menu</span>&gt;
+  &lt;<span class="tag">div</span>&gt;Click derecho acá&lt;/<span class="tag">div</span>&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-menu-items</span>&gt;
+    &lt;<span class="tag">button</span> <span class="attr">data-value</span>=<span class="str">"rename"</span>&gt;Renombrar&lt;/<span class="tag">button</span>&gt;
+    &lt;<span class="tag">button</span> <span class="attr">data-value</span>=<span class="str">"delete"</span>&gt;Eliminar&lt;/<span class="tag">button</span>&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-context-menu</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene props.</p>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Elemento</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>Contenido normal</td><td class="desc">El área que dispara el menú al hacer click derecho.</td></tr>
+        <tr><td><code>&lt;template data-menu-items&gt;</code></td><td class="desc">Items: <code>&lt;button data-value="..."&gt;</code> o <code>&lt;a data-value="..."&gt;</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-context-menu-select</code></td><td><code>{ value, label }</code></td><td class="desc">Al hacer click en un item.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-context-menu</span> (ui-context-menu-select)=<span class="str">"onAction($event.detail.value)"</span>&gt;
+  &lt;div&gt;{{ file.name }}&lt;/div&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-menu-items</span>&gt;
+    &lt;button data-value=<span class="str">"rename"</span>&gt;Renombrar&lt;/button&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-context-menu</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-context-menu</span> <span class="attr">x-on:ui-context-menu-select</span>=<span class="str">"$wire.handle($event.detail.value)"</span>&gt;
+  &lt;div&gt;{{ $file->name }}&lt;/div&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-menu-items</span>&gt;
+    &lt;button data-value=<span class="str">"rename"</span>&gt;Renombrar&lt;/button&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-context-menu</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Se cierra con <code>Escape</code> y al hacer click fuera.</li>
+      <li>Pendiente v2: navegación por flechas dentro del menú y apertura también vía tecla de menú contextual del teclado (<code>Shift+F10</code>) — por ahora es solo click derecho.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

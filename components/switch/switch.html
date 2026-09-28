@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Switch · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/switch.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Switch</h1>
+    <p class="doc-lede">Toggle booleano, construido sobre un <code>&lt;input type="checkbox"&gt;</code> real (visualmente oculto) para soporte de teclado nativo.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:0.75rem">
+      <ui-switch>Notificaciones por email</ui-switch>
+      <ui-switch checked>Modo oscuro</ui-switch>
+      <ui-switch disabled>Opción no disponible</ui-switch>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-switch</span>&gt;Notificaciones por email&lt;/<span class="tag">ui-switch</span>&gt;
+&lt;<span class="tag">ui-switch</span> <span class="attr">checked</span>&gt;Modo oscuro&lt;/<span class="tag">ui-switch</span>&gt;</pre>
+
+    <h3>Esperando confirmación (async)</h3>
+    <div class="doc-demo" id="loading-demo">
+      <ui-switch loading>Sincronizando con el servidor...</ui-switch>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-switch</span> <span class="attr">loading</span>&gt;Sincronizando...&lt;/<span class="tag">ui-switch</span>&gt;
+
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">// al togglear: switchEl.loading = true; await fetch(...); switchEl.loading = false;</span>
+&lt;/<span class="tag">script</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>checked</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Estado activado.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+        <tr><td><code>loading</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Muestra un spinner adentro del círculo y bloquea el input — para cuando activar el switch dispara una llamada async y hay que esperar la respuesta antes de confirmar visualmente el nuevo estado.</td></tr>
+        <tr><td><code>name</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre del campo en un <code>&lt;form&gt;</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Texto de la etiqueta.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-change</code></td><td><code>{ checked }</code></td><td class="desc">Al cambiar el estado.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-switch</span> [<span class="attr">checked</span>]=<span class="str">"darkMode"</span> (ui-change)=<span class="str">"darkMode = $event.detail.checked"</span>&gt;
+  Modo oscuro
+&lt;/<span class="tag">ui-switch</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-switch</span> <span class="attr">name</span>=<span class="str">"dark_mode"</span> <span class="attr">wire:model</span>=<span class="str">"darkMode"</span>&gt;
+  Modo oscuro
+&lt;/<span class="tag">ui-switch</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Es un <code>&lt;input type="checkbox"&gt;</code> real (visualmente oculto vía opacidad, no <code>display:none</code>) — lectores de pantalla lo anuncian como checkbox, patrón aceptado para switches simples.</li>
+      <li>Foco visible en el track vía <code>peer-focus-visible:outline</code>.</li>
+      <li><code>&lt;label for&gt;</code> asociado — click en el texto también activa el control.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

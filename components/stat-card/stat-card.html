@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stat Card · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/stat-card.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>Stat Card</h1>
+    <p class="doc-lede">Tile de KPI para dashboards: ícono + tendencia arriba, valor grande, label abajo. Migrado del catálogo interno de <code>panel-assets</code> (<code>.stat-card</code>), candidato surgido de la comparación 1 a 1.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:0.75rem;width:100%">
+      <ui-stat-card icon="users" label="Postulantes" value="1.284" trend="+12%" trend-dir="up" tone="accent"></ui-stat-card>
+      <ui-stat-card icon="briefcase" label="Vacantes activas" value="36" trend="+4%" trend-dir="up" tone="success"></ui-stat-card>
+      <ui-stat-card icon="clock" label="Tiempo promedio" value="4.2d" trend="-3%" trend-dir="down" tone="warning"></ui-stat-card>
+      <ui-stat-card icon="check" label="Satisfacción" value="92%" trend="+8%" trend-dir="up" tone="info"></ui-stat-card>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-stat-card</span>
+  <span class="attr">icon</span>=<span class="str">"users"</span> <span class="attr">label</span>=<span class="str">"Postulantes"</span> <span class="attr">value</span>=<span class="str">"1.284"</span>
+  <span class="attr">trend</span>=<span class="str">"+12%"</span> <span class="attr">trend-dir</span>=<span class="str">"up"</span> <span class="attr">tone</span>=<span class="str">"accent"</span>&gt;
+&lt;/<span class="tag">ui-stat-card</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de un ícono del set de <a href="../icon/icon.html">Icon</a>.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto bajo el valor.</td></tr>
+        <tr><td><code>value</code></td><td>string</td><td><code>""</code></td><td class="desc">El número/valor grande.</td></tr>
+        <tr><td><code>trend</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto de tendencia (ej. "+12%"). Vacío lo oculta.</td></tr>
+        <tr><td><code>trend-dir</code></td><td>"up" | "down"</td><td><code>"up"</code></td><td class="desc">Color del texto de tendencia.</td></tr>
+        <tr><td><code>tone</code></td><td>"neutral" | "accent" | "success" | "warning" | "danger" | "info"</td><td><code>"neutral"</code></td><td class="desc">Color de fondo del ícono.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No emite eventos.</p>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Todo el contenido es texto real — valor, label y tendencia son legibles por lectores de pantalla sin configuración extra.</li>
+      <li>El ícono es decorativo; el significado lo lleva el texto junto a él.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

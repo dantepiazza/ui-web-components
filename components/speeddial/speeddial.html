@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speeddial · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/speeddial.js" defer></script>
+  <script src="../dist/speeddial-item.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Actions</p>
+    <h1>Speeddial</h1>
+    <p class="doc-lede">Botón flotante "+" que despliega una columna de acciones. Migrado del catálogo interno de <code>panel-assets</code> (<code>.speeddial</code>), candidato surgido de la comparación 1 a 1.</p>
+
+    <h2>Uso básico</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Con <code>inline</code> queda estático (para esta demo); sin el atributo, queda fijo abajo a la derecha del viewport.</p>
+    <div class="doc-demo" id="speeddial-demo" style="min-height:12rem;position:relative">
+      <ui-speeddial inline>
+        <ui-speeddial-item icon="users" label="Nuevo postulante"></ui-speeddial-item>
+        <ui-speeddial-item icon="briefcase" label="Nueva vacante"></ui-speeddial-item>
+        <ui-speeddial-item icon="upload" label="Subir archivo"></ui-speeddial-item>
+      </ui-speeddial>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-speeddial</span>&gt;
+  &lt;<span class="tag">ui-speeddial-item</span> <span class="attr">icon</span>=<span class="str">"users"</span> <span class="attr">label</span>=<span class="str">"Nuevo postulante"</span>&gt;&lt;/<span class="tag">ui-speeddial-item</span>&gt;
+  &lt;<span class="tag">ui-speeddial-item</span> <span class="attr">icon</span>=<span class="str">"briefcase"</span> <span class="attr">label</span>=<span class="str">"Nueva vacante"</span>&gt;&lt;/<span class="tag">ui-speeddial-item</span>&gt;
+&lt;/<span class="tag">ui-speeddial</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>inline</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Renderiza como bloque estático en vez de <code>position:fixed</code> en la esquina inferior derecha del viewport.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc"><code>&lt;ui-speeddial-item icon label&gt;</code>, uno por acción.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-speeddial-select</code></td><td><code>{ index }</code></td><td class="desc">Al hacer click en un ítem — el menú se cierra automáticamente.</td></tr></tbody>
+    </table>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El botón principal tiene <code>aria-expanded</code> reflejando si el menú está abierto.</li>
+      <li>Cada acción tiene <code>aria-label</code> desde su atributo <code>label</code> — no hay ítems sin nombre accesible.</li>
+      <li>Pendiente v2: no cierra con <code>Escape</code> ni al hacer click afuera todavía.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

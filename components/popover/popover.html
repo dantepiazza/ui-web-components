@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Popover · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/popover.js" defer></script>
+  <script src="../dist/button.js" defer></script>
+  <script src="../dist/spinner.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Overlays</p>
+    <h1>Popover</h1>
+    <p class="doc-lede">Panel flotante que se abre al hacer click en el trigger. Usa <code>&lt;template&gt;</code> para el contenido — a diferencia del patrón de captura usado en Badge/Tag/etc, el contenido de un <code>&lt;template&gt;</code> es inerte hasta que se clona, así que puede tener formularios u otros componentes sin perder su estado.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-popover>
+        <ui-button size="sm" variant="secondary">Compartir</ui-button>
+        <template data-popover-content>
+          <div style="min-width:14rem">
+            <h4 style="margin:0 0 0.5rem;font-size:0.875rem;font-weight:600">Compartir</h4>
+            <input type="text" value="https://ejemplo.com/doc/42" readonly style="width:100%;border:1px solid #e4e4e7;border-radius:0.5rem;padding:0.375rem 0.5rem;font-size:0.8125rem" />
+          </div>
+        </template>
+      </ui-popover>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-popover</span>&gt;
+  &lt;<span class="tag">ui-button</span>&gt;Compartir&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-popover-content</span>&gt;
+    &lt;<span class="tag">input</span> <span class="attr">type</span>=<span class="str">"text"</span> <span class="attr">readonly</span> <span class="attr">value</span>=<span class="str">"https://..."</span>&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-popover</span>&gt;</pre>
+
+    <h2>Props (atributos)</h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td><code>placement</code></td><td>"bottom" | "top" | "bottom-end" | "top-end"</td><td><code>"bottom"</code></td><td class="desc">Posición del panel respecto al trigger.</td></tr></tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Elemento</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>Primer hijo</td><td class="desc">El trigger (cualquier elemento clickeable).</td></tr>
+        <tr><td><code>&lt;template data-popover-content&gt;</code></td><td class="desc">Contenido del panel.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-popover-open</code></td><td class="desc">Al abrirse.</td></tr>
+        <tr><td><code>ui-popover-close</code></td><td class="desc">Al cerrarse (click afuera, Escape, o click en el trigger de nuevo).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-popover</span>&gt;
+  &lt;<span class="tag">ui-button</span>&gt;Compartir&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-popover-content</span>&gt;
+    &lt;app-share-form&gt;&lt;/app-share-form&gt;
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-popover</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-popover</span>&gt;
+  &lt;<span class="tag">ui-button</span>&gt;Compartir&lt;/<span class="tag">ui-button</span>&gt;
+  &lt;<span class="tag">template</span> <span class="attr">data-popover-content</span>&gt;
+    @include('share-form')
+  &lt;/<span class="tag">template</span>&gt;
+&lt;/<span class="tag">ui-popover</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Se cierra con <code>Escape</code> y al hacer click fuera.</li>
+      <li>Pendiente v2: mover el foco al panel al abrir y devolverlo al trigger al cerrar (patrón ARIA completo) — por ahora el foco queda donde estaba.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/calendar.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Calendar</h1>
+    <p class="doc-lede">Grilla mensual standalone. También se usa internamente en <a href="../date-picker/date-picker.html">Date Picker</a>.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-calendar value="2026-09-04"></ui-calendar>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-calendar</span> <span class="attr">value</span>=<span class="str">"2026-09-04"</span>&gt;&lt;/<span class="tag">ui-calendar</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>string</td><td><code>""</code></td><td class="desc">Fecha seleccionada, formato ISO (<code>YYYY-MM-DD</code>).</td></tr>
+        <tr><td><code>min</code> / <code>max</code></td><td>string</td><td><code>""</code></td><td class="desc">Rango habilitado, mismo formato ISO.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-change</code></td><td><code>{ value }</code></td><td class="desc">Al hacer click en un día habilitado.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-calendar</span> [<span class="attr">value</span>]=<span class="str">"selectedDate"</span> (ui-change)=<span class="str">"selectedDate = $event.detail.value"</span>&gt;&lt;/<span class="tag">ui-calendar</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-calendar</span> <span class="attr">value</span>=<span class="str">"{{ $selectedDate }}"</span> <span class="attr">wire:model</span>=<span class="str">"selectedDate"</span>&gt;&lt;/<span class="tag">ui-calendar</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Cada día es un <code>&lt;button&gt;</code> real, navegable por <code>Tab</code>.</li>
+      <li>El día de hoy se distingue con texto en negrita/color, no solo un fondo — visible incluso sin percepción de color.</li>
+      <li>Pendiente v2: navegación por flechas entre días (patrón ARIA Grid) — por ahora es <code>Tab</code> día por día.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

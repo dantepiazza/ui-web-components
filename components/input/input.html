@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/input.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>Input</h1>
+    <p class="doc-lede">Campo de texto con etiqueta, texto de ayuda y estado de error, sobre un <code>&lt;input&gt;</code> nativo.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo stacked" style="gap:1rem">
+      <ui-input label="Nombre" placeholder="Tu nombre" style="width:16rem"></ui-input>
+      <ui-input label="Email" type="email" placeholder="vos@ejemplo.com" help-text="Nunca lo compartimos." style="width:16rem"></ui-input>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-input</span> <span class="attr">label</span>=<span class="str">"Nombre"</span> <span class="attr">placeholder</span>=<span class="str">"Tu nombre"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;</pre>
+
+    <h3>Con error</h3>
+    <div class="doc-demo">
+      <ui-input label="Email" value="no-es-un-email" error="Ingresá un email válido" style="width:16rem"></ui-input>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-input</span> <span class="attr">label</span>=<span class="str">"Email"</span> <span class="attr">error</span>=<span class="str">"Ingresá un email válido"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;</pre>
+
+    <h3>Con ícono</h3>
+    <div class="doc-demo">
+      <ui-input icon="search" placeholder="Buscar..." style="width:16rem"></ui-input>
+      <ui-input icon="eye" icon-position="end" placeholder="Contraseña" style="width:16rem"></ui-input>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-input</span> <span class="attr">icon</span>=<span class="str">"search"</span> <span class="attr">placeholder</span>=<span class="str">"Buscar..."</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;
+&lt;<span class="tag">ui-input</span> <span class="attr">icon</span>=<span class="str">"eye"</span> <span class="attr">icon-position</span>=<span class="str">"end"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;</pre>
+    <p class="doc-lede" style="margin-bottom:1.5rem">Reemplaza al viejo <code>ui-input-icon</code> — es decorativo (una pista visual, como una unidad o una lupa), no un botón interactivo. Para "buscar con botón de borrar" usá <a href="../input-search/input-search.html">Input Search</a>.</p>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Etiqueta visible, asociada por <code>id</code>.</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre de un ícono del set de <a href="../icon/icon.html">Icon</a>, decorativo dentro del campo.</td></tr>
+        <tr><td><code>icon-position</code></td><td>"start" | "end"</td><td><code>"start"</code></td><td class="desc">Lado del ícono dentro del campo.</td></tr>
+        <tr><td><code>type</code></td><td>string</td><td><code>"text"</code></td><td class="desc">Tipo nativo (<code>text</code>, <code>email</code>, <code>password</code>, <code>number</code>, etc).</td></tr>
+        <tr><td><code>value</code></td><td>string</td><td><code>""</code></td><td class="desc">Valor del campo.</td></tr>
+        <tr><td><code>placeholder</code></td><td>string</td><td><code>""</code></td><td class="desc">Placeholder.</td></tr>
+        <tr><td><code>help-text</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto de ayuda debajo del campo. Se oculta si hay <code>error</code>.</td></tr>
+        <tr><td><code>error</code></td><td>string</td><td><code>""</code></td><td class="desc">Mensaje de error — activa el estado visual inválido.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el campo.</td></tr>
+        <tr><td><code>required</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Marca el campo como requerido (asterisco visual + atributo nativo).</td></tr>
+        <tr><td><code>name</code></td><td>string</td><td><code>""</code></td><td class="desc">Nombre del campo en un <code>&lt;form&gt;</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1.5rem">No tiene slots.</p>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-input</code></td><td><code>{ value }</code></td><td class="desc">En cada tecleo (además del <code>input</code> nativo, que también burbujea).</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-input</span> <span class="attr">label</span>=<span class="str">"Email"</span> [<span class="attr">value</span>]=<span class="str">"email"</span> [<span class="attr">error</span>]=<span class="str">"emailError"</span>
+  (ui-input)=<span class="str">"email = $event.detail.value"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-input</span> <span class="attr">label</span>=<span class="str">"Email"</span> <span class="attr">name</span>=<span class="str">"email"</span>
+  <span class="attr">wire:model.blur</span>=<span class="str">"email"</span> <span class="attr">error</span>=<span class="str">"{{ $errors->first('email') }}"</span>&gt;&lt;/<span class="tag">ui-input</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><code>&lt;label for&gt;</code> asociado al input por <code>id</code>.</li>
+      <li><code>aria-invalid</code> y <code>aria-describedby</code> apuntan al mensaje de error o de ayuda correspondiente.</li>
+      <li>El asterisco de <code>required</code> es visual; el atributo <code>required</code> nativo también está presente para validación del navegador y lectores de pantalla.</li>
+      <li>Contraste AA del borde de error (<code>rose-400</code>) y del texto de ayuda (<code>zinc-500</code>) sobre fondo blanco.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

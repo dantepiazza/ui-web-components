@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MultiSelect · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/multiselect.js" defer></script>
+  <script src="../dist/option.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Forms</p>
+    <h1>MultiSelect</h1>
+    <p class="doc-lede">Como <a href="../select/select.html">Select</a>, pero mantiene varias selecciones — se muestran como chips en el trigger y el menú no se cierra al elegir.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-multiselect placeholder="Elegí tecnologías" style="width:18rem">
+        <ui-option value="js">JavaScript</ui-option>
+        <ui-option value="php">PHP</ui-option>
+        <ui-option value="lit">Lit</ui-option>
+        <ui-option value="tw">Tailwind</ui-option>
+      </ui-multiselect>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-multiselect</span> <span class="attr">placeholder</span>=<span class="str">"Elegí tecnologías"</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"js"</span>&gt;JavaScript&lt;/<span class="tag">ui-option</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"php"</span>&gt;PHP&lt;/<span class="tag">ui-option</span>&gt;
+&lt;/<span class="tag">ui-multiselect</span>&gt;</pre>
+
+    <h3>Modo "cantidad" (display="count")</h3>
+    <p class="doc-lede">Para filtros: el trigger muestra un <code>label</code> fijo + un badge con la cantidad elegida, en vez de los chips. El popover suma un link "Limpiar" cuando hay algo seleccionado. Es lo que usa <a href="../filter-bar/filter-bar.html">Filter Bar</a> internamente.</p>
+    <div class="doc-demo">
+      <ui-multiselect display="count" label="Superficie" style="width:auto">
+        <ui-option value="maderas">Maderas</ui-option>
+        <ui-option value="metales">Metales</ui-option>
+        <ui-option value="paredes">Paredes</ui-option>
+      </ui-multiselect>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-multiselect</span> <span class="attr">display</span>=<span class="str">"count"</span> <span class="attr">label</span>=<span class="str">"Superficie"</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"maderas"</span>&gt;Maderas&lt;/<span class="tag">ui-option</span>&gt;
+&lt;/<span class="tag">ui-multiselect</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>placeholder</code></td><td>string</td><td><code>"Seleccionar..."</code></td><td class="desc">Texto cuando no hay selección (modo <code>display="value"</code>).</td></tr>
+        <tr><td><code>display</code></td><td>"value" | "count"</td><td><code>"value"</code></td><td class="desc">"value": el trigger muestra chips por cada elegido. "count": muestra <code>label</code> + badge con la cantidad — look de "chip de filtro".</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto fijo del trigger en modo <code>display="count"</code>.</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <table class="doc-table">
+      <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody><tr><td>(default)</td><td class="desc">Elementos <code>ui-option</code>.</td></tr></tbody>
+    </table>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody><tr><td><code>ui-change</code></td><td><code>{ values }</code></td><td class="desc">Al marcar/desmarcar una opción o quitar un chip. <code>values</code> es un array.</td></tr></tbody>
+    </table>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="angular" class="active">Angular</button>
+      <button data-framework-tab="livewire">Livewire / Blade</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-multiselect</span> (ui-change)=<span class="str">"skills = $event.detail.values"</span>&gt;
+  &lt;<span class="tag">ui-option</span> *ngFor=<span class="str">"let t of techs"</span> [<span class="attr">value</span>]=<span class="str">"t.id"</span>&gt;{{ t.name }}&lt;/<span class="tag">ui-option</span>&gt;
+&lt;/<span class="tag">ui-multiselect</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-multiselect</span> <span class="attr">x-on:ui-change</span>=<span class="str">"$wire.skills = $event.detail.values"</span>&gt;
+  @foreach ($techs as $t)
+    &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"{{ $t->id }}"</span>&gt;{{ $t->name }}&lt;/<span class="tag">ui-option</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-multiselect</span>&gt;</pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>Lista con <code>role="listbox"</code> y <code>aria-multiselectable="true"</code>.</li>
+      <li>Cada chip tiene su propio control de quitar independiente del trigger principal.</li>
+      <li>Mismo pendiente v2 que Select: navegación completa por flechas dentro de la lista.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>
