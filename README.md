@@ -1,5 +1,9 @@
 # UI Web Components
 
+> ⚠️ **En construcción.** La librería todavía está en desarrollo activo — API de componentes,
+> convenciones y estructura de carpetas pueden cambiar sin aviso entre versiones `0.x`. No
+> recomendado todavía para producción; fijate siempre a un tag concreto (no `@main`) si lo probás.
+
 Librería de Web Components liviana, agnóstica de framework, 100% MIT — de por vida. Construida
 sobre [Lit](https://lit.dev), en Light DOM, estilada exclusivamente con **tokens nativos de
 Tailwind**, con una capa fina de tokens semánticos (`--ui-*`) para theming y modo oscuro.
