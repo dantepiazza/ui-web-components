@@ -1,6 +1,6 @@
 {
   "name": "ui-web-components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "scripts": {
     "build": "node scripts/build-components.mjs && npm run build:css",

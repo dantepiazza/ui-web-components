@@ -5592,6 +5592,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       placeholder: { type: String },
       label: { type: String },
       display: { type: String },
+      name: { type: String },
       disabled: { type: Boolean, reflect: true },
       _open: { state: true }
     };
@@ -5604,6 +5605,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.placeholder = "Seleccionar...";
       this.label = "";
       this.display = "value";
+      this.name = "";
       this.disabled = false;
       this._open = false;
       this._label = "";
@@ -5623,13 +5625,25 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       super.disconnectedCallback();
       document.removeEventListener("click", this._onDocClick);
     }
+    // El texto de una opción se resuelve contra el contenido original (no contra el DOM
+    // renderizado): las <ui-option> solo existen en el DOM mientras el dropdown está
+    // abierto, así que un `value` inicial/programático no encontraría su opción.
+    #labelFor(value) {
+      const template = document.createElement("template");
+      template.innerHTML = this._content || "";
+      const option = [...template.content.querySelectorAll(`${window.__uiwc.prefix}-option`)].find((o7) => (o7.getAttribute("value") ?? "") === value);
+      return option ? option.textContent.trim() : "";
+    }
+    willUpdate(changed) {
+      if (changed.has("value")) this._label = this.#labelFor(this.value);
+    }
     #handleOptionClick(e6) {
       const option = e6.target.closest(`${window.__uiwc.prefix}-option`);
       if (!option) return;
+      const label = option.textContent.trim();
       this.value = option.value;
-      this._label = option.textContent.trim();
       this._open = false;
-      this.dispatchEvent(new CustomEvent("ui-change", { bubbles: true, composed: true, detail: { value: this.value, label: this._label } }));
+      this.dispatchEvent(new CustomEvent("ui-change", { bubbles: true, composed: true, detail: { value: this.value, label } }));
     }
     #handleKeydown(e6) {
       if (e6.key === "Escape") this._open = false;
@@ -5641,7 +5655,6 @@ window.__uiwc.register = window.__uiwc.register || (function () {
     updated() {
       this.querySelectorAll(`${window.__uiwc.prefix}-option`).forEach((option) => {
         option.selected = option.value === this.value;
-        if (option.selected && !this._label) this._label = option.textContent.trim();
       });
     }
     render() {
@@ -5649,6 +5662,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       const count = this.value ? 1 : 0;
       return b2`
       <div class="${window.__uiwc.prefix}-select relative" @keydown=${this.#handleKeydown}>
+        ${this.name ? b2`<input type="hidden" name=${this.name} .value=${this.value} ?disabled=${this.disabled} />` : ""}
         <button
           type="button"
           class="flex ${isCount ? "w-auto" : "w-full"} items-center gap-1.5 rounded border bg-surface px-3 py-2 text-sm text-left focus:outline-none focus:ring-2 focus:ring-brand-900 disabled:bg-base-50 disabled:opacity-60 ${count > 0 ? "border-base-900 text-base-900" : "border-base-300 text-base-400"} ${!isCount && this.value ? "text-base-900" : ""}"

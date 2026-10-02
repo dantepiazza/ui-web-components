@@ -51,6 +51,7 @@
         <tr><td><code>placeholder</code></td><td>string</td><td><code>"Seleccionar..."</code></td><td class="desc">Texto cuando no hay selección (modo <code>display="value"</code>).</td></tr>
         <tr><td><code>display</code></td><td>"value" | "count"</td><td><code>"value"</code></td><td class="desc">"value": el trigger muestra el texto elegido. "count": muestra <code>label</code> + badge de cantidad (0/1) — look de "chip de filtro".</td></tr>
         <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto fijo del trigger en modo <code>display="count"</code>.</td></tr>
+        <tr><td><code>name</code></td><td>string</td><td><code>""</code></td><td class="desc">Si está definido, el valor viaja con el <code>&lt;form&gt;</code> que lo contiene (se renderiza un <code>&lt;input type="hidden"&gt;</code>). Un select <code>disabled</code> no se envía. Sin <code>name</code> no se renderiza ningún input. <code>required</code> no está soportado: validá en el servidor.</td></tr>
         <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
       </tbody>
     </table>
@@ -58,7 +59,7 @@
     <h2>Slots</h2>
     <table class="doc-table">
       <thead><tr><th>Slot</th><th class="desc">Descripción</th></tr></thead>
-      <tbody><tr><td>(default)</td><td class="desc">Elementos <code>ui-option</code>.</td></tr></tbody>
+      <tbody><tr><td>(default)</td><td class="desc">Elementos <code>ui-option</code> — no <code>&lt;option&gt;</code> nativas: el click solo se reconoce sobre <code>ui-option</code>.</td></tr></tbody>
     </table>
 
     <h2>Eventos</h2>
