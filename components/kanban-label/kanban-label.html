@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Label · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/kanban-label.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Indicadores</p>
+    <h1>Kanban Label</h1>
+    <p class="doc-lede">Chip cuyo color viene de un dato (cualquier color CSS, por ejemplo una etiqueta con color elegido por el usuario y guardado en base). Fondo al ~13% del color y texto del color — se lee bien en claro y en oscuro. Vive junto al Kanban pero no depende de él: sirve donde necesites un chip con color en tiempo de ejecución, algo que los <code>variant</code> fijos de <a href="../tag/tag.html">Tag</a> y <a href="../badge/badge.html">Badge</a> no pueden.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo">
+      <ui-kanban-label color="#7c3aed">Diseño</ui-kanban-label>
+      <ui-kanban-label color="#0ea5e9">Web</ui-kanban-label>
+      <ui-kanban-label color="#16a34a">Dev</ui-kanban-label>
+      <ui-kanban-label color="#e11d48">Urgente</ui-kanban-label>
+      <ui-kanban-label color="rgb(234 179 8)">Cualquier color CSS</ui-kanban-label>
+      <ui-kanban-label>Sin color</ui-kanban-label>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-kanban-label</span> <span class="attr">color</span>=<span class="str">"#7c3aed"</span>&gt;Diseño&lt;/<span class="tag">ui-kanban-label</span>&gt;
+<span class="comment">&lt;!-- el color viene del dato: --&gt;</span>
+&lt;<span class="tag">ui-kanban-label</span> <span class="attr">color</span>=<span class="str">"{{ $label-&gt;color }}"</span>&gt;{{ $label-&gt;name }}&lt;/<span class="tag">ui-kanban-label</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>color</code></td><td>string (color CSS)</td><td>neutro</td><td class="desc">Hex, <code>rgb()</code>, <code>hsl()</code>, nombre… Se aplica como variable CSS y se mezcla con <code>color-mix</code>.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li>El color solo no debe transmitir el significado: el texto de la etiqueta siempre dice lo que es.</li>
+      <li>Con colores muy claros (amarillo, celeste pálido) el texto del mismo color pierde contraste — elegí tonos medios u oscuros.</li>
+    </ul>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

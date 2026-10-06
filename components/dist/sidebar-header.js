@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -742,7 +744,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       }
     }
     render() {
-      const cls = window.__uiwc.classes([`${window.__uiwc.prefix}-sidebar-header`, "shrink-0", "border-b", "border-brand-fg/15", "p-4"], this).join(" ");
+      const cls = window.__uiwc.classes([`${window.__uiwc.prefix}-sidebar-header`, "shrink-0", "border-b", "border-sidebar-fg/15", "p-4"], this).join(" ");
       return b2`
       <div class="${cls}">
         ${o5(this._content || "")}

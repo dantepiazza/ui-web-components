@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -723,14 +725,20 @@ window.__uiwc.register = window.__uiwc.register || (function () {
 
   // components/multiselect/multiselect.js
   window.__uiwc = window.__uiwc || { prefix: "ui" };
+  var idCounter = 0;
+  var norm = (s4) => String(s4).normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
   var UiMultiselect = class extends i4 {
     static properties = {
       placeholder: { type: String },
       label: { type: String },
       display: { type: String },
       disabled: { type: Boolean, reflect: true },
+      searchable: { type: Boolean },
+      searchPlaceholder: { type: String, attribute: "search-placeholder" },
+      emptyLabel: { type: String, attribute: "empty-label" },
       _open: { state: true },
-      _values: { state: true }
+      _values: { state: true },
+      _query: { state: true }
     };
     createRenderRoot() {
       return this;
@@ -741,8 +749,13 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.label = "";
       this.display = "value";
       this.disabled = false;
+      this.searchable = false;
+      this.searchPlaceholder = "Buscar...";
+      this.emptyLabel = "Sin resultados";
       this._open = false;
       this._values = [];
+      this._query = "";
+      this._id = `ui-multiselect-${++idCounter}`;
       this._onDocClick = (e6) => {
         if (!this.contains(e6.target)) this._open = false;
       };
@@ -762,9 +775,57 @@ window.__uiwc.register = window.__uiwc.register || (function () {
     get values() {
       return this._values;
     }
+    willUpdate(changed) {
+      if (changed.has("_open") && !this._open) this._query = "";
+    }
+    #labels() {
+      if (!this._labels) {
+        const template = document.createElement("template");
+        template.innerHTML = this._content || "";
+        this._labels = [...template.content.querySelectorAll(`${window.__uiwc.prefix}-option`)].map((o6) => o6.textContent.trim());
+      }
+      return this._labels;
+    }
+    #visibleOptions() {
+      return [...this.querySelectorAll(`-option`)].filter((o6) => o6.style.display !== "none");
+    }
+    #activeOption() {
+      const visible = this.#visibleOptions();
+      return visible.find((o6) => o6.hasAttribute("data-active")) || visible[0];
+    }
+    #moveActive(step) {
+      const visible = this.#visibleOptions();
+      if (!visible.length) return;
+      const i6 = visible.findIndex((o6) => o6.hasAttribute("data-active"));
+      visible.forEach((o6) => o6.removeAttribute("data-active"));
+      const next = visible[(i6 + step + visible.length) % visible.length];
+      next.setAttribute("data-active", "");
+      next.style.background = "rgba(128,128,128,.15)";
+      next.scrollIntoView?.({ block: "nearest" });
+    }
+    #matches(label) {
+      const q = norm(this._query.trim());
+      return !q || norm(label).includes(q);
+    }
+    #onSearchKey(e6) {
+      if (!e6.target.matches?.("[data-search]")) return;
+      if (e6.key === "Escape") {
+        this._open = false;
+        this.querySelector("button")?.focus();
+      } else if (e6.key === "Enter") {
+        e6.preventDefault();
+        const opt = this.#activeOption();
+        if (opt) this.#toggle(opt);
+      } else if (e6.key === "ArrowDown" || e6.key === "ArrowUp") {
+        e6.preventDefault();
+        this.#moveActive(e6.key === "ArrowDown" ? 1 : -1);
+      }
+    }
     #toggleOption(e6) {
       const option = e6.target.closest(`${window.__uiwc.prefix}-option`);
-      if (!option) return;
+      if (option) this.#toggle(option);
+    }
+    #toggle(option) {
       this._values = this._values.includes(option.value) ? this._values.filter((v2) => v2 !== option.value) : [...this._values, option.value];
       this.dispatchEvent(new CustomEvent("ui-change", { bubbles: true, composed: true, detail: { values: this._values } }));
     }
@@ -773,19 +834,28 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this._values = this._values.filter((v2) => v2 !== value);
       this.dispatchEvent(new CustomEvent("ui-change", { bubbles: true, composed: true, detail: { values: this._values } }));
     }
-    updated() {
+    updated(changed) {
       this.querySelectorAll(`${window.__uiwc.prefix}-option`).forEach((option) => {
         option.selected = this._values.includes(option.value);
+        option.style.display = this.#matches(option.textContent.trim()) ? "" : "none";
+        if (changed.has("_query")) {
+          option.removeAttribute("data-active");
+          option.style.background = "";
+        }
       });
+      if (changed.has("_open") && this._open && this.searchable) this.querySelector("[data-search]")?.focus();
     }
     #labelFor(value) {
       return this.querySelector(`ui-option[value="${value}"]`)?.textContent.trim() || value;
     }
     render() {
       const isCount = this.display === "count";
+      const noMatch = this.searchable && this._query.trim() && !this.#labels().some((l3) => this.#matches(l3));
       return b2`
-      <div class="${window.__uiwc.prefix}-multiselect relative">
+      <div class="${window.__uiwc.prefix}-multiselect relative" @keydown=${this.#onSearchKey}>
+        ${this.label && !isCount ? b2`<label for=${this._id} class="mb-1.5 block text-sm font-medium text-base-900">${this.label}</label>` : ""}
         <button
+          id=${this._id}
           type="button"
           class="flex ${isCount ? "w-auto items-center" : "min-h-[2.5rem] w-full flex-wrap items-center"} gap-1.5 rounded border bg-surface px-2.5 py-1.5 text-sm text-left focus:outline-none focus:ring-2 focus:ring-brand-900 disabled:bg-base-50 disabled:opacity-60 ${isCount && this._values.length ? "border-base-900" : "border-base-300"}"
           aria-haspopup="listbox"
@@ -822,7 +892,22 @@ window.__uiwc.register = window.__uiwc.register || (function () {
                 aria-multiselectable="true"
                 @click=${this.#toggleOption}
               >
+                ${this.searchable ? b2`
+                      <div class="sticky top-0 z-10 -mt-1 border-b border-base-100 bg-surface px-2 pb-1.5 pt-2">
+                        <input
+                          data-search
+                          type="search"
+                          autocomplete="off"
+                          aria-label=${this.searchPlaceholder}
+                          placeholder=${this.searchPlaceholder}
+                          class="w-full rounded border border-base-300 bg-surface px-2.5 py-1.5 text-sm text-base-900 focus:outline-none focus:ring-2 focus:ring-brand-900"
+                          .value=${this._query}
+                          @input=${(e6) => this._query = e6.target.value}
+                        />
+                      </div>
+                    ` : ""}
                 ${o5(this._content || "")}
+                ${noMatch ? b2`<div class="px-3 py-2 text-sm text-base-500">${this.emptyLabel}</div>` : ""}
                 ${this._values.length ? b2`
                       <div class="flex justify-end border-t border-base-100 px-1.5 pt-1.5">
                         <button

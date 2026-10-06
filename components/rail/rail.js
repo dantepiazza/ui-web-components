@@ -11,7 +11,7 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
  * group, `<ui-rail-last>` the right-aligned one, same two children, no markup
  * changes needed on your end.
  *
- * No wrapper `<div>`: this element styles itself directly. `remove-class="bg-brand-900"`
+ * No wrapper `<div>`: this element styles itself directly. `remove-class="bg-rail"`
  * strips any of its own classes — see `window.__uiwc.classes()` in the core banner.
  */
 export class UiRail extends HTMLElement {
@@ -32,7 +32,7 @@ export class UiRail extends HTMLElement {
     window.__uiwc.syncClasses(this, [
       `${window.__uiwc.prefix}-rail`,
       'fixed', 'inset-y-0', 'left-0', 'z-30', 'flex', 'w-16', 'flex-col', 'items-center', 'justify-start',
-      'gap-1.5', 'bg-brand-900', 'py-3.5',
+      'gap-1.5', 'bg-rail', 'py-3.5',
       'max-[768px]:static', 'max-[768px]:h-14', 'max-[768px]:w-full', 'max-[768px]:flex-row',
       'max-[768px]:px-3.5', 'max-[768px]:py-0',
     ]);

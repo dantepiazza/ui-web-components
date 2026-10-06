@@ -6,9 +6,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // — es la diferencia central con `<ui-dialog>`, que nunca cambia de forma.
 const POSITION_CLASSES = {
   center:
-    'rounded-xl p-6 max-w-lg w-[90vw] max-md:fixed max-md:inset-0 max-md:m-0 max-md:h-full max-md:max-h-full max-md:w-full max-md:max-w-none max-md:rounded-none',
-  left: 'fixed inset-y-0 left-0 m-0 h-full w-96 max-w-[90vw] rounded-none p-6 max-md:w-full max-md:max-w-none',
-  right: 'fixed inset-y-0 right-0 m-0 h-full w-96 max-w-[90vw] rounded-none p-6 max-md:w-full max-md:max-w-none',
+    'rounded-md max-w-lg w-[90vw] max-md:fixed max-md:inset-0 max-md:m-0 max-md:h-full max-md:max-h-full max-md:w-full max-md:max-w-none max-md:rounded-none',
+  left: 'fixed inset-y-0 left-0 m-0 h-full w-96 max-w-[90vw] rounded-none max-md:w-full max-md:max-w-none',
+  right: 'fixed inset-y-0 right-0 m-0 h-full w-96 max-w-[90vw] rounded-none max-md:w-full max-md:max-w-none',
 };
 
 /**

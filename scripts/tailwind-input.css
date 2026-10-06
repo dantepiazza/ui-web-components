@@ -61,6 +61,11 @@
     --ui-brand-950: 9 9 11;
     --ui-brand-fg: 255 255 255; /* texto/ícono sobre un fondo `brand` */
 
+    /* Sidebar / rail: color propio, independiente de `brand` */
+    --ui-sidebar: 39 39 42;
+    --ui-rail: 24 24 27;
+    --ui-sidebar-fg: 255 255 255;
+
     /* Estados semánticos (sólido + texto encima) */
     --ui-success: 4 120 87;
     --ui-success-fg: 255 255 255;
@@ -103,6 +108,10 @@
     --ui-brand-900: 244 244 245;
     --ui-brand-950: 250 250 250;
     --ui-brand-fg: 24 24 27;
+
+    /* Sidebar/rail siguen oscuros en dark (el rail un escalón más claro que el panel) */
+    --ui-sidebar: 9 9 11;
+    --ui-rail: 24 24 27;
 
     --ui-success: 52 211 153;
     --ui-success-fg: 2 44 34;

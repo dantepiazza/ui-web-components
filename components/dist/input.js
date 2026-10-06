@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -698,7 +700,11 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       required: { type: Boolean, reflect: true },
       name: { type: String },
       icon: { type: String },
-      iconPosition: { type: String, attribute: "icon-position" }
+      iconPosition: { type: String, attribute: "icon-position" },
+      step: { type: String },
+      min: { type: String },
+      max: { type: String },
+      inputmode: { type: String }
     };
     createRenderRoot() {
       return this;
@@ -716,6 +722,10 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.name = "";
       this.icon = "";
       this.iconPosition = "start";
+      this.step = "";
+      this.min = "";
+      this.max = "";
+      this.inputmode = "";
       this._id = `ui-input-${++idCounter}`;
     }
     #handleInput(e4) {
@@ -746,6 +756,10 @@ window.__uiwc.register = window.__uiwc.register || (function () {
             name=${this.name || ""}
             .value=${this.value}
             placeholder=${this.placeholder || ""}
+            step=${this.step || A}
+            min=${this.min || A}
+            max=${this.max || A}
+            inputmode=${this.inputmode || A}
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-invalid=${hasError}

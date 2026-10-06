@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -683,9 +685,9 @@ window.__uiwc.register = window.__uiwc.register || (function () {
   o4?.({ LitElement: i4 });
   (s3.litElementVersions ??= []).push("4.2.2");
 
-  // components/copy-button/copy-button.js
+  // components/button-copy/button-copy.js
   window.__uiwc = window.__uiwc || { prefix: "ui" };
-  var UiCopyButton = class extends i4 {
+  var UiButtonCopy = class extends i4 {
     static properties = {
       value: { type: String },
       label: { type: String },
@@ -707,14 +709,14 @@ window.__uiwc.register = window.__uiwc.register || (function () {
         this.dispatchEvent(new CustomEvent("ui-copy", { bubbles: true, composed: true, detail: { value: this.value } }));
         setTimeout(() => this._copied = false, 1500);
       } catch {
-        console.warn("ui-copy-button: no se pudo escribir al portapapeles");
+        console.warn("ui-button-copy: no se pudo escribir al portapapeles");
       }
     }
     render() {
       return b2`
       <button
         type="button"
-        class="${window.__uiwc.prefix}-copy-button inline-flex items-center gap-1.5 rounded border border-base-200 bg-surface px-2.5 py-1.5 text-xs font-medium text-base-900 hover:bg-base-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-900"
+        class="${window.__uiwc.prefix}-button-copy inline-flex items-center gap-1.5 rounded border border-base-200 bg-surface px-2.5 py-1.5 text-xs font-medium text-base-900 hover:bg-base-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-900"
         @click=${this.#handleClick}
         aria-label=${this.label}
       >
@@ -724,7 +726,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
     `;
     }
   };
-  window.__uiwc.register("copy-button", UiCopyButton);
+  window.__uiwc.register("button-copy", UiButtonCopy);
 })();
 /*! Bundled license information:
 

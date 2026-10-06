@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -156,9 +158,9 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       const nav = document.createElement("nav");
       nav.className = `flex-1 flex flex-col gap-1 overflow-y-auto p-4
       [&>${prefix}-sidebar-section:first-child]:!pt-0
-      [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-1 [&>a]:text-sm [&>a]:text-brand-fg/70 [&>a]:no-underline [&>a:hover]:bg-brand-fg/10 [&>a:hover]:text-brand-fg
-      [&>a.active]:bg-brand-fg/10 [&>a.active]:font-medium [&>a.active]:text-brand-fg
-      [&>hr]:my-2 [&>hr]:border-brand-fg/20`;
+      [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-1 [&>a]:text-sm [&>a]:text-sidebar-fg/70 [&>a]:no-underline [&>a:hover]:bg-sidebar-fg/10 [&>a:hover]:text-sidebar-fg
+      [&>a.active]:bg-sidebar-fg/10 [&>a.active]:font-medium [&>a.active]:text-sidebar-fg
+      [&>hr]:my-2 [&>hr]:border-sidebar-fg/20`;
       [...this.children].forEach((child) => {
         if (child !== headerEl && child !== footerEl) nav.appendChild(child);
       });
@@ -189,8 +191,8 @@ window.__uiwc.register = window.__uiwc.register || (function () {
         "h-full",
         "w-72",
         "flex-col",
-        "bg-brand-800",
-        "text-brand-fg",
+        "bg-sidebar",
+        "text-sidebar-fg",
         "transition-transform",
         "md:static",
         "md:z-auto",

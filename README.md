@@ -210,7 +210,7 @@ que resuelve a CSS custom properties:
 | `brand-fg` | Texto/ícono **encima** de un fondo `brand` | `white` |
 | `success` · `warning` · `danger` · `info` (+ `-fg`) | Estados semánticos (callout, toast, validación de inputs, progress) | emerald · amber · rose · blue |
 
-El **sidebar** usa `bg-brand-800` + `text-brand-fg` y el **rail** `bg-brand-900` — siguen la marca. Con el default (brand = zinc) se ven negro/gris como siempre; con una marca de color, se tiñen. En modo oscuro heredan lo que definas para `--ui-brand-*` bajo `.dark` (si querés un sidebar oscuro en dark, poné valores oscuros ahí — el `.dark` de fábrica invierte `brand`, pensado para la marca neutra).
+El **sidebar** y el **rail** tienen color propio, independiente de `brand`: `--ui-sidebar` (panel, `bg-sidebar`), `--ui-rail` (`bg-rail`) y `--ui-sidebar-fg` (texto/íconos encima, siempre claro). Así en dark pueden ser un escalón más oscuro que la marca sin oscurecer también el botón primary. Típico: en light poné tu azul de marca, en `.dark` uno más oscuro (ej. `--ui-rail: 19 39 92; --ui-sidebar: 10 26 77;`). Defaults: zinc oscuro en ambos temas.
 
 Cada token es `rgb(var(--ui-TOKEN, <default>) / <alpha-value>)`, así:
 1. funciona el modificador de opacidad (`bg-brand-600/10`),

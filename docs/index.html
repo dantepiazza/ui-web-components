@@ -32,7 +32,7 @@
   <script src="../components/dist/command-palette.js" defer></script>
   <script src="../components/dist/composer.js" defer></script>
   <script src="../components/dist/context-menu.js" defer></script>
-  <script src="../components/dist/copy-button.js" defer></script>
+  <script src="../components/dist/button-copy.js" defer></script>
   <script src="../components/dist/cropper.js" defer></script>
   <script src="../components/dist/data-grid.js" defer></script>
   <script src="../components/dist/data-grid-column.js" defer></script>
@@ -51,6 +51,12 @@
   <script src="../components/dist/kanban.js" defer></script>
   <script src="../components/dist/main.js" defer></script>
   <script src="../components/dist/kanban-card.js" defer></script>
+  <script src="../components/dist/kanban-label.js" defer></script>
+  <script src="../components/dist/file-manager.js" defer></script>
+  <script src="../components/dist/file-manager-item.js" defer></script>
+  <script src="../components/dist/file-manager-folder.js" defer></script>
+  <script src="../components/dist/file-manager-action.js" defer></script>
+  <script src="../components/dist/avatar-group.js" defer></script>
   <script src="../components/dist/kanban-column.js" defer></script>
   <script src="../components/dist/knob.js" defer></script>
   <script src="../components/dist/menu.js" defer></script>
@@ -314,7 +320,7 @@ import '@ui-web-components/components';
       { slug: 'button-group', title: 'Button Group', desc: 'Agrupa varios Button en una fila.', demo: '<ui-button-group><ui-button size="sm" variant="secondary">Día</ui-button><ui-button size="sm" variant="secondary">Mes</ui-button></ui-button-group>' },
       { slug: 'splitbutton', title: 'Splitbutton', desc: 'Acción principal + menú de acciones secundarias.', demo: '<ui-splitbutton label="Guardar"><button data-value="a">Guardar como...</button></ui-splitbutton>' },
       { slug: 'speeddial', title: 'Speeddial', desc: 'Botón flotante que despliega una columna de acciones.', demo: '<div style="transform:scale(.8)"><ui-speeddial inline><ui-speeddial-item icon="users" label="Nuevo"></ui-speeddial-item></ui-speeddial></div>' },
-      { slug: 'copy-button', title: 'Copy Button', desc: 'Copia un valor al portapapeles con feedback.', demo: '<ui-copy-button value="npm install"></ui-copy-button>' },
+      { slug: 'button-copy', title: 'Button Copy', desc: 'Copia un valor al portapapeles con feedback.', demo: '<ui-button-copy value="npm install"></ui-button-copy>' },
       { slug: 'tooltip', title: 'Tooltip', desc: 'No es un componente — es un atributo (ui-tooltip="...") que anda en cualquier elemento.', demo: '<ui-button size="sm" variant="secondary" ui-tooltip="Info" ui-tooltip-placement="top">Hover</ui-button>' },
       { slug: 'theme-toggle', title: 'Theme Toggle', desc: 'Atributo (ui-theme-toggle) que togglea class="dark" en el <html> al hacer click.', demo: '<ui-button size="sm" variant="secondary" ui-theme-toggle>Cambiar tema</ui-button>' },
       { slug: 'pull-refresh', title: 'Pull to Refresh', desc: 'Arrastrar hacia abajo desde el tope dispara un refresco (touch), estilo Ionic.', demo: '<span class="text-sm text-zinc-500">Solo touch — ver documentación</span>' },
@@ -362,7 +368,8 @@ import '@ui-web-components/components';
       { slug: 'stepper', title: 'Stepper', desc: 'Indicador de pasos numerados.', demo: '<div style="width:95%"><ui-stepper><ui-step label="Datos" active></ui-step><ui-step label="Pago"></ui-step></ui-stepper></div>' },
       { slug: 'carousel', title: 'Carousel', desc: 'Scroll-snap nativo, sin reinventar el swipe.', demo: '<div style="width:90%"><ui-carousel><ui-carousel-slide style="background:#e4e4e7;height:50px;display:flex;align-items:center;justify-content:center;font-size:.7rem">1</ui-carousel-slide><ui-carousel-slide style="background:#d4d4d8;height:50px;display:flex;align-items:center;justify-content:center;font-size:.7rem">2</ui-carousel-slide></ui-carousel></div>' },
       { slug: 'timeline', title: 'Timeline', desc: 'Eventos verticales con punto y línea conectora.', demo: '<div style="width:90%"><ui-timeline><ui-timeline-item title="Hoy" variant="success">Enviado</ui-timeline-item></ui-timeline></div>' },
-      { slug: 'kanban', title: 'Kanban', desc: 'Tablero drag and drop, API nativa HTML5.', demo: '<div style="transform:scale(.62);transform-origin:top left;width:161%"><ui-kanban><ui-kanban-column label="To do"><ui-kanban-card>Tarea 1</ui-kanban-card></ui-kanban-column><ui-kanban-column label="Done"><ui-kanban-card>Tarea 2</ui-kanban-card></ui-kanban-column></ui-kanban></div>' },
+      { slug: 'kanban', title: 'Kanban', desc: 'Tablero drag and drop: mouse, touch y teclado.', demo: '<div style="transform:scale(.62);transform-origin:top left;width:161%"><ui-kanban><ui-kanban-column label="To do"><ui-kanban-card>Tarea 1</ui-kanban-card></ui-kanban-column><ui-kanban-column label="Done"><ui-kanban-card>Tarea 2</ui-kanban-card></ui-kanban-column></ui-kanban></div>' },
+      { slug: 'file-manager', title: 'File Manager', desc: 'Explorador de archivos sin backend: selección, teclado y eventos.', demo: '<div style="width:100%"><ui-file-manager root-label="Unidad" path="Docs"><ui-file-manager-item item-id="1" type="folder" name="Facturas"></ui-file-manager-item><ui-file-manager-item item-id="2" name="Contrato.pdf" ext="pdf" size="1,2 MB"></ui-file-manager-item></ui-file-manager></div>' },
       { slug: 'calendar', title: 'Calendar', desc: 'Grilla mensual standalone.', demo: '<div style="transform:scale(.5);transform-origin:top center"><ui-calendar value="2026-09-04"></ui-calendar></div>' },
       { slug: 'composer', title: 'Composer', desc: 'Input estilo chat/IA, auto-crece al escribir.', demo: '<div style="width:95%"><ui-composer placeholder="Escribí..."></ui-composer></div>' },
       { slug: 'rich-text-editor', title: 'Rich Text Editor', desc: 'WYSIWYG mínimo con toolbar de formato.', demo: '<div style="width:95%;transform:scale(.85);transform-origin:top left"><ui-rich-text-editor><p>Texto <b>rico</b></p></ui-rich-text-editor></div>' },

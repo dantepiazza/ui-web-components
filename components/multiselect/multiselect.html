@@ -44,14 +44,52 @@
   &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"maderas"</span>&gt;Maderas&lt;/<span class="tag">ui-option</span>&gt;
 &lt;/<span class="tag">ui-multiselect</span>&gt;</pre>
 
+    <h2>Buscador (<code>searchable</code>)</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Igual que en el <a href="../select/select.html">Select</a>: con <code>searchable</code> hay un campo de búsqueda fijo arriba del listado, y la lista sigue abierta mientras elegís varias opciones. Escribí para filtrar (sin distinguir mayúsculas ni acentos: "canada" encuentra "Canadá"); si nada coincide aparece "Sin resultados". <kbd>Enter</kbd> alterna la primera coincidencia, <kbd>Esc</kbd> cierra. El campo se limpia solo al cerrar.</p>
+    <div class="doc-demo">
+      <ui-multiselect searchable placeholder="Elegí un país" style="min-width:16rem">
+        <ui-option value="argentina">Argentina</ui-option>
+        <ui-option value="bolivia">Bolivia</ui-option>
+        <ui-option value="brasil">Brasil</ui-option>
+        <ui-option value="ca">Canadá</ui-option>
+        <ui-option value="chile">Chile</ui-option>
+        <ui-option value="colombia">Colombia</ui-option>
+        <ui-option value="costa-rica">Costa Rica</ui-option>
+        <ui-option value="cuba">Cuba</ui-option>
+        <ui-option value="ecuador">Ecuador</ui-option>
+        <ui-option value="el-salvador">El Salvador</ui-option>
+        <ui-option value="es">España</ui-option>
+        <ui-option value="estados-unidos">Estados Unidos</ui-option>
+        <ui-option value="guatemala">Guatemala</ui-option>
+        <ui-option value="honduras">Honduras</ui-option>
+        <ui-option value="mx">México</ui-option>
+        <ui-option value="nicaragua">Nicaragua</ui-option>
+        <ui-option value="panamá">Panamá</ui-option>
+        <ui-option value="paraguay">Paraguay</ui-option>
+        <ui-option value="pe">Perú</ui-option>
+        <ui-option value="portugal">Portugal</ui-option>
+        <ui-option value="república-dominicana">República Dominicana</ui-option>
+        <ui-option value="uruguay">Uruguay</ui-option>
+        <ui-option value="venezuela">Venezuela</ui-option>
+      </ui-multiselect>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-multiselect</span> <span class="attr">searchable</span> <span class="attr">placeholder</span>=<span class="str">"Elegí un país"</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"ar"</span>&gt;Argentina&lt;/<span class="tag">ui-option</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"ca"</span>&gt;Canadá&lt;/<span class="tag">ui-option</span>&gt;
+  <span class="comment">&lt;!-- ...cientos más: se filtran al escribir, sin acentos ni mayúsculas --&gt;</span>
+&lt;/<span class="tag">ui-multiselect</span>&gt;</pre>
+
     <h2>Props</h2>
     <table class="doc-table">
       <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
       <tbody>
         <tr><td><code>placeholder</code></td><td>string</td><td><code>"Seleccionar..."</code></td><td class="desc">Texto cuando no hay selección (modo <code>display="value"</code>).</td></tr>
         <tr><td><code>display</code></td><td>"value" | "count"</td><td><code>"value"</code></td><td class="desc">"value": el trigger muestra chips por cada elegido. "count": muestra <code>label</code> + badge con la cantidad — look de "chip de filtro".</td></tr>
-        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto fijo del trigger en modo <code>display="count"</code>.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Con <code>display="value"</code> se dibuja como label del campo (encima del trigger). Con <code>display="count"</code> es el texto fijo del trigger.</td></tr>
         <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+        <tr><td><code>searchable</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Agrega un campo de búsqueda arriba del listado que filtra las opciones al escribir (sin distinguir mayúsculas ni acentos). Pensado para listas largas.</td></tr>
+        <tr><td><code>search-placeholder</code></td><td>string</td><td><code>"Buscar..."</code></td><td class="desc">Placeholder (y nombre accesible) del campo de búsqueda.</td></tr>
+        <tr><td><code>empty-label</code></td><td>string</td><td><code>"Sin resultados"</code></td><td class="desc">Texto cuando ninguna opción coincide con la búsqueda.</td></tr>
       </tbody>
     </table>
 

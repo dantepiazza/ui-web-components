@@ -53,9 +53,9 @@ export class UiSidebar extends HTMLElement {
     const nav = document.createElement('nav');
     nav.className = `flex-1 flex flex-col gap-1 overflow-y-auto p-4
       [&>${prefix}-sidebar-section:first-child]:!pt-0
-      [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-1 [&>a]:text-sm [&>a]:text-brand-fg/70 [&>a]:no-underline [&>a:hover]:bg-brand-fg/10 [&>a:hover]:text-brand-fg
-      [&>a.active]:bg-brand-fg/10 [&>a.active]:font-medium [&>a.active]:text-brand-fg
-      [&>hr]:my-2 [&>hr]:border-brand-fg/20`;
+      [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-1 [&>a]:text-sm [&>a]:text-sidebar-fg/70 [&>a]:no-underline [&>a:hover]:bg-sidebar-fg/10 [&>a:hover]:text-sidebar-fg
+      [&>a.active]:bg-sidebar-fg/10 [&>a.active]:font-medium [&>a.active]:text-sidebar-fg
+      [&>hr]:my-2 [&>hr]:border-sidebar-fg/20`;
 
     // Move everything that isn't the header/footer into nav (real nodes, not a
     // captured-and-reparsed string — any state they hold survives).
@@ -88,7 +88,7 @@ export class UiSidebar extends HTMLElement {
     window.__uiwc.syncClasses(this, [
       `${window.__uiwc.prefix}-sidebar`,
       'fixed', 'inset-y-0', 'left-0', 'z-40', 'flex', 'h-full', 'w-72', 'flex-col',
-      'bg-brand-800', 'text-brand-fg', 'transition-transform',
+      'bg-sidebar', 'text-sidebar-fg', 'transition-transform',
       'md:static', 'md:z-auto', 'md:translate-x-0',
     ]);
   }

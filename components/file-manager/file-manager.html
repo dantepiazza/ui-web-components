@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Manager · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/file-manager.js" defer></script>
+  <script src="../dist/file-manager-item.js" defer></script>
+  <script src="../dist/file-manager-folder.js" defer></script>
+  <script src="../dist/file-manager-action.js" defer></script>
+  <script src="../dist/icon.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Data display</p>
+    <h1>File Manager</h1>
+    <p class="doc-lede">Explorador de archivos <strong>sin backend</strong>: tu servidor decide qué hay en la carpeta, vos renderizás esos items como hijos y escuchás eventos. El componente selecciona, navega con teclado, muestra la ruta y avisa — nunca sube, renombra, borra ni navega por su cuenta. Mismas reglas que el <a href="../kanban/kanban.html">Kanban</a>: nada se envuelve, mueve ni captura, así que sirve con Livewire, React, Angular, Vue o HTMX.</p>
+
+    <h2>Demo: un "backend" simulado</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Probá: doble click en una carpeta (o en el árbol de la izquierda) navega · doble click en <code>README.md</code> lo abre renderizado en una card · en <code>Logo.svg</code>/<code>notas.txt</code> abre la vista previa (flechas ←/→ pasan al siguiente) · click derecho muestra el menú con <strong>Descargar</strong> y acciones propias · Ctrl/Shift para selección múltiple.</p>
+    <div class="doc-demo" style="display:block;width:100%">
+      <ui-file-manager id="demo-fm" root-label="Mi unidad"></ui-file-manager>
+    </div>
+    <pre id="demo-log" class="doc-code" style="min-height:4rem;max-height:10rem;overflow:auto">// los eventos aparecen acá</pre>
+    <script>
+      // --- "backend" simulado: en tu proyecto esto lo arma tu servidor ---
+      const blobUrl = (text, type) => URL.createObjectURL(new Blob([text], { type }));
+      const MD = `# Plan de entrega
+
+Documento de **ejemplo** con _varios_ elementos de Markdown, renderizado con ~~estilos propios~~ los tokens del tema.
+
+## Checklist
+
+- [x] Maquetar la pantalla
+- [x] Conectar el \`backend\`
+- [ ] Revisar con el cliente
+
+## Pasos
+
+1. Instalar dependencias
+   - \`npm install\`
+   - \`npm run build\`
+2. Desplegar en [producción](https://example.com)
+3. Verificar
+
+> **Nota:** el HTML crudo (\`<script>\`) se muestra como texto, nunca se ejecuta.
+
+<script>alert('no se ejecuta')<\/script>
+
+## Código
+
+\`\`\`js
+const fm = document.querySelector('ui-file-manager');
+fm.addEventListener('ui-fm-open', (e) => console.log(e.detail));
+\`\`\`
+
+| Estado | Responsable | Fecha |
+|--------|-------------|-------|
+| Listo  | Ana         | 01/10 |
+| Pendiente | Luis     | 05/10 |
+
+---
+
+Fin del documento.`;
+      const SVG = (c) => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320"><rect width="480" height="320" fill="${c}"/><circle cx="240" cy="160" r="90" fill="#fff" opacity=".85"/></svg>`);
+      const FOLDERS = [
+        { path: 'Proyectos', name: 'Proyectos' },
+        { path: 'Proyectos/2026', name: '2026' },
+        { path: 'Facturas', name: 'Facturas' },
+        { path: 'Archivo', name: 'Archivo', lazy: true },
+      ];
+      const TREE = {
+        '': [
+          { id: 'f1', type: 'folder', name: 'Proyectos', modified: '02/10/2026' },
+          { id: 'f2', type: 'folder', name: 'Facturas', modified: '28/09/2026' },
+          { id: 'a0', type: 'file', name: 'README.md', size: '1 KB', modified: '02/10/2026', href: blobUrl(MD, 'text/markdown') },
+          { id: 'a1', type: 'file', name: 'Logo.svg', size: '1 KB', modified: '15/09/2026', href: SVG('#6366f1'), thumb: SVG('#6366f1') },
+          { id: 'a2', type: 'file', name: 'Banner.svg', size: '1 KB', modified: '16/09/2026', href: SVG('#0ea5e9'), thumb: SVG('#0ea5e9') },
+          { id: 'a3', type: 'file', name: 'notas.txt', size: '120 B', modified: '30/09/2026', href: blobUrl('Reunión del lunes\n- Revisar presupuesto\n- Confirmar fecha de entrega\n', 'text/plain') },
+          { id: 'a4', type: 'file', name: 'Presupuesto.xlsx', size: '312 KB', modified: '30/09/2026' },
+        ],
+        'Proyectos': [
+          { id: 'f3', type: 'folder', name: '2026', modified: '02/10/2026' },
+        ],
+        'Proyectos/2026': [
+          { id: 'c1', type: 'file', name: 'entrega.zip', size: '48 MB', modified: '02/10/2026' },
+        ],
+        'Facturas': [],
+        'Archivo': [{ id: 'z1', type: 'folder', name: '2024', modified: '01/01/2025' }],
+      };
+      const fm = document.getElementById('demo-fm');
+      const log = document.getElementById('demo-log');
+      let first = true;
+      const say = (type, detail) => {
+        if (first) { log.textContent = ''; first = false; }
+        const { item, items, ...rest } = detail;
+        log.textContent = `${type}  ${JSON.stringify(rest)}\n` + log.textContent;
+      };
+      const esc = (s) => String(s ?? '').replace(/"/g, '&quot;');
+      function render(path) {
+        fm.setAttribute('path', path);
+        fm.querySelectorAll('[data-uiwc-fm-item]').forEach((n) => n.remove());
+        fm.insertAdjacentHTML('beforeend', (TREE[path] || []).map((i) =>
+          `<ui-file-manager-item item-id="${i.id}" type="${i.type}" name="${esc(i.name)}"` +
+          (i.size ? ` size="${i.size}"` : '') + (i.modified ? ` modified="${i.modified}"` : '') +
+          (i.href ? ` href="${esc(i.href)}"` : '') + (i.thumb ? ` thumb="${esc(i.thumb)}"` : '') + '></ui-file-manager-item>'
+        ).join(''));
+      }
+      customElements.whenDefined('ui-file-manager').then(() => {
+        fm.innerHTML =
+          FOLDERS.map((f) => `<ui-file-manager-folder path="${f.path}" name="${f.name}"${f.lazy ? ' has-children' : ''}></ui-file-manager-folder>`).join('') +
+          '<ui-file-manager-action value="rename" label="Renombrar" icon="edit" for="file folder"></ui-file-manager-action>' +
+          '<ui-file-manager-action value="share" label="Compartir" icon="share" for="file"></ui-file-manager-action>' +
+          '<ui-file-manager-action value="delete" label="Eliminar" icon="trash" danger></ui-file-manager-action>';
+        render('');
+        fm.addEventListener('ui-fm-open', (e) => {
+          say(e.type, e.detail);
+          if (e.detail.type === 'folder') { e.preventDefault(); render([fm.getAttribute('path'), e.detail.name].filter(Boolean).join('/')); }
+        });
+        fm.addEventListener('ui-fm-navigate', (e) => { say(e.type, e.detail); render(e.detail.path); });
+        ['ui-fm-select', 'ui-fm-view', 'ui-fm-contextmenu', 'ui-fm-action', 'ui-fm-download', 'ui-fm-preview', 'ui-fm-expand', 'ui-fm-delete-request', 'ui-fm-rename-request']
+          .forEach((t) => fm.addEventListener(t, (e) => say(t, e.detail)));
+      });
+    </script>
+
+    <h2>Uso básico</h2>
+    <pre class="doc-code">&lt;<span class="tag">ui-file-manager</span> <span class="attr">path</span>=<span class="str">"Proyectos/2026"</span> <span class="attr">root-label</span>=<span class="str">"Mi unidad"</span>&gt;
+  &lt;<span class="tag">ui-file-manager-item</span> <span class="attr">item-id</span>=<span class="str">"7"</span> <span class="attr">type</span>=<span class="str">"folder"</span> <span class="attr">name</span>=<span class="str">"Entregas"</span> <span class="attr">modified</span>=<span class="str">"02/10/2026"</span>&gt;&lt;/<span class="tag">ui-file-manager-item</span>&gt;
+  &lt;<span class="tag">ui-file-manager-item</span> <span class="attr">item-id</span>=<span class="str">"12"</span> <span class="attr">name</span>=<span class="str">"Contrato.pdf"</span> <span class="attr">ext</span>=<span class="str">"pdf"</span> <span class="attr">size</span>=<span class="str">"1,2 MB"</span> <span class="attr">modified</span>=<span class="str">"01/10/2026"</span>&gt;&lt;/<span class="tag">ui-file-manager-item</span>&gt;
+&lt;/<span class="tag">ui-file-manager</span>&gt;</pre>
+
+    <h2>El contrato con el backend</h2>
+    <ol class="doc-checklist">
+      <li><span><strong>Vos pasás los datos</strong>: cada item lleva todo en atributos (<code>name</code>, <code>size</code>, <code>modified</code>… ya formateados). El componente no formatea ni ordena — mandalos en el orden que quieras mostrar.</span></li>
+      <li><span><strong>El componente avisa</strong> con eventos (<code>ui-fm-open</code>, <code>ui-fm-navigate</code>…); <strong>vos hacés la operación</strong> y volvés a renderizar la lista de la carpeta nueva (y el atributo <code>path</code>).</span></li>
+      <li><span>La selección vive en el DOM (atributo <code>selected</code> en los items). Si tu framework re-renderiza la lista, se pierde: cambió la carpeta, es lo esperado. Si re-renderizás la misma carpeta y querés conservarla, volvé a poner <code>selected</code> o llamá <code>fm.select(ids)</code>.</span></li>
+    </ol>
+
+    <h2>Eventos</h2>
+    <table class="doc-table">
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-fm-select</code></td><td><code>{ ids, items }</code></td><td class="desc">Cambió la selección. <strong>Cancelable</strong>: <code>preventDefault()</code> la rechaza.</td></tr>
+        <tr><td><code>ui-fm-open</code></td><td><code>{ itemId, type, name, item }</code></td><td class="desc">Doble click, Enter, o tap en touch. <strong>Cancelable.</strong> Carpeta → navegá vos. Archivo con <code>href</code> de un tipo soportado → si no cancelás, se abre la <a href="#preview">vista previa</a> incorporada.</td></tr>
+        <tr><td><code>ui-fm-navigate</code></td><td><code>{ path }</code></td><td class="desc">Click en un tramo de la ruta (<code>""</code> = raíz).</td></tr>
+        <tr><td><code>ui-fm-view</code></td><td><code>{ view }</code></td><td class="desc">Se cambió entre lista y cuadrícula (el atributo <code>view</code> ya se actualizó).</td></tr>
+        <tr><td><code>ui-fm-contextmenu</code></td><td><code>{ itemId, ids, x, y }</code></td><td class="desc">Click derecho (o tecla Menú / Shift+F10). <strong>Cancelable</strong>: cancelalo si querés mostrar tu propio menú en <code>x, y</code>; si no, se muestra el <a href="#menu">menú incorporado</a>.</td></tr>
+        <tr><td><code>ui-fm-action</code></td><td><code>{ value, ids, itemId }</code></td><td class="desc">Se eligió una <code>ui-file-manager-action</code> del menú.</td></tr>
+        <tr><td><code>ui-fm-download</code></td><td><code>{ ids, items }</code></td><td class="desc">Se pidió descargar. <strong>Cancelable</strong> (ej. para armar un zip en el servidor); si no, el navegador descarga cada <code>href</code>.</td></tr>
+        <tr><td><code>ui-fm-preview</code></td><td><code>{ itemId, name, kind }</code></td><td class="desc">Se abrió (o se pasó a otro archivo en) la vista previa. <code>kind</code>: <code>image | pdf | video | audio | text | md</code>.</td></tr>
+        <tr><td><code>ui-fm-expand</code></td><td><code>{ path }</code></td><td class="desc">Se expandió en el árbol una carpeta con <code>has-children</code>: respondé declarando sus subcarpetas.</td></tr>
+        <tr><td><code>ui-fm-delete-request</code></td><td><code>{ ids }</code></td><td class="desc">Tecla Supr. Pedí confirmación con un <a href="../dialog/dialog.html">Dialog</a> y borrá en tu backend.</td></tr>
+        <tr><td><code>ui-fm-rename-request</code></td><td><code>{ itemId }</code></td><td class="desc">Tecla F2.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Props — <code>ui-file-manager</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>path</code></td><td>string</td><td><code>""</code></td><td class="desc">Carpeta actual, separada por <code>/</code>. Dibuja la ruta; cada tramo es clickeable.</td></tr>
+        <tr><td><code>root-label</code></td><td>string</td><td><code>"Inicio"</code></td><td class="desc">Texto del primer tramo (la raíz).</td></tr>
+        <tr><td><code>view</code></td><td>"list" | "grid"</td><td><code>"list"</code></td><td class="desc">Lista (con tamaño y fecha) o cuadrícula (con miniatura si el item trae <code>thumb</code>).</td></tr>
+        <tr><td><code>single</code></td><td>boolean</td><td>—</td><td class="desc">Solo un item seleccionable a la vez (útil como selector de archivo).</td></tr>
+        <tr><td><code>loading</code></td><td>boolean</td><td>—</td><td class="desc">Atenúa y bloquea mientras tu backend responde (<code>aria-busy</code>).</td></tr>
+        <tr><td><code>empty-label</code></td><td>string</td><td><code>"Esta carpeta está vacía"</code></td><td class="desc">Mensaje cuando no hay items.</td></tr>
+        <tr><td><code>no-preview</code></td><td>boolean</td><td>—</td><td class="desc">Desactiva la vista previa incorporada (solo emite <code>ui-fm-open</code>).</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+    <p class="doc-lede" style="margin-top:1rem">Métodos: <code>getSelection()</code> → ids, <code>select(ids)</code>, <code>clearSelection()</code>.</p>
+
+    <h2>Props — <code>ui-file-manager-item</code></h2>
+    <table class="doc-table">
+      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>item-id</code></td><td>string</td><td class="desc">Id que viaja en los eventos, tal cual (cae a <code>id</code>).</td></tr>
+        <tr><td><code>name</code></td><td>string</td><td class="desc">Nombre a mostrar.</td></tr>
+        <tr><td><code>type</code></td><td>"file" | "folder"</td><td class="desc">Default <code>file</code>.</td></tr>
+        <tr><td><code>size</code>, <code>modified</code></td><td>string</td><td class="desc">Texto ya formateado por tu backend.</td></tr>
+        <tr><td><code>ext</code></td><td>string</td><td class="desc">Extensión; las imágenes (<code>png</code>, <code>jpg</code>…) usan ícono de imagen.</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td class="desc">Ícono propio: nombre del set o clases de una fuente externa (<code>"pi pi-file-pdf"</code>).</td></tr>
+        <tr><td><code>thumb</code></td><td>URL</td><td class="desc">Miniatura para la vista cuadrícula.</td></tr>
+        <tr><td><code>href</code></td><td>URL</td><td class="desc">Dónde está el archivo. Habilita <strong>Descargar</strong> y la <strong>vista previa</strong>. Sin <code>href</code> el item solo se selecciona y emite eventos.</td></tr>
+        <tr><td><code>selected</code>, <code>disabled</code></td><td>boolean</td><td class="desc">Seleccionado / no interactivo.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="tree">Árbol de carpetas (barra izquierda)</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Declarás las carpetas <strong>planas</strong> con <code>ui-file-manager-folder</code>; la jerarquía sale del <code>path</code> (<code>Proyectos/2026</code> es hijo de <code>Proyectos</code>), así que no hay anidado ni nodos que se muevan — cualquier framework lo renderiza como una lista. Aparece sola apenas hay una carpeta declarada, se oculta en pantallas angostas (ahí queda la ruta), y las carpetas de la ruta actual se mantienen expandidas. Click en una carpeta emite <code>ui-fm-navigate</code>.</p>
+    <pre class="doc-code">&lt;<span class="tag">ui-file-manager</span> <span class="attr">path</span>=<span class="str">"Proyectos/2026"</span>&gt;
+  &lt;<span class="tag">ui-file-manager-folder</span> <span class="attr">path</span>=<span class="str">"Proyectos"</span>&gt;&lt;/<span class="tag">ui-file-manager-folder</span>&gt;
+  &lt;<span class="tag">ui-file-manager-folder</span> <span class="attr">path</span>=<span class="str">"Proyectos/2026"</span> <span class="attr">name</span>=<span class="str">"2026"</span>&gt;&lt;/<span class="tag">ui-file-manager-folder</span>&gt;
+  &lt;<span class="tag">ui-file-manager-folder</span> <span class="attr">path</span>=<span class="str">"Archivo"</span> <span class="attr">has-children</span>&gt;&lt;/<span class="tag">ui-file-manager-folder</span>&gt; <span class="comment">&lt;!-- subcarpetas sin cargar: al expandir emite ui-fm-expand --&gt;</span>
+  ...items...
+&lt;/<span class="tag">ui-file-manager</span>&gt;</pre>
+    <table class="doc-table">
+      <thead><tr><th>Atributo (<code>ui-file-manager-folder</code>)</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>path</code></td><td class="desc">Ruta completa separada por <code>/</code>. Los ancestros que falten se completan. La raíz es implícita.</td></tr>
+        <tr><td><code>name</code></td><td class="desc">Texto a mostrar (por defecto, el último tramo del <code>path</code>).</td></tr>
+        <tr><td><code>has-children</code></td><td class="desc">Tiene subcarpetas que todavía no declaraste (carga diferida): muestra la flecha y, al expandir, emite <code>ui-fm-expand</code> con su <code>path</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="menu">Menú contextual</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Click derecho, tecla Menú o Shift+F10 sobre un item. Trae <strong>Abrir</strong> (o <strong>Vista previa</strong>) y <strong>Descargar</strong> (para archivos con <code>href</code>; con varios seleccionados, descarga todos). Sumás tus propias entradas con <code>ui-file-manager-action</code>; el componente solo avisa con <code>ui-fm-action</code> y la operación es tuya.</p>
+    <pre class="doc-code">&lt;<span class="tag">ui-file-manager-action</span> <span class="attr">value</span>=<span class="str">"rename"</span> <span class="attr">label</span>=<span class="str">"Renombrar"</span> <span class="attr">icon</span>=<span class="str">"edit"</span> <span class="attr">for</span>=<span class="str">"file folder"</span>&gt;&lt;/<span class="tag">ui-file-manager-action</span>&gt;
+&lt;<span class="tag">ui-file-manager-action</span> <span class="attr">value</span>=<span class="str">"delete"</span> <span class="attr">label</span>=<span class="str">"Eliminar"</span> <span class="attr">icon</span>=<span class="str">"trash"</span> <span class="attr">danger</span>&gt;&lt;/<span class="tag">ui-file-manager-action</span>&gt;</pre>
+    <table class="doc-table">
+      <thead><tr><th>Atributo (<code>ui-file-manager-action</code>)</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td class="desc">Id que viaja en <code>ui-fm-action</code>.</td></tr>
+        <tr><td><code>label</code>, <code>icon</code></td><td class="desc">Texto e ícono de la entrada.</td></tr>
+        <tr><td><code>for</code></td><td class="desc">Cuándo se muestra: <code>file</code>, <code>folder</code>, <code>multiple</code> (varios seleccionados), separados por espacio. Sin <code>for</code>, siempre.</td></tr>
+        <tr><td><code>danger</code></td><td class="desc">Entrada en rojo (ej. eliminar).</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="preview">Vista previa</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Doble click o Enter en un archivo con <code>href</code> de un tipo que el navegador soporta abre un diálogo (<code>&lt;dialog&gt;</code> nativo: foco atrapado, Esc cierra, devuelve el foco). Las flechas ←/→ pasan al siguiente archivo previsualizable de la carpeta. El tipo sale de <code>ext</code> o de la extensión del <code>name</code>.</p>
+    <table class="doc-table">
+      <thead><tr><th>Tipo</th><th>Extensiones</th><th class="desc">Cómo se muestra</th></tr></thead>
+      <tbody>
+        <tr><td><code>image</code></td><td>png, jpg, jpeg, gif, webp, svg, avif, bmp, ico</td><td class="desc">Imagen ajustada al diálogo.</td></tr>
+        <tr><td><code>pdf</code></td><td>pdf</td><td class="desc">Visor PDF del navegador.</td></tr>
+        <tr><td><code>video</code> / <code>audio</code></td><td>mp4, webm, ogv, mov, m4v · mp3, wav, ogg, oga, m4a, aac, flac</td><td class="desc">Reproductor nativo con controles.</td></tr>
+        <tr><td><code>text</code></td><td>txt, log, json, xml, csv, yml, ini, js, css, html, php, py, sql…</td><td class="desc">Texto plano (se corta a ~300 KB y avisa que es parcial).</td></tr>
+        <tr><td><code>md</code></td><td>md, markdown</td><td class="desc"><strong>Markdown renderizado dentro de una card</strong> con estilos del tema (títulos, listas, tablas, código, citas, checklists, enlaces).</td></tr>
+      </tbody>
+    </table>
+    <ul class="doc-checklist">
+      <li><span><strong>Texto y Markdown se leen con <code>fetch(href)</code></strong>: el archivo tiene que ser del mismo origen o tu servidor tiene que permitir CORS. Imagen, PDF, video y audio se cargan directo, sin esa restricción.</span></li>
+      <li><span><strong>El Markdown es seguro</strong>: el HTML crudo del <code>.md</code> se muestra como texto (nunca se ejecuta) y los enlaces/imágenes se limitan a <code>http(s)</code>, <code>mailto</code> y rutas relativas. Los enlaces abren en una pestaña nueva con <code>rel="noopener noreferrer"</code>.</span></li>
+      <li><span>Para mostrar tu propia vista previa: cancelá <code>ui-fm-open</code> con <code>preventDefault()</code>, o poné <code>no-preview</code> en el gestor.</span></li>
+    </ul>
+
+    <h2>Integración</h2>
+    <div class="doc-framework-tabs">
+      <button data-framework-tab="livewire" class="active">Livewire / Blade</button>
+      <button data-framework-tab="angular">Angular</button>
+      <button data-framework-tab="react">React</button>
+    </div>
+    <div>
+      <pre class="doc-code" data-framework-panel="livewire">&lt;<span class="tag">ui-file-manager</span> <span class="attr">path</span>=<span class="str">"{{ $path }}"</span>
+  <span class="attr">x-on:ui-fm-open</span>=<span class="str">"$event.detail.type === 'folder' ? $wire.open($event.detail.itemId) : $wire.preview($event.detail.itemId)"</span>
+  <span class="attr">x-on:ui-fm-navigate</span>=<span class="str">"$wire.goTo($event.detail.path)"</span>&gt;
+  @foreach ($items as $i)
+    &lt;<span class="tag">ui-file-manager-item</span> <span class="attr">wire:key</span>=<span class="str">"fm-{{ $i->id }}"</span> <span class="attr">item-id</span>=<span class="str">"{{ $i->id }}"</span>
+      <span class="attr">type</span>=<span class="str">"{{ $i->type }}"</span> <span class="attr">name</span>=<span class="str">"{{ $i->name }}"</span> <span class="attr">size</span>=<span class="str">"{{ $i->size }}"</span>&gt;&lt;/<span class="tag">ui-file-manager-item</span>&gt;
+  @endforeach
+&lt;/<span class="tag">ui-file-manager</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="angular" hidden>&lt;<span class="tag">ui-file-manager</span> [attr.path]=<span class="str">"path"</span> (ui-fm-open)=<span class="str">"onOpen($event.detail)"</span> (ui-fm-navigate)=<span class="str">"load($event.detail.path)"</span>&gt;
+  &lt;<span class="tag">ui-file-manager-item</span> *ngFor=<span class="str">"let f of files; trackBy: byId"</span>
+    [attr.item-id]=<span class="str">"f.id"</span> [attr.type]=<span class="str">"f.type"</span> [attr.name]=<span class="str">"f.name"</span> [attr.size]=<span class="str">"f.size"</span>&gt;&lt;/<span class="tag">ui-file-manager-item</span>&gt;
+&lt;/<span class="tag">ui-file-manager</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="react" hidden>&lt;<span class="tag">ui-file-manager</span> ref={ref} path={path}&gt;
+  {files.map(f =&gt; (
+    &lt;<span class="tag">ui-file-manager-item</span> key={f.id} item-id={f.id} type={f.type} name={f.name} size={f.size} /&gt;
+  ))}
+&lt;/<span class="tag">ui-file-manager</span>&gt;
+<span class="comment">// useEffect: ref.current.addEventListener('ui-fm-open', e =&gt; ...) y 'ui-fm-navigate'</span></pre>
+    </div>
+
+    <h2>Accesibilidad</h2>
+    <ul class="doc-checklist">
+      <li><span><code>role="listbox"</code> con <code>aria-multiselectable</code>; cada item es <code>role="option"</code> con <code>aria-selected</code>. Tabindex "roving": un solo item entra en el orden de Tab.</span></li>
+      <li><span>Teclado: flechas, <kbd>Inicio</kbd>/<kbd>Fin</kbd> mueven el foco; <kbd>Shift</kbd>+flechas extienden la selección; <kbd>Espacio</kbd> alterna; <kbd>Ctrl</kbd>+<kbd>A</kbd> selecciona todo; <kbd>Esc</kbd> limpia; <kbd>Enter</kbd> abre; <kbd>Supr</kbd> y <kbd>F2</kbd> piden borrar/renombrar.</span></li>
+      <li><span>Touch: tap abre (o alterna si ya hay selección), mantener apretado empieza a seleccionar.</span></li>
+    </ul>
+
+    <h2>Fuera de esta etapa</h2>
+    <p class="doc-lede">Subida de archivos con progreso, mover por arrastre, renombrado en línea, ordenar por columna, búsqueda, navegación por teclado dentro del árbol, y virtualización para carpetas enormes. Hoy se resuelven en tu proyecto con los eventos de arriba (<code>ui-fm-action</code> sirve para disparar lo que falte).</p>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

@@ -48,7 +48,7 @@ export class UiSidebarGroup extends LitElement {
       <div class="${window.__uiwc.prefix}-sidebar-group">
         <button
           type="button"
-          class="flex w-full items-center gap-2.5 rounded px-2.5 py-2 text-left text-sm text-brand-fg/80 hover:bg-brand-fg/10 hover:text-brand-fg"
+          class="flex w-full items-center gap-2.5 rounded px-2.5 py-2 text-left text-sm text-sidebar-fg/80 hover:bg-sidebar-fg/10 hover:text-sidebar-fg"
           aria-expanded=${this.open}
           aria-controls="${this._id}-panel"
           @click=${this.#toggle}
@@ -60,10 +60,10 @@ export class UiSidebarGroup extends LitElement {
         <div
           id="${this._id}-panel"
           ?hidden=${!this.open}
-          class="ml-2.5 border-l border-brand-fg/20 pl-2.5
-            [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-2 [&>a]:text-sm [&>a]:text-brand-fg/60 [&>a]:no-underline [&>a:hover]:bg-brand-fg/10 [&>a:hover]:text-brand-fg
+          class="ml-2.5 border-l border-sidebar-fg/20 pl-2.5
+            [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-2 [&>a]:text-sm [&>a]:text-sidebar-fg/60 [&>a]:no-underline [&>a:hover]:bg-sidebar-fg/10 [&>a:hover]:text-sidebar-fg
             [&>a.active]:bg-white/10 [&>a.active]:font-medium [&>a.active]:text-white
-            [&>hr]:my-2 [&>hr]:border-brand-fg/20"
+            [&>hr]:my-2 [&>hr]:border-sidebar-fg/20"
         >
           ${unsafeHTML(this._content || '')}
         </div>

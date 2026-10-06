@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -691,6 +693,8 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       value: { type: String },
       placeholder: { type: String },
       disabled: { type: Boolean, reflect: true },
+      name: { type: String },
+      clearOnSelect: { type: Boolean, attribute: "clear-on-select" },
       _query: { state: true },
       _open: { state: true },
       _activeIndex: { state: true }
@@ -703,6 +707,8 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.value = "";
       this.placeholder = "Buscar...";
       this.disabled = false;
+      this.name = "";
+      this.clearOnSelect = false;
       this._options = [];
       this._query = "";
       this._open = false;
@@ -744,9 +750,10 @@ window.__uiwc.register = window.__uiwc.register || (function () {
     }
     #select(option) {
       this.value = option.value;
-      this._query = option.label;
+      this._query = this.clearOnSelect ? "" : option.label;
       this._open = false;
       this.dispatchEvent(new CustomEvent("ui-change", { bubbles: true, composed: true, detail: { value: option.value, label: option.label } }));
+      if (this.clearOnSelect) this.value = "";
     }
     #handleKeydown(e4) {
       const results = this.#filtered;
@@ -768,6 +775,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       const results = this.#filtered;
       return b2`
       <div class="${window.__uiwc.prefix}-autocomplete relative">
+        ${this.name ? b2`<input type="hidden" name=${this.name} .value=${this.value} />` : ""}
         <input
           id=${this._id}
           type="text"

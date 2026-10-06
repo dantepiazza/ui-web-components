@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -777,12 +779,22 @@ window.__uiwc.register = window.__uiwc.register || (function () {
     semibold: "font-semibold",
     bold: "font-bold"
   };
+  var COLORS = {
+    base: "text-base-900",
+    muted: "text-base-500",
+    brand: "text-brand-900",
+    success: "text-success",
+    warning: "text-warning",
+    danger: "text-danger",
+    info: "text-info"
+  };
   var UiText = class extends i4 {
     static properties = {
       as: { type: String, reflect: true },
       size: { type: String },
       weight: { type: String },
-      muted: { type: Boolean, reflect: true }
+      muted: { type: Boolean, reflect: true },
+      color: { type: String, reflect: true }
     };
     createRenderRoot() {
       return this;
@@ -793,6 +805,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.size = "md";
       this.weight = "normal";
       this.muted = false;
+      this.color = "";
     }
     connectedCallback() {
       super.connectedCallback();
@@ -805,7 +818,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       const tag = TAGS[this.as] || TAGS.p;
       const sizeClass = SIZES[this.size] || SIZES.md;
       const weightClass = WEIGHTS[this.weight] || WEIGHTS.normal;
-      const colorClass = this.muted ? "text-base-500" : "text-base-900";
+      const colorClass = COLORS[this.color] || (this.muted ? COLORS.muted : COLORS.base);
       return u3`<${tag} class="${window.__uiwc.prefix}-text ${sizeClass} ${weightClass} ${colorClass}">${o6(this._content || "")}</${tag}>`;
     }
   };

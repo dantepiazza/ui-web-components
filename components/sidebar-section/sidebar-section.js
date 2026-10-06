@@ -21,7 +21,7 @@ export class UiSidebarSection extends HTMLElement {
   #applyClasses() {
     window.__uiwc.syncClasses(this, [
       `${window.__uiwc.prefix}-sidebar-section`,
-      'block', 'pb-1', 'pt-4', 'text-[12px]', 'font-semibold', 'text-brand-fg/50',
+      'block', 'pb-1', 'pt-4', 'text-[12px]', 'font-semibold', 'text-sidebar-fg/50',
     ]);
   }
 }

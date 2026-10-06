@@ -32,6 +32,7 @@
   --ui-brand-600: 82 82 91;    --ui-brand-700: 63 63 70;    --ui-brand-800: 39 39 42;
   --ui-brand-900: 24 24 27;    --ui-brand-950: 9 9 11;
   --ui-brand-fg: 255 255 255;
+  --ui-sidebar: 39 39 42; --ui-rail: 24 24 27; --ui-sidebar-fg: 255 255 255;
   --ui-success: 4 120 87;   --ui-success-fg: 255 255 255;
   --ui-warning: 245 158 11; --ui-warning-fg: 69 26 3;
   --ui-danger: 225 29 72;   --ui-danger-fg: 255 255 255;
@@ -61,6 +62,7 @@
   --ui-brand-600: 161 161 170;--ui-brand-700: 212 212 216; --ui-brand-800: 228 228 231;
   --ui-brand-900: 244 244 245;--ui-brand-950: 250 250 250;
   --ui-brand-fg: 24 24 27;
+  --ui-sidebar: 9 9 11; --ui-rail: 24 24 27;
   --ui-success: 52 211 153;  --ui-success-fg: 2 44 34;
   --ui-warning: 251 191 36;  --ui-warning-fg: 69 26 3;
   --ui-danger: 244 63 94;    --ui-danger-fg: 255 255 255;
@@ -199,7 +201,7 @@ html, body {
   margin: 1.75rem 0 0.75rem;
 }
 
-.doc-main p { color: var(--doc-text); }
+:where(.doc-main) p { color: var(--doc-text); }
 
 /* Demo box */
 .doc-demo {

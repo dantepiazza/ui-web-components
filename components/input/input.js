@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 
 window.__uiwc = window.__uiwc || { prefix: 'ui' };
 
@@ -25,6 +25,10 @@ export class UiInput extends LitElement {
     name: { type: String },
     icon: { type: String },
     iconPosition: { type: String, attribute: 'icon-position' },
+    step: { type: String },
+    min: { type: String },
+    max: { type: String },
+    inputmode: { type: String },
   };
 
   createRenderRoot() {
@@ -44,6 +48,10 @@ export class UiInput extends LitElement {
     this.name = '';
     this.icon = '';
     this.iconPosition = 'start';
+    this.step = '';
+    this.min = '';
+    this.max = '';
+    this.inputmode = '';
     this._id = `ui-input-${++idCounter}`;
   }
 
@@ -83,6 +91,10 @@ export class UiInput extends LitElement {
             name=${this.name || ''}
             .value=${this.value}
             placeholder=${this.placeholder || ''}
+            step=${this.step || nothing}
+            min=${this.min || nothing}
+            max=${this.max || nothing}
+            inputmode=${this.inputmode || nothing}
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-invalid=${hasError}

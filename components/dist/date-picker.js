@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -692,6 +694,8 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       value: { type: String },
       min: { type: String },
       max: { type: String },
+      name: { type: String },
+      placeholder: { type: String },
       disabled: { type: Boolean, reflect: true },
       _open: { state: true }
     };
@@ -704,6 +708,8 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.value = "";
       this.min = "";
       this.max = "";
+      this.name = "";
+      this.placeholder = "Elegir fecha";
       this.disabled = false;
       this._open = false;
       this._id = `ui-date-picker-${++idCounter}`;
@@ -728,6 +734,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       return b2`
       <div class="${window.__uiwc.prefix}-date-picker relative flex flex-col gap-1.5">
         ${this.label ? b2`<label for=${this._id} class="text-sm font-medium text-base-900">${this.label}</label>` : ""}
+        ${this.name ? b2`<input type="hidden" name=${this.name} .value=${this.value || ""} ?disabled=${this.disabled} />` : ""}
         <button
           id=${this._id}
           type="button"
@@ -735,7 +742,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
           ?disabled=${this.disabled}
           @click=${() => this._open = !this._open}
         >
-          ${this.value || "Elegir fecha"}
+          ${this.value || this.placeholder}
           <uiwc-icon name="chevron-down" size="sm" class="shrink-0 text-base-400"></uiwc-icon>
         </button>
         ${this._open ? b2`

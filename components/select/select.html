@@ -43,6 +43,41 @@
   &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"ext"</span>&gt;Exterior&lt;/<span class="tag">ui-option</span>&gt;
 &lt;/<span class="tag">ui-select</span>&gt;</pre>
 
+    <h2>Buscador (<code>searchable</code>)</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Para listas largas (países, productos, clientes…) agregá <code>searchable</code> y el desplegable trae un campo de búsqueda fijo arriba. Escribí para filtrar (sin distinguir mayúsculas ni acentos: "canada" encuentra "Canadá"); si nada coincide aparece "Sin resultados". <kbd>Enter</kbd> elige la primera coincidencia, <kbd>Esc</kbd> cierra. El campo se limpia solo al cerrar.</p>
+    <div class="doc-demo">
+      <ui-select searchable placeholder="Elegí un país" style="min-width:16rem">
+        <ui-option value="argentina">Argentina</ui-option>
+        <ui-option value="bolivia">Bolivia</ui-option>
+        <ui-option value="brasil">Brasil</ui-option>
+        <ui-option value="ca">Canadá</ui-option>
+        <ui-option value="chile">Chile</ui-option>
+        <ui-option value="colombia">Colombia</ui-option>
+        <ui-option value="costa-rica">Costa Rica</ui-option>
+        <ui-option value="cuba">Cuba</ui-option>
+        <ui-option value="ecuador">Ecuador</ui-option>
+        <ui-option value="el-salvador">El Salvador</ui-option>
+        <ui-option value="es">España</ui-option>
+        <ui-option value="estados-unidos">Estados Unidos</ui-option>
+        <ui-option value="guatemala">Guatemala</ui-option>
+        <ui-option value="honduras">Honduras</ui-option>
+        <ui-option value="mx">México</ui-option>
+        <ui-option value="nicaragua">Nicaragua</ui-option>
+        <ui-option value="panamá">Panamá</ui-option>
+        <ui-option value="paraguay">Paraguay</ui-option>
+        <ui-option value="pe">Perú</ui-option>
+        <ui-option value="portugal">Portugal</ui-option>
+        <ui-option value="república-dominicana">República Dominicana</ui-option>
+        <ui-option value="uruguay">Uruguay</ui-option>
+        <ui-option value="venezuela">Venezuela</ui-option>
+      </ui-select>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-select</span> <span class="attr">searchable</span> <span class="attr">placeholder</span>=<span class="str">"Elegí un país"</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"ar"</span>&gt;Argentina&lt;/<span class="tag">ui-option</span>&gt;
+  &lt;<span class="tag">ui-option</span> <span class="attr">value</span>=<span class="str">"ca"</span>&gt;Canadá&lt;/<span class="tag">ui-option</span>&gt;
+  <span class="comment">&lt;!-- ...cientos más: se filtran al escribir, sin acentos ni mayúsculas --&gt;</span>
+&lt;/<span class="tag">ui-select</span>&gt;</pre>
+
     <h2>Props</h2>
     <table class="doc-table">
       <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
@@ -50,9 +85,12 @@
         <tr><td><code>value</code></td><td>string</td><td><code>""</code></td><td class="desc">Valor seleccionado (coincide con el <code>value</code> de algún <code>ui-option</code>).</td></tr>
         <tr><td><code>placeholder</code></td><td>string</td><td><code>"Seleccionar..."</code></td><td class="desc">Texto cuando no hay selección (modo <code>display="value"</code>).</td></tr>
         <tr><td><code>display</code></td><td>"value" | "count"</td><td><code>"value"</code></td><td class="desc">"value": el trigger muestra el texto elegido. "count": muestra <code>label</code> + badge de cantidad (0/1) — look de "chip de filtro".</td></tr>
-        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Texto fijo del trigger en modo <code>display="count"</code>.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td><code>""</code></td><td class="desc">Con <code>display="value"</code> se dibuja como label del campo (encima del bot&oacute;n, igual que <code>ui-input</code>). Con <code>display="count"</code> es el texto fijo del trigger.</td></tr>
         <tr><td><code>name</code></td><td>string</td><td><code>""</code></td><td class="desc">Si está definido, el valor viaja con el <code>&lt;form&gt;</code> que lo contiene (se renderiza un <code>&lt;input type="hidden"&gt;</code>). Un select <code>disabled</code> no se envía. Sin <code>name</code> no se renderiza ningún input. <code>required</code> no está soportado: validá en el servidor.</td></tr>
         <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Deshabilita el control.</td></tr>
+        <tr><td><code>searchable</code></td><td>boolean</td><td><code>false</code></td><td class="desc">Agrega un campo de búsqueda arriba del listado que filtra las opciones al escribir (sin distinguir mayúsculas ni acentos). Pensado para listas largas.</td></tr>
+        <tr><td><code>search-placeholder</code></td><td>string</td><td><code>"Buscar..."</code></td><td class="desc">Placeholder (y nombre accesible) del campo de búsqueda.</td></tr>
+        <tr><td><code>empty-label</code></td><td>string</td><td><code>"Sin resultados"</code></td><td class="desc">Texto cuando ninguna opción coincide con la búsqueda.</td></tr>
       </tbody>
     </table>
 

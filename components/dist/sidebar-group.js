@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -755,7 +757,7 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       <div class="${window.__uiwc.prefix}-sidebar-group">
         <button
           type="button"
-          class="flex w-full items-center gap-2.5 rounded px-2.5 py-2 text-left text-sm text-brand-fg/80 hover:bg-brand-fg/10 hover:text-brand-fg"
+          class="flex w-full items-center gap-2.5 rounded px-2.5 py-2 text-left text-sm text-sidebar-fg/80 hover:bg-sidebar-fg/10 hover:text-sidebar-fg"
           aria-expanded=${this.open}
           aria-controls="${this._id}-panel"
           @click=${this.#toggle}
@@ -767,10 +769,10 @@ window.__uiwc.register = window.__uiwc.register || (function () {
         <div
           id="${this._id}-panel"
           ?hidden=${!this.open}
-          class="ml-2.5 border-l border-brand-fg/20 pl-2.5
-            [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-2 [&>a]:text-sm [&>a]:text-brand-fg/60 [&>a]:no-underline [&>a:hover]:bg-brand-fg/10 [&>a:hover]:text-brand-fg
+          class="ml-2.5 border-l border-sidebar-fg/20 pl-2.5
+            [&>a]:flex [&>a]:items-center [&>a]:gap-2.5 [&>a]:rounded [&>a]:px-2.5 [&>a]:py-2 [&>a]:text-sm [&>a]:text-sidebar-fg/60 [&>a]:no-underline [&>a:hover]:bg-sidebar-fg/10 [&>a:hover]:text-sidebar-fg
             [&>a.active]:bg-white/10 [&>a.active]:font-medium [&>a.active]:text-white
-            [&>hr]:my-2 [&>hr]:border-brand-fg/20"
+            [&>hr]:my-2 [&>hr]:border-sidebar-fg/20"
         >
           ${o5(this._content || "")}
         </div>

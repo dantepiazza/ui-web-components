@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -144,9 +146,9 @@ window.__uiwc.register = window.__uiwc.register || (function () {
   // components/modal/modal.js
   window.__uiwc = window.__uiwc || { prefix: "ui" };
   var POSITION_CLASSES = {
-    center: "rounded-xl p-6 max-w-lg w-[90vw] max-md:fixed max-md:inset-0 max-md:m-0 max-md:h-full max-md:max-h-full max-md:w-full max-md:max-w-none max-md:rounded-none",
-    left: "fixed inset-y-0 left-0 m-0 h-full w-96 max-w-[90vw] rounded-none p-6 max-md:w-full max-md:max-w-none",
-    right: "fixed inset-y-0 right-0 m-0 h-full w-96 max-w-[90vw] rounded-none p-6 max-md:w-full max-md:max-w-none"
+    center: "rounded-md max-w-lg w-[90vw] max-md:fixed max-md:inset-0 max-md:m-0 max-md:h-full max-md:max-h-full max-md:w-full max-md:max-w-none max-md:rounded-none",
+    left: "fixed inset-y-0 left-0 m-0 h-full w-96 max-w-[90vw] rounded-none max-md:w-full max-md:max-w-none",
+    right: "fixed inset-y-0 right-0 m-0 h-full w-96 max-w-[90vw] rounded-none max-md:w-full max-md:max-w-none"
   };
   var UiModal = class extends HTMLElement {
     static get observedAttributes() {

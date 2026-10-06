@@ -31,7 +31,7 @@ export class UiSidebarHeader extends LitElement {
 
   render() {
     const cls = window.__uiwc
-      .classes([`${window.__uiwc.prefix}-sidebar-header`, 'shrink-0', 'border-b', 'border-brand-fg/15', 'p-4'], this)
+      .classes([`${window.__uiwc.prefix}-sidebar-header`, 'shrink-0', 'border-b', 'border-sidebar-fg/15', 'p-4'], this)
       .join(' ');
     return html`
       <div class="${cls}">

@@ -7,6 +7,8 @@ let idCounter = 0;
 /**
  * `<ui-date-picker label="Fecha de entrega" value="2026-09-04">` — text field that
  * opens a `<ui-calendar>` popup on focus/click. Emits `ui-input` with `{ value }`.
+ * With `name` it renders a hidden input (value `Y-m-d`) so it submits with a form;
+ * `placeholder` overrides the empty text. Set `el.value = '2026-09-04'` (or '') from JS.
  */
 export class UiDatePicker extends LitElement {
   static properties = {
@@ -14,6 +16,8 @@ export class UiDatePicker extends LitElement {
     value: { type: String },
     min: { type: String },
     max: { type: String },
+    name: { type: String },
+    placeholder: { type: String },
     disabled: { type: Boolean, reflect: true },
     _open: { state: true },
   };
@@ -28,6 +32,8 @@ export class UiDatePicker extends LitElement {
     this.value = '';
     this.min = '';
     this.max = '';
+    this.name = '';
+    this.placeholder = 'Elegir fecha';
     this.disabled = false;
     this._open = false;
     this._id = `ui-date-picker-${++idCounter}`;
@@ -56,6 +62,7 @@ export class UiDatePicker extends LitElement {
     return html`
       <div class="${window.__uiwc.prefix}-date-picker relative flex flex-col gap-1.5">
         ${this.label ? html`<label for=${this._id} class="text-sm font-medium text-base-900">${this.label}</label>` : ''}
+        ${this.name ? html`<input type="hidden" name=${this.name} .value=${this.value || ''} ?disabled=${this.disabled} />` : ''}
         <button
           id=${this._id}
           type="button"
@@ -63,7 +70,7 @@ export class UiDatePicker extends LitElement {
           ?disabled=${this.disabled}
           @click=${() => (this._open = !this._open)}
         >
-          ${this.value || 'Elegir fecha'}
+          ${this.value || this.placeholder}
           <uiwc-icon name="chevron-down" size="sm" class="shrink-0 text-base-400"></uiwc-icon>
         </button>
         ${this._open

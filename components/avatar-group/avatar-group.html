@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avatar Group · UI Web Components</title>
+  <link rel="stylesheet" href="../../docs/css/docs.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../../docs/js/uiwc-tailwind.js"></script>
+  <script src="../dist/avatar-group.js" defer></script>
+  <script src="../dist/avatar.js" defer></script>
+</head>
+<body>
+  <main class="doc-main">
+    <p class="doc-eyebrow">General</p>
+    <h1>Avatar Group</h1>
+    <p class="doc-lede">Pila de <a href="../avatar/avatar.html">Avatars</a> superpuestos, con un anillo del color de la superficie para que el solapamiento se lea limpio. No captura ni mueve sus hijos: un framework puede renderizarlos y actualizarlos libremente.</p>
+
+    <h2>Uso básico</h2>
+    <div class="doc-demo" style="gap:2rem">
+      <ui-avatar-group size="sm">
+        <ui-avatar size="sm" name="Ana Gómez"></ui-avatar>
+        <ui-avatar size="sm" name="Luis Pérez"></ui-avatar>
+        <ui-avatar size="sm" name="Marta Ruiz"></ui-avatar>
+      </ui-avatar-group>
+      <ui-avatar-group>
+        <ui-avatar name="Ana Gómez"></ui-avatar>
+        <ui-avatar name="Luis Pérez"></ui-avatar>
+        <ui-avatar name="Marta Ruiz"></ui-avatar>
+      </ui-avatar-group>
+      <ui-avatar-group size="lg">
+        <ui-avatar size="lg" name="Ana Gómez"></ui-avatar>
+        <ui-avatar size="lg" name="Luis Pérez"></ui-avatar>
+      </ui-avatar-group>
+    </div>
+    <pre class="doc-code">&lt;<span class="tag">ui-avatar-group</span> <span class="attr">size</span>=<span class="str">"sm"</span>&gt;
+  &lt;<span class="tag">ui-avatar</span> <span class="attr">size</span>=<span class="str">"sm"</span> <span class="attr">name</span>=<span class="str">"Ana Gómez"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;
+  &lt;<span class="tag">ui-avatar</span> <span class="attr">size</span>=<span class="str">"sm"</span> <span class="attr">name</span>=<span class="str">"Luis Pérez"</span>&gt;&lt;/<span class="tag">ui-avatar</span>&gt;
+&lt;/<span class="tag">ui-avatar-group</span>&gt;</pre>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Default</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>size</code></td><td>"sm" | "md" | "lg"</td><td><code>"md"</code></td><td class="desc">Cuánto se superponen. Poné el mismo <code>size</code> en los <code>ui-avatar</code> hijos.</td></tr>
+        <tr><td><code>remove-class</code></td><td>string</td><td>—</td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+  </main>
+  <script src="../../docs/js/docs.js"></script>
+</body>
+</html>

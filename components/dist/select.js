@@ -35,7 +35,9 @@ window.__uiwc = window.__uiwc || { prefix: 'ui' };
 // composition. Doesn't invent a new mental model: it's the same idea as the `class`
 // attribute itself, just subtractive instead of additive.
 window.__uiwc.classes = window.__uiwc.classes || function classes(list, el) {
-  const arr = Array.isArray(list) ? list : String(list).split(/\s+/).filter(Boolean);
+  // Tolerant on purpose: entries may hold several space-separated classes or be empty
+  // (`condition ? 'a b' : ''`) — classList.add() throws on both.
+  const arr = (Array.isArray(list) ? list : [list]).flatMap((c) => String(c || '').split(/\s+/)).filter(Boolean);
   const removeAttr = el && el.getAttribute && el.getAttribute('remove-class');
   if (!removeAttr) return arr;
   const removed = new Set(removeAttr.split(/\s+/).filter(Boolean));
@@ -723,6 +725,8 @@ window.__uiwc.register = window.__uiwc.register || (function () {
 
   // components/select/select.js
   window.__uiwc = window.__uiwc || { prefix: "ui" };
+  var idCounter = 0;
+  var norm = (s4) => String(s4).normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
   var UiSelect = class extends i4 {
     static properties = {
       value: { type: String },
@@ -731,7 +735,11 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       display: { type: String },
       name: { type: String },
       disabled: { type: Boolean, reflect: true },
-      _open: { state: true }
+      searchable: { type: Boolean },
+      searchPlaceholder: { type: String, attribute: "search-placeholder" },
+      emptyLabel: { type: String, attribute: "empty-label" },
+      _open: { state: true },
+      _query: { state: true }
     };
     createRenderRoot() {
       return this;
@@ -744,8 +752,13 @@ window.__uiwc.register = window.__uiwc.register || (function () {
       this.display = "value";
       this.name = "";
       this.disabled = false;
+      this.searchable = false;
+      this.searchPlaceholder = "Buscar...";
+      this.emptyLabel = "Sin resultados";
       this._open = false;
+      this._query = "";
       this._label = "";
+      this._id = `ui-select-${++idCounter}`;
       this._onDocClick = (e6) => {
         if (!this.contains(e6.target)) this._open = false;
       };
@@ -773,34 +786,89 @@ window.__uiwc.register = window.__uiwc.register || (function () {
     }
     willUpdate(changed) {
       if (changed.has("value")) this._label = this.#labelFor(this.value);
+      if (changed.has("_open") && !this._open) this._query = "";
+    }
+    #labels() {
+      if (!this._labels) {
+        const template = document.createElement("template");
+        template.innerHTML = this._content || "";
+        this._labels = [...template.content.querySelectorAll(`${window.__uiwc.prefix}-option`)].map((o6) => o6.textContent.trim());
+      }
+      return this._labels;
+    }
+    #visibleOptions() {
+      return [...this.querySelectorAll(`-option`)].filter((o6) => o6.style.display !== "none");
+    }
+    #activeOption() {
+      const visible = this.#visibleOptions();
+      return visible.find((o6) => o6.hasAttribute("data-active")) || visible[0];
+    }
+    #moveActive(step) {
+      const visible = this.#visibleOptions();
+      if (!visible.length) return;
+      const i6 = visible.findIndex((o6) => o6.hasAttribute("data-active"));
+      visible.forEach((o6) => o6.removeAttribute("data-active"));
+      const next = visible[(i6 + step + visible.length) % visible.length];
+      next.setAttribute("data-active", "");
+      next.style.background = "rgba(128,128,128,.15)";
+      next.scrollIntoView?.({ block: "nearest" });
+    }
+    #matches(label) {
+      const q = norm(this._query.trim());
+      return !q || norm(label).includes(q);
     }
     #handleOptionClick(e6) {
       const option = e6.target.closest(`${window.__uiwc.prefix}-option`);
-      if (!option) return;
+      if (option) this.#choose(option);
+    }
+    #choose(option) {
       const label = option.textContent.trim();
       this.value = option.value;
       this._open = false;
       this.dispatchEvent(new CustomEvent("ui-change", { bubbles: true, composed: true, detail: { value: this.value, label } }));
     }
     #handleKeydown(e6) {
+      if (e6.target.matches?.("[data-search]")) {
+        if (e6.key === "Escape") {
+          this._open = false;
+          this.querySelector("button")?.focus();
+        } else if (e6.key === "Enter") {
+          e6.preventDefault();
+          const opt = this.#activeOption();
+          if (opt) this.#choose(opt);
+        } else if (e6.key === "ArrowDown" || e6.key === "ArrowUp") {
+          e6.preventDefault();
+          this.#moveActive(e6.key === "ArrowDown" ? 1 : -1);
+        }
+        return;
+      }
       if (e6.key === "Escape") this._open = false;
       if (e6.key === "Enter" || e6.key === " ") {
         e6.preventDefault();
         this._open = !this._open;
       }
     }
-    updated() {
+    updated(changed) {
       this.querySelectorAll(`${window.__uiwc.prefix}-option`).forEach((option) => {
         option.selected = option.value === this.value;
+        option.style.display = this.#matches(option.textContent.trim()) ? "" : "none";
+        if (changed.has("_query")) {
+          option.removeAttribute("data-active");
+          option.style.background = "";
+        }
       });
+      if (changed.has("_open") && this._open && this.searchable) this.querySelector("[data-search]")?.focus();
     }
     render() {
       const isCount = this.display === "count";
       const count = this.value ? 1 : 0;
+      const noMatch = this.searchable && this._query.trim() && !this.#labels().some((l3) => this.#matches(l3));
       return b2`
       <div class="${window.__uiwc.prefix}-select relative" @keydown=${this.#handleKeydown}>
+        ${this.label && !isCount ? b2`<label for=${this._id} class="mb-1.5 block text-sm font-medium text-base-900">${this.label}</label>` : ""}
         ${this.name ? b2`<input type="hidden" name=${this.name} .value=${this.value} ?disabled=${this.disabled} />` : ""}
         <button
+          id=${this._id}
           type="button"
           class="flex ${isCount ? "w-auto" : "w-full"} items-center gap-1.5 rounded border bg-surface px-3 py-2 text-sm text-left focus:outline-none focus:ring-2 focus:ring-brand-900 disabled:bg-base-50 disabled:opacity-60 ${count > 0 ? "border-base-900 text-base-900" : "border-base-300 text-base-400"} ${!isCount && this.value ? "text-base-900" : ""}"
           aria-haspopup="listbox"
@@ -820,7 +888,22 @@ window.__uiwc.register = window.__uiwc.register || (function () {
                 role="listbox"
                 @click=${this.#handleOptionClick}
               >
+                ${this.searchable ? b2`
+                      <div class="sticky top-0 z-10 -mt-1 border-b border-base-100 bg-surface px-2 pb-1.5 pt-2">
+                        <input
+                          data-search
+                          type="search"
+                          autocomplete="off"
+                          aria-label=${this.searchPlaceholder}
+                          placeholder=${this.searchPlaceholder}
+                          class="w-full rounded border border-base-300 bg-surface px-2.5 py-1.5 text-sm text-base-900 focus:outline-none focus:ring-2 focus:ring-brand-900"
+                          .value=${this._query}
+                          @input=${(e6) => this._query = e6.target.value}
+                        />
+                      </div>
+                    ` : ""}
                 ${o5(this._content || "")}
+                ${noMatch ? b2`<div class="px-3 py-2 text-sm text-base-500">${this.emptyLabel}</div>` : ""}
               </div>
             ` : ""}
       </div>

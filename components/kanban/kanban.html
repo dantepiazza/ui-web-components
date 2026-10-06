@@ -10,84 +10,195 @@
   <script src="../dist/kanban.js" defer></script>
   <script src="../dist/kanban-column.js" defer></script>
   <script src="../dist/kanban-card.js" defer></script>
+  <script src="../dist/kanban-label.js" defer></script>
+  <script src="../dist/avatar-group.js" defer></script>
+  <script src="../dist/avatar.js" defer></script>
 </head>
 <body>
   <main class="doc-main">
     <p class="doc-eyebrow">Data display</p>
     <h1>Kanban</h1>
-    <p class="doc-lede">Tablero con columnas y tarjetas arrastrables, sobre la API nativa HTML5 Drag and Drop — sin librería externa.</p>
+    <p class="doc-lede">Tablero con columnas y tarjetas arrastrables con <strong>mouse, touch y teclado</strong>. Pensado para convivir con cualquier stack: el HTML que renderiza tu servidor o framework es el que queda — el tablero solo agrega clases, atributos y listeners delegados, y te avisa con eventos cancelables.</p>
 
     <h2>Uso básico</h2>
     <div class="doc-demo" style="width:100%;overflow-x:auto">
-      <ui-kanban>
-        <ui-kanban-column label="Por hacer">
-          <ui-kanban-card>Diseñar la página de precios</ui-kanban-card>
-          <ui-kanban-card>Escribir tests del checkout</ui-kanban-card>
+      <ui-kanban id="demo-board">
+        <ui-kanban-column column-id="todo" label="Por hacer" color="base">
+          <button slot="actions" class="rounded px-1.5 text-base-500 hover:bg-base-200" aria-label="Agregar tarjeta">+</button>
+          <ui-kanban-card card-id="1" priority="high" due="2020-01-01" clickable>
+            <span slot="title">Armar landing</span>
+            <ui-kanban-label slot="labels" color="#7c3aed">Diseño</ui-kanban-label>
+            <ui-kanban-label slot="labels" color="#0ea5e9">Web</ui-kanban-label>
+            <span slot="footer">3 comentarios</span>
+            <ui-avatar-group slot="assignees" size="sm"><ui-avatar size="sm" name="Ana Gómez"></ui-avatar><ui-avatar size="sm" name="Luis Pérez"></ui-avatar></ui-avatar-group>
+          </ui-kanban-card>
+          <ui-kanban-card card-id="2" priority="medium" clickable>
+            <span slot="title">Tests del checkout</span>
+          </ui-kanban-card>
         </ui-kanban-column>
-        <ui-kanban-column label="En progreso">
-          <ui-kanban-card>Migrar a Tailwind v4</ui-kanban-card>
+
+        <ui-kanban-column column-id="doing" label="En curso" color="brand" wip-limit="2" progress>
+          <ui-kanban-card card-id="3" priority="low">
+            <span slot="title">Migrar a Tailwind</span>
+            <ui-kanban-label slot="labels" color="#16a34a">Dev</ui-kanban-label>
+          </ui-kanban-card>
         </ui-kanban-column>
-        <ui-kanban-column label="Hecho">
-          <ui-kanban-card>Setup del repo</ui-kanban-card>
+
+        <ui-kanban-column column-id="done" label="Hecho" color="success" progress>
+          <ui-kanban-card card-id="4" done>
+            <span slot="title">Setup del repo</span>
+          </ui-kanban-card>
+          <ui-kanban-card card-id="5" done draggable="false">
+            <span slot="title">Tarjeta fija (draggable="false")</span>
+          </ui-kanban-card>
         </ui-kanban-column>
       </ui-kanban>
     </div>
-    <pre class="doc-code">&lt;<span class="tag">ui-kanban</span>&gt;
-  &lt;<span class="tag">ui-kanban-column</span> <span class="attr">label</span>=<span class="str">"Por hacer"</span>&gt;
-    &lt;<span class="tag">ui-kanban-card</span>&gt;Diseñar la página de precios&lt;/<span class="tag">ui-kanban-card</span>&gt;
-  &lt;/<span class="tag">ui-kanban-column</span>&gt;
-  &lt;<span class="tag">ui-kanban-column</span> <span class="attr">label</span>=<span class="str">"Hecho"</span>&gt;&lt;/<span class="tag">ui-kanban-column</span>&gt;
-&lt;/<span class="tag">ui-kanban</span>&gt;</pre>
+    <p class="doc-lede" style="margin-top:1rem">Arrastrá entre columnas y dentro de una columna. Con teclado: foco en una tarjeta → <kbd>Espacio</kbd> para levantarla, flechas para moverla, <kbd>Espacio</kbd>/<kbd>Enter</kbd> para soltar, <kbd>Esc</kbd> para cancelar. En touch: mantené apretada la tarjeta ~0,2 s y arrastrá.</p>
+    <pre id="demo-log" class="doc-code" style="min-height:4rem;max-height:12rem;overflow:auto">// los eventos aparecen acá</pre>
+    <script>
+      const board = document.getElementById('demo-board');
+      const log = document.getElementById('demo-log');
+      let first = true;
+      const show = (e) => {
+        if (first) { log.textContent = ''; first = false; }
+        const { card, ...detail } = e.detail;
+        log.textContent = `${e.type}  ${JSON.stringify(detail)}\n` + log.textContent;
+      };
+      ['ui-kanban-move', 'ui-kanban-sort', 'ui-kanban-card-click'].forEach((t) => board.addEventListener(t, show));
+    </script>
 
-    <h2>Props — <code>ui-kanban-column</code></h2>
+    <h2>Eventos</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Se emiten en el <code>ui-kanban</code> (burbujean), son <strong>cancelables</strong>, y los ids viajan como strings tal cual los pusiste en <code>card-id</code> / <code>column-id</code> (sin asumir prefijos). El <code>detail</code> trae el orden completo resultante de cada columna afectada, así persistir es una sola llamada.</p>
     <table class="doc-table">
-      <thead><tr><th>Atributo</th><th>Tipo</th><th class="desc">Descripción</th></tr></thead>
-      <tbody><tr><td><code>label</code></td><td>string</td><td class="desc">Título de la columna.</td></tr></tbody>
-    </table>
-
-    <h2>Slots</h2>
-    <table class="doc-table">
-      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
       <tbody>
-        <tr><td><code>ui-kanban</code></td><td>(default)</td><td class="desc">Elementos <code>ui-kanban-column</code>.</td></tr>
-        <tr><td><code>ui-kanban-column</code></td><td>(default)</td><td class="desc">Elementos <code>ui-kanban-card</code>.</td></tr>
-        <tr><td><code>ui-kanban-card</code></td><td>(default)</td><td class="desc">Contenido de la tarjeta.</td></tr>
+        <tr><td><code>ui-kanban-move</code></td><td><code>{ cardId, card, fromColumnId, toColumnId, fromOrderedIds, toOrderedIds, index }</code></td><td class="desc">La tarjeta cambió de columna. <code>index</code> es su posición en la destino.</td></tr>
+        <tr><td><code>ui-kanban-sort</code></td><td><code>{ cardId, card, columnId, orderedIds, index }</code></td><td class="desc">La tarjeta se reordenó dentro de su misma columna (si soltás en el mismo lugar, no se emite).</td></tr>
+        <tr><td><code>ui-kanban-card-click</code></td><td><code>{ cardId, card }</code></td><td class="desc">Click o Enter en una tarjeta con <code>clickable</code> (no se dispara al terminar un arrastre).</td></tr>
       </tbody>
     </table>
 
-    <h2>Eventos</h2>
+    <h2>¿Quién mueve el DOM? (<code>controlled</code>)</h2>
     <table class="doc-table">
-      <thead><tr><th>Evento</th><th>Detail</th><th class="desc">Cuándo se emite</th></tr></thead>
-      <tbody><tr><td><code>ui-kanban-move</code></td><td><code>{ cardId }</code></td><td class="desc">En la columna destino, cuando se suelta una tarjeta en ella.</td></tr></tbody>
+      <thead><tr><th>Modo</th><th class="desc">Comportamiento</th></tr></thead>
+      <tbody>
+        <tr><td><em>(default)</em></td><td class="desc">Al soltar, el tablero mueve el nodo (UI optimista). <code>event.preventDefault()</code> cancela el movimiento; <code>board.revert()</code> lo deshace después (ej. el servidor lo rechazó asíncronamente). Para Livewire/Blade, HTMX, vanilla.</td></tr>
+        <tr><td><code>controlled</code></td><td class="desc">El tablero <strong>nunca toca el DOM</strong>: solo emite. Actualizás tu estado y el framework re-renderiza. Para React, Angular, Vue, Svelte — mover a mano un nodo que el framework posee lo desincroniza.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Props</h2>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Atributo</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-kanban</code></td><td><code>readonly</code></td><td class="desc">Deshabilita todo arrastre (mouse, touch y teclado).</td></tr>
+        <tr><td><code>ui-kanban</code></td><td><code>controlled</code></td><td class="desc">Ver arriba.</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td><code>column-id</code></td><td class="desc">Id que viaja en los eventos (cae a <code>id</code>).</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td><code>label</code></td><td class="desc">Título del encabezado. El contador de tarjetas es automático.</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td><code>color</code></td><td class="desc"><code>base | brand | success | warning | danger | info</code> — punto de color del encabezado.</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td><code>wip-limit</code></td><td class="desc">Número. El contador pasa a <code>n/límite</code> y se pone rojo al superarlo.</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td><code>progress</code></td><td class="desc">Barra de avance: tarjetas con <code>done</code> sobre el total.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>card-id</code></td><td class="desc">Id que viaja en los eventos (cae a <code>id</code>; si no hay ninguno, se genera uno).</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>priority</code></td><td class="desc"><code>high | medium | low</code> — borde izquierdo de color.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>done</code></td><td class="desc">Título tachado.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>due</code></td><td class="desc"><code>YYYY-MM-DD</code>. Badge: rojo si venció y no está <code>done</code>, ámbar si vence en ≤7 días, neutro si no.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>clickable</code></td><td class="desc">Emite <code>ui-kanban-card-click</code>.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>draggable="false"</code></td><td class="desc">Fija la tarjeta (no se puede arrastrar).</td></tr>
+        <tr><td>todos</td><td><code>remove-class</code></td><td class="desc">Saca clases propias puntuales — convención de toda la librería.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Slots</h2>
+    <p class="doc-lede" style="margin-bottom:1rem">Son atributos <code>slot="…"</code> sobre hijos normales (light DOM): se ubican por CSS, <strong>nada se mueve ni se captura</strong>, así tu framework puede re-renderlos libremente. Lo que no lleve <code>slot</code> se muestra tal cual.</p>
+    <table class="doc-table">
+      <thead><tr><th>Componente</th><th>Slot</th><th class="desc">Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>ui-kanban-column</code></td><td>(default)</td><td class="desc">Elementos <code>ui-kanban-card</code>, en el orden que los renderices.</td></tr>
+        <tr><td><code>ui-kanban-column</code></td><td><code>actions</code></td><td class="desc">Botón/menú a la derecha del encabezado (ej. "+").</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>labels</code></td><td class="desc">Chips arriba — ver <a href="../kanban-label/kanban-label.html">Kanban Label</a>.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>title</code></td><td class="desc">Título.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>meta</code></td><td class="desc">Badges / datos secundarios.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>footer</code></td><td class="desc">Íconos / contadores al pie.</td></tr>
+        <tr><td><code>ui-kanban-card</code></td><td><code>assignees</code></td><td class="desc">Responsables — ver <a href="../avatar-group/avatar-group.html">Avatar Group</a>.</td></tr>
+      </tbody>
     </table>
 
     <h2>Integración</h2>
     <div class="doc-framework-tabs">
-      <button data-framework-tab="angular" class="active">Angular</button>
-      <button data-framework-tab="livewire">Livewire / Blade</button>
+      <button data-framework-tab="livewire" class="active">Livewire / Blade</button>
+      <button data-framework-tab="angular">Angular</button>
+      <button data-framework-tab="react">React</button>
+      <button data-framework-tab="vue">Vue</button>
     </div>
     <div>
-      <pre class="doc-code" data-framework-panel="angular">&lt;<span class="tag">ui-kanban</span>&gt;
-  &lt;<span class="tag">ui-kanban-column</span> *ngFor=<span class="str">"let col of columns"</span> [<span class="attr">label</span>]=<span class="str">"col.name"</span>
-    (ui-kanban-move)=<span class="str">"onMove(col.id, $event.detail.cardId)"</span>&gt;
-    &lt;<span class="tag">ui-kanban-card</span> *ngFor=<span class="str">"let c of col.cards"</span> [<span class="attr">id</span>]=<span class="str">"c.id"</span>&gt;{{ c.title }}&lt;/<span class="tag">ui-kanban-card</span>&gt;
-  &lt;/<span class="tag">ui-kanban-column</span>&gt;
-&lt;/<span class="tag">ui-kanban</span>&gt;</pre>
-      <pre class="doc-code" data-framework-panel="livewire" hidden>&lt;<span class="tag">ui-kanban</span>&gt;
+      <pre class="doc-code" data-framework-panel="livewire">&lt;<span class="tag">ui-kanban</span>
+  <span class="attr">x-on:ui-kanban-move</span>=<span class="str">"$wire.moved($event.detail.cardId, $event.detail.toColumnId, $event.detail.toOrderedIds, $event.detail.fromOrderedIds)"</span>
+  <span class="attr">x-on:ui-kanban-sort</span>=<span class="str">"$wire.sorted($event.detail.columnId, $event.detail.orderedIds)"</span>&gt;
   @foreach ($columns as $col)
-    &lt;<span class="tag">ui-kanban-column</span> <span class="attr">label</span>=<span class="str">"{{ $col->name }}"</span> <span class="attr">x-on:ui-kanban-move</span>=<span class="str">"$wire.move('{{ $col->id }}', $event.detail.cardId)"</span>&gt;
+    &lt;<span class="tag">ui-kanban-column</span> <span class="attr">wire:key</span>=<span class="str">"col-{{ $col->id }}"</span> <span class="attr">column-id</span>=<span class="str">"{{ $col->id }}"</span> <span class="attr">label</span>=<span class="str">"{{ $col->name }}"</span>&gt;
       @foreach ($col->cards as $c)
-        &lt;<span class="tag">ui-kanban-card</span> <span class="attr">id</span>=<span class="str">"{{ $c->id }}"</span>&gt;{{ $c->title }}&lt;/<span class="tag">ui-kanban-card</span>&gt;
+        &lt;<span class="tag">ui-kanban-card</span> <span class="attr">wire:key</span>=<span class="str">"card-{{ $c->id }}"</span> <span class="attr">card-id</span>=<span class="str">"{{ $c->id }}"</span>&gt;
+          &lt;<span class="tag">span</span> <span class="attr">slot</span>=<span class="str">"title"</span>&gt;{{ $c->title }}&lt;/<span class="tag">span</span>&gt;
+        &lt;/<span class="tag">ui-kanban-card</span>&gt;
       @endforeach
     &lt;/<span class="tag">ui-kanban-column</span>&gt;
   @endforeach
+&lt;/<span class="tag">ui-kanban</span>&gt;
+<span class="comment">&lt;!-- Modo default: el tablero mueve el nodo y morphdom lo reconcilia por wire:key.
+     Un re-render durante un arrastre (wire:poll) no lo interrumpe: lo arrastrado es un clon. --&gt;</span></pre>
+      <pre class="doc-code" data-framework-panel="angular" hidden>&lt;<span class="tag">ui-kanban</span> <span class="attr">controlled</span> (ui-kanban-move)=<span class="str">"onMove($event.detail)"</span> (ui-kanban-sort)=<span class="str">"onSort($event.detail)"</span>&gt;
+  &lt;<span class="tag">ui-kanban-column</span> *ngFor=<span class="str">"let col of columns; trackBy: byId"</span> [attr.column-id]=<span class="str">"col.id"</span> [attr.label]=<span class="str">"col.name"</span>&gt;
+    &lt;<span class="tag">ui-kanban-card</span> *ngFor=<span class="str">"let c of col.cards; trackBy: byId"</span> [attr.card-id]=<span class="str">"c.id"</span>&gt;
+      &lt;<span class="tag">span</span> <span class="attr">slot</span>=<span class="str">"title"</span>&gt;{{ c.title }}&lt;/<span class="tag">span</span>&gt;
+    &lt;/<span class="tag">ui-kanban-card</span>&gt;
+  &lt;/<span class="tag">ui-kanban-column</span>&gt;
+&lt;/<span class="tag">ui-kanban</span>&gt;
+<span class="comment">// onMove(d): actualizá el estado con d.fromOrderedIds / d.toOrderedIds — Angular re-renderiza.</span></pre>
+      <pre class="doc-code" data-framework-panel="react" hidden>const ref = useRef(null);
+useEffect(() => {
+  const el = ref.current;
+  const onMove = (e) => setBoard(applyMove(e.detail)); <span class="comment">// usa toOrderedIds / fromOrderedIds</span>
+  const onSort = (e) => setBoard(applySort(e.detail));
+  el.addEventListener('ui-kanban-move', onMove);
+  el.addEventListener('ui-kanban-sort', onSort);
+  return () =&gt; { el.removeEventListener('ui-kanban-move', onMove); el.removeEventListener('ui-kanban-sort', onSort); };
+}, []);
+
+&lt;<span class="tag">ui-kanban</span> ref={ref} controlled&gt;
+  {columns.map(col =&gt; (
+    &lt;<span class="tag">ui-kanban-column</span> key={col.id} column-id={col.id} label={col.name}&gt;
+      {col.cards.map(c =&gt; (
+        &lt;<span class="tag">ui-kanban-card</span> key={c.id} card-id={c.id}&gt;&lt;span slot="title"&gt;{c.title}&lt;/span&gt;&lt;/<span class="tag">ui-kanban-card</span>&gt;
+      ))}
+    &lt;/<span class="tag">ui-kanban-column</span>&gt;
+  ))}
 &lt;/<span class="tag">ui-kanban</span>&gt;</pre>
+      <pre class="doc-code" data-framework-panel="vue" hidden>&lt;<span class="tag">ui-kanban</span> <span class="attr">controlled</span> @ui-kanban-move=<span class="str">"onMove($event.detail)"</span> @ui-kanban-sort=<span class="str">"onSort($event.detail)"</span>&gt;
+  &lt;<span class="tag">ui-kanban-column</span> v-for=<span class="str">"col in columns"</span> :key=<span class="str">"col.id"</span> :column-id=<span class="str">"col.id"</span> :label=<span class="str">"col.name"</span>&gt;
+    &lt;<span class="tag">ui-kanban-card</span> v-for=<span class="str">"c in col.cards"</span> :key=<span class="str">"c.id"</span> :card-id=<span class="str">"c.id"</span>&gt;
+      &lt;<span class="tag">span</span> <span class="attr">slot</span>=<span class="str">"title"</span>&gt;{{ c.title }}&lt;/<span class="tag">span</span>&gt;
+    &lt;/<span class="tag">ui-kanban-card</span>&gt;
+  &lt;/<span class="tag">ui-kanban-column</span>&gt;
+&lt;/<span class="tag">ui-kanban</span>&gt;
+<span class="comment">// con la config de Vue: compilerOptions.isCustomElement = tag =&gt; tag.startsWith('ui-')</span></pre>
     </div>
+
+    <h3>Rechazar un movimiento</h3>
+    <pre class="doc-code"><span class="comment">// síncrono: no se mueve nada</span>
+board.addEventListener('ui-kanban-move', (e) =&gt; { if (!allowed(e.detail)) e.preventDefault(); });
+
+<span class="comment">// asíncrono (default mode): se movió optimista; si el server dice que no…</span>
+board.addEventListener('ui-kanban-move', async (e) =&gt; {
+  const ok = await save(e.detail);
+  if (!ok) board.revert();
+});</pre>
 
     <h2>Accesibilidad</h2>
     <ul class="doc-checklist">
-      <li>El drag and drop nativo (HTML5) es solo con mouse por defecto — no accesible por teclado ni touch en todos los navegadores.</li>
-      <li>Pendiente v2: una alternativa por teclado (ej. menú "Mover a..." en cada tarjeta) para no depender exclusivamente del arrastre.</li>
+      <li>Cada tarjeta es focusable (<code>tabindex="0"</code>). <kbd>Espacio</kbd> la levanta, flechas la mueven (↑↓ posición, ←→ columna), <kbd>Espacio</kbd>/<kbd>Enter</kbd> la suelta, <kbd>Esc</kbd> cancela. Cada paso se anuncia en una región <code>aria-live</code>.</li>
+      <li>Touch: arrastre tras un mantenido corto, así el scroll del tablero y de la página siguen funcionando.</li>
+      <li>Si necesitás ordenar sin arrastre, usá <code>readonly</code> y ofrecé tus propios botones/menú que actualicen el estado.</li>
     </ul>
   </main>
   <script src="../../docs/js/docs.js"></script>

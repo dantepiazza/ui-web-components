@@ -16,6 +16,8 @@ export class UiAutocomplete extends LitElement {
     value: { type: String },
     placeholder: { type: String },
     disabled: { type: Boolean, reflect: true },
+    name: { type: String },
+    clearOnSelect: { type: Boolean, attribute: 'clear-on-select' },
     _query: { state: true },
     _open: { state: true },
     _activeIndex: { state: true },
@@ -30,6 +32,8 @@ export class UiAutocomplete extends LitElement {
     this.value = '';
     this.placeholder = 'Buscar...';
     this.disabled = false;
+    this.name = '';
+    this.clearOnSelect = false;
     this._options = [];
     this._query = '';
     this._open = false;
@@ -76,9 +80,10 @@ export class UiAutocomplete extends LitElement {
 
   #select(option) {
     this.value = option.value;
-    this._query = option.label;
+    this._query = this.clearOnSelect ? '' : option.label;
     this._open = false;
     this.dispatchEvent(new CustomEvent('ui-change', { bubbles: true, composed: true, detail: { value: option.value, label: option.label } }));
+    if (this.clearOnSelect) this.value = '';
   }
 
   #handleKeydown(e) {
@@ -103,6 +108,7 @@ export class UiAutocomplete extends LitElement {
 
     return html`
       <div class="${window.__uiwc.prefix}-autocomplete relative">
+        ${this.name ? html`<input type="hidden" name=${this.name} .value=${this.value} />` : ''}
         <input
           id=${this._id}
           type="text"
